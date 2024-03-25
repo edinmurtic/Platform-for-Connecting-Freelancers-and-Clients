@@ -1,0 +1,18 @@
+.star {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.user-info {
+    display: flex; /* Postavlja elemente u horizontalnu liniju */
+    align-items: center; /* Centrira vertikalno elemente unutar flex kontejnera */
+  }
+  
+  .user-info img {
+    margin-right: 5px; /* Dodaje razmak s desne strane slike */
+    border-radius: 50%;
+  }
+  .user-info p {
+    padding-top: 1rem;
+  font-size: 0.95rem;
+  }

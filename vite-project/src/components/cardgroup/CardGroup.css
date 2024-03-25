@@ -1,0 +1,29 @@
+.card {
+    margin-right: 10px; /* Dodajte željeni razmak između kartica */
+  }
+  
+  /* Stil za kontejner */
+  .card-container {
+    padding: 20px; /* Dodajte unutarnji razmak kontejneru */
+    margin: 0 auto; /* Centrirajte kontejner */
+    max-width: 1200px; /* Postavite maksimalnu širinu kontejnera */
+    position: relative; /* Postavite relativno pozicioniranje */
+  }
+  
+  /* Stil za prev button */
+  .prev-button {
+    position: absolute; /* Postavite apsolutno pozicioniranje */
+    left: 0; /* Postavite lijevu ivicu na 0 */
+    top: 50%; /* Postavite vrh na sredinu */
+    transform: translateY(-50%); /* Centrirajte vertikalno */
+    margin-left: -10px; /* Pomaknite ikonicu malo ulijevo */
+
+  }
+  
+  /* Stil za next button */
+  .next-button {
+    position: absolute; /* Postavite apsolutno pozicioniranje */
+    right: 0; /* Postavite desnu ivicu na 0 */
+    top: 50%; /* Postavite vrh na sredinu */
+    transform: translateY(-50%); /* Centrirajte vertikalno */
+  }

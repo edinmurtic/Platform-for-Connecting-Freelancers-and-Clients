@@ -1,0 +1,26 @@
+.highparagraph
+{
+    font-size: 50px;
+}
+.leftSideTD{
+    padding-top: 50px;
+    
+}
+.rightSideTD {
+    padding-top: 30px;
+}
+.info-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Automatsko prilagođavanje širine kartica */
+    gap: 20px; /* Razmak između kartica */
+  }
+  
+  .info-card {
+    width: 100%; /* Kartice zauzimaju 100% širine kontejnera */
+  }
+  
+  @media (max-width: 768px) {
+    .info-card-container {
+      grid-template-columns: 1fr; /* Kartice će biti postavljene u jedan stupac */
+    }
+  }

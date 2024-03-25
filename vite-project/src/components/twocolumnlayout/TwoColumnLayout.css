@@ -1,0 +1,27 @@
+/* Stil za kontejner */
+.two-column-layout-container {
+    background-color:#EEF1FF; /* Postavite pozadinu kontejnera na zelenu boju */
+    padding: 20px; /* Dodajte unutarnji razmak kontejneru */
+    margin: 0 auto; /* Centrirajte kontejner */
+    max-width: 1200px; /* Postavite maksimalnu širinu kontejnera */
+  }
+  
+  .two-column-layout {
+    display: flex; /* Koristite fleksibilni layout */
+  }
+  
+  .left-column {
+    flex: 1; /* Zauzima 65% širine */
+    padding: 20px; /* Dodajte unutarnji prostor */
+  }
+  
+  .right-column {
+    flex: 0 0 35%; /* Zauzima 35% širine, ne može se proširiti niti smanjiti */
+    padding: 20px; /* Dodajte unutarnji prostor */
+  }
+  
+  .right-column img {
+    width: 100%; /* Slika popunjava cijeli prostor desne kolone */
+    height: auto; /* Omogućava da slika zadrži svoj omjer širine i visine */
+  }
+  

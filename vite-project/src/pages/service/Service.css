@@ -1,0 +1,72 @@
+/* Stilovi za Service komponentu */
+.service-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Poravnavanje na vrhu */
+  padding: 20px;
+}
+
+
+
+.info-container {
+  width: 40%;
+  margin-left: 20px;
+  border: 1px solid #ccc; /* Dodajemo border */
+  padding: 20px; /* Dodajemo padding kako bi sadržaj bio odvojen od ruba */
+  border-radius: 5px; /* Dodajemo zaobljenje rubova */
+}
+
+.info-container h2 {
+  margin-top: 0;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.continue-button, .contact-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.continue-button:hover, .contact-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 5%;
+}
+
+button.active {
+  background-color: lightblue;
+}
+
+.text-container {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  padding: 20px;
+}
+
+.additional-text {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid lightgray;
+}

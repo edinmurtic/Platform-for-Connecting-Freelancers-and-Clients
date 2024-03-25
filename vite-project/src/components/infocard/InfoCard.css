@@ -1,0 +1,24 @@
+
+.info-card {
+  border-radius: 10px;
+  background-color: #EEF1FF;
+  padding: 20px;
+  margin: 10px;
+}
+
+.info-title {
+  font-size: 48px;
+  font-weight: bold;
+  color: #2E4DE6;
+}
+
+.info-subtitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.info-text {
+  font-size: 20px;
+  color: #666666;
+}

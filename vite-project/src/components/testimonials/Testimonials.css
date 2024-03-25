@@ -1,0 +1,25 @@
+.testimonials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .testimonial-text {
+    flex: 1;
+  }
+  
+  .testimonial-logos {
+    flex: 1;
+  }
+  
+  .logo-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+  
+  .logo-row img {
+    width: 100px; /* Prilagodite veličinu logotipa prema potrebi */
+height: auto;  }
+  
