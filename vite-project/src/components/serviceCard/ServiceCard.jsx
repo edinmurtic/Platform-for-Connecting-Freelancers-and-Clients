@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const ServiceCard = ({item }) => {
    const { isLoading, error, data } = useQuery({
-     queryKey: ['item.userId'],
+     queryKey: [item.userId],
      queryFn: () =>
        newRequest.get(
          `/users/${item.userId}`
@@ -14,6 +14,7 @@ const ServiceCard = ({item }) => {
          return res.data
        })
    })
+   console.log(data)
   return (
     <Link to={`/service/${item._id}`}>
    <div className="card">

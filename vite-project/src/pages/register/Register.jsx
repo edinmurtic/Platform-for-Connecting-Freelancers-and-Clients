@@ -3,8 +3,10 @@ import newRequest from "../../utils/newRequest"
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from './firebase'
 import {v4} from "uuid"
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate =useNavigate();
     const [img,setImg] = useState('')
     const [imgUrl,setImgUrl] =useState([])
     const handleClick = () =>{
@@ -56,6 +58,8 @@ const Register = () => {
     } catch (err) {
       console.log(err);
     }
+    navigate("/")
+
   };
    const handleChange = (e) => {
     const { name, value, files } = e.target;

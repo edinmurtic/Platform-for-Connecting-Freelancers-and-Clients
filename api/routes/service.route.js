@@ -9,7 +9,7 @@ import {
 } from '../controllers/service.controller.js'
 
 const router = express.Router();
-router.post('/', verifyToken, createService);
+router.post('/add', verifyToken, createService);
 router.delete('/:id', verifyToken, deleteService);
 router.get('/single/:id', getService);
 router.get('/', getServices);
