@@ -6,19 +6,18 @@ function TwoColumnLayout() {
     <div className="two-column-layout-container">
       <div className="two-column-layout">
         <div className="left-column">
-          <h2>Enterprise Suite</h2>
+          <h2>Poslovni Paket</h2>
           <p>
-            This is how good companies find good company. Access the top 1% of talent on Upwork, and a full suite of hybrid
-            workforce management tools. This is how innovation works now.
+          Ovako dobre kompanije pronalaze dobro društvo. Pristupite 1% najboljih talenata na nasoj aplikaciji i punom paketu hibridnih alata za upravljanje radnom snagom. Ovako sada funkcioniraju inovacije.
           </p>
           <ul>
-            <li><strong>Access expert talent to fill your skill gaps</strong></li>
-            <li><strong>Control your workflow: hire, classify and pay your talent</strong></li>
-            <li><strong>Partner with Upwork for end-to-end support</strong></li>
+            <li><strong>Pristupite stručnim talentima da popunite praznine u svojim vještinama</strong></li>
+            <li><strong>Kontrolišite svoj radni tok: unajmite, klasifikujte i platite svoj talenat</strong></li>
+            <li><strong>Partner sa MojPosao.ba  </strong></li>
           </ul>
         </div>
         <div className="right-column">
-          <img src="https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/enterprise-2023.jpg" alt="Slika" />
+          <img src="https://imageio.forbes.com/specials-images/imageserve/5f5fc1c05644e915a67acc41/Above-view-of-disabled-freelancer-using-cell-phone-while-working-on-laptop-at-home-/960x0.jpg?format=jpg&width=1440" alt="Slika" />
         </div>
       </div>
     </div>

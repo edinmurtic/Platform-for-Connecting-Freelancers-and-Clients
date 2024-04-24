@@ -1,11 +1,12 @@
 .star {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
 }
 .user-info {
     display: flex; /* Postavlja elemente u horizontalnu liniju */
     align-items: center; /* Centrira vertikalno elemente unutar flex kontejnera */
+    max-height: 50px;
   }
   
   .user-info img {
@@ -15,4 +16,9 @@
   .user-info p {
     padding-top: 1rem;
   font-size: 0.95rem;
+  }
+  .sccolor
+  {
+ background-color: #f5f6fe;
+    
   }

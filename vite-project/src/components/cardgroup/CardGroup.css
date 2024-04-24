@@ -1,12 +1,13 @@
 .card {
     margin-right: 10px; /* Dodajte željeni razmak između kartica */
+    max-width: 350px;
   }
   
   /* Stil za kontejner */
   .card-container {
     padding: 20px; /* Dodajte unutarnji razmak kontejneru */
     margin: 0 auto; /* Centrirajte kontejner */
-    max-width: 1200px; /* Postavite maksimalnu širinu kontejnera */
+    max-width: 1400px; /* Postavite maksimalnu širinu kontejnera */
     position: relative; /* Postavite relativno pozicioniranje */
   }
   

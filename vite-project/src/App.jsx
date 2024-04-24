@@ -22,11 +22,18 @@ import Orders from "./pages/orders/Orders";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Search from "./components/search/Search";
+import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
+import getCurrentUser from "./utils/getCurrentUser";
+import List from "./pages/list/List";
 
+import User from "./pages/user/User";
+import Success from "./pages/success/Success";
+import Pay from "./pages/pay/Pay";
+import ListServices from "./pages/listServices/ListServices";
+import UpdateService from "./pages/updateService/UpdateService";
 
 
 function App() {
-
   const queryClient = new QueryClient()
 
   const Layout = ()=>
@@ -35,7 +42,7 @@ function App() {
     <div>
         <QueryClientProvider client={queryClient}>
 
-    <NavbarComp />
+   <NavbarComp  />
     <NavMenu />
 
     <Outlet />
@@ -55,6 +62,22 @@ const router = createBrowserRouter([
         element:<Home />
       },
       {
+        path:"/users/:id",
+        element:<User />
+      },
+      {
+        path:"/list",
+        element:<List />
+      },
+      {
+        path:"/listservices",
+        element:<ListServices />
+      },
+      {
+        path:"/admindashboard",
+        element:<AdminDashboard />
+      },
+      {
         path:"/services",
         element:<Services />
       },
@@ -69,6 +92,10 @@ const router = createBrowserRouter([
       {
         path:"/addnew",
         element:<AddNew />
+      },
+      {
+        path:"/updateService/:id",
+        element:<UpdateService />
       },
       {
         path:"/messages",
@@ -89,6 +116,14 @@ const router = createBrowserRouter([
       {
         path:"/register",
         element:<Register />
+      },
+      {
+        path:"/success",
+        element:<Success />
+      },
+      {
+        path:"/pay/:id",
+        element:<Pay />
       },
     ]
   },

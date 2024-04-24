@@ -5,8 +5,7 @@ const Testimonials = () => {
 <div className="container testimonials">
       <div className="testimonial-text">
       <h2>
-        We are <span>trusted by</span> 20,000+ restaurants in the franchise and quick-service industry
-      </h2>
+        <span>Vjeruje nam </span>više od 5.000+ klijenata       </h2>
       </div>
       <div className="testimonial-logos">
         <div className="logo-row">
@@ -16,7 +15,6 @@ const Testimonials = () => {
         </div>
         <div className="logo-row">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/600px-Instagram_logo_2022.svg.png" alt="Company 4" />
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1920px-Google_2015_logo.svg.png" alt="Company 5" />
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Yahoo%21_%282013-2019%29.svg/1920px-Yahoo%21_%282013-2019%29.svg.png" alt="Company 6" />
         </div>
       </div>

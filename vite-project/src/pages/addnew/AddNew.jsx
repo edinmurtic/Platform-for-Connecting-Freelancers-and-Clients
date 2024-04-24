@@ -2,31 +2,17 @@ import React, { useReducer, useState } from 'react'
 import './AddNew.css'
 import { serviceReducer, INITIAL_STATE } from "../../reducers/serviceReducer";
 
-
-
-
-
-
-
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from 'firebase/storage';
-import { imageDb } from './firebase';
+import { imageDb } from '../../firebase.js';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import getCurrentUser from '../../utils/getCurrentUser';
 import newRequest from '../../utils/newRequest';
-
-
-
-
-
-
-
-
 
 
 const AddNew = () => {
@@ -170,23 +156,23 @@ const AddNew = () => {
   return (
     <div className="add">
       <div className="container">
-        <h1>Add New Service</h1>
+        <h1>Dodaj novi servis</h1>
         <div className="sections">
           <div className="info">
-            <label htmlFor="">Title</label>
+            <label htmlFor="">Naslov</label>
             <input
               type="text"
               name="title"
               id='title'
-              placeholder="e.g. I will do something I'm really good at"
+              placeholder="npr. Radit ću nešto u čemu sam jako dobar"
               onChange={handleChange}
             />
             <label htmlFor="">Category</label>
             <select name="category" id="category" onChange={handleChange}>
-              <option value="design">Design</option>
-              <option value="web">Web Development</option>
-              <option value="animation">Animation</option>
-              <option value="music">Music</option>
+              <option value="design">Grafika i dizajn</option>
+              <option value="web">Programiranje</option>
+              <option value="animation">Konsalting</option>
+              <option value="music">Video i animacija</option>
             </select>
             <div className="images">
               <div className="imagesInputs">
@@ -195,44 +181,44 @@ const AddNew = () => {
                   type="file"
                   onChange={(e) => setSingleFile(e.target.files[0])}
                 /> */}
-                <label htmlFor="">Upload Images</label>
+                <label htmlFor="">Učitaj slike</label>
                 <input
                   type="file"
                   multiple
                   onChange={(e) => setFiles(e.target.files)}
                 />
                 {console.log(uploading)}
-                {uploading ? 'Uploading...' : 'Upload'}
+                {uploading ? 'Učitavanje...' : 'Učitaj'}
               </div>
               <button onClick={handleImageSubmit}>
-                {uploading ? "uploading" : "Upload"}
+                {uploading ? "Učitavanje" : "Učitaj"}
               </button>
             </div>
-            <label htmlFor="">Description</label>
+            <label htmlFor="">Opis</label>
             <textarea
               name="desc"
               id="desc"
-              placeholder="Brief descriptions to introduce your service to customers"
+              placeholder="Kratki opisi za predstavljanje vaše usluge klijentima"
               cols="0"
               rows="16"
               onChange={handleChange}
             ></textarea>
-            <button onClick={handleSubmit}>Create</button>
+            <button onClick={handleSubmit}>Kreiraj</button>
           </div>
           <div className="details">
-          
-            <label htmlFor="">Short Description</label>
-            <textarea
+                
+            <label htmlFor="">Kratki opis</label>
+           <textarea
               name="shortDesc"
               onChange={handleChange}
               id="shortDesc"
-              placeholder="Short description of your service"
+              placeholder="Kratak opis Vaše usluge"
               cols="30"
               rows="10"
             ></textarea>
-            <label htmlFor="" >Delivery Time (e.g. 3 days)</label>
+            <label htmlFor="" >Vrijeme isporuke (e.g. 3 days)</label>
             <input type="number" id='deliveryTime' name="deliveryTime" onChange={handleChange} />
-            <label htmlFor="">Revision Number</label>
+            <label htmlFor="">Broj revizija</label>
             <input
               type="number"
               name="revisionNumber"
@@ -240,7 +226,7 @@ const AddNew = () => {
               onChange={handleChange}
             />
         
-            <label htmlFor="">Price</label>
+            <label htmlFor="">Cijena</label>
             <input type="number" onChange={handleChange} id='price' name="price" />
           </div>
         </div>

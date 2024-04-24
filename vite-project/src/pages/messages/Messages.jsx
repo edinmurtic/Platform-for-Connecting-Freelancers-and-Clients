@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
-import moment from "moment";
+import React, { useState } from 'react';
 import newRequest from '../../utils/newRequest';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import "./Messages.css";
+import MessageBox from '../../components/messageBox/MessageBox';
 
 const Messages = () => {
-
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-  const queryClient = useQueryClient();
-
   const { isLoading, error, data } = useQuery({
     queryKey: ["conversations"],
     queryFn: () =>
@@ -18,88 +14,43 @@ const Messages = () => {
       }),
   });
 
-  const mutation = useMutation({
-    mutationFn: (id) => {
-      return newRequest.put(`/conversations/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["conversations"]);
-    },
-  });
-
-  const handleRead = (id) => {
-    mutation.mutate(id);
-  };
-
-
-
-  const [sortedField, setSortedField] = useState(null);
-  const [isAscending, setIsAscending] = useState(true);
-
-  const handleSort = (field) => {
-    if (sortedField === field) {
-      setIsAscending(!isAscending);
-    } else {
-      setSortedField(field);
-      setIsAscending(true);
-    }
-  };
-  const sortedData = sortedField
-  ? data.slice().sort((a, b) => {
-      if (a[sortedField] < b[sortedField]) {
-        return isAscending ? -1 : 1;
-      }
-      if (a[sortedField] > b[sortedField]) {
-        return isAscending ? 1 : -1;
-      }
-      return 0;
-    })
-  : data;
   return (
-    <div className='table-responsive'>
-   {isLoading ? "loading" : error ? "error": ( <table className=" container table align-middle mb-0 table-hover">
-      <thead className="bg-light">
-        <tr>
-        <th >{currentUser.isSeller ? "Buyer" : "Seller"}</th>
-
-        <th onClick={() => handleSort('title')}>Posljednja poruka</th>
-          <th onClick={() => handleSort('price')}>Date</th>
-          <th onClick={() => handleSort('first_name')}>Action</th>
-        </tr>
-      </thead>
-      <tbody className="table-group-divider table-divider-color">
-      {sortedData.map((item) => (
-
-        <tr key={item.id}>
-        <td>
-            <p className="fw-normal mb-1">{currentUser.isSeller ? item.buyerId : item.sellerId}</p>
-          </td>
-          <td>
-            <div className="d-flex align-items-center">
-           
-              <div className="ms-3">
-              <Link to={`/message/${item.id}`} className="link">
-                    {item?.lastMessage?.substring(0, 100)}...
-                  </Link>              </div>
+    <div className="messages">
+      {isLoading ? (
+        "loading"
+      ) : error ? (
+        "error"
+      ) : (
+        <div className="container">
+          <div className="title">
+            <h1>Poruke</h1>
+          </div>
+          {data.length === 0 ? (
+            <div className="row rowmessage">
+            <div className='col-6'><img src="https://i.ibb.co/0F0R9kw/preview.png" className="imgMessage" alt="Slika"  /></div>
+              <div class="text col-6"><strong>Vaš inbox je prazan</strong><br/>Još niste započeli nijedan razgovor, ali kada to učinite, naći ćete ih ovdje.</div>
             </div>
-          </td>
-          <td>
-            <p className="fw-normal mb-1">{moment(item.updatedAt).fromNow()}</p>
-          </td>
-          {/* <td>
-            <span className="badge badge-success rounded-pill d-inline">Active</span>
-          </td> */}
-         <td>{((currentUser.isSeller && !item.readBySeller) ||
-                    (!currentUser.isSeller && !item.readByBuyer)) && (
-                    <button onClick={() => handleRead(item.id)}>
-                      Mark as Read
-                    </button>)}</td>
-     
-        </tr>
-        ))}
-      </tbody>
-    </table>)}
-    </div>  )
-}
+          ) : ( 
+          <div className='row'>
+          <div className='col-5'><img src="https://i.ibb.co/0F0R9kw/preview.png" className="imgMessage" alt="Slika"  /></div>
 
-export default Messages
+            <div className='col-7'>  <table>
+              <tr>
+                <th>{currentUser.isSeller ? "Kupac" : "Prodavaoc"}</th>
+                <th>Posljednja poruka</th>
+                <th>Vrijeme</th>
+                <th>Action</th>
+              </tr>
+              {data.map((item) => (
+                <MessageBox key={item._id} item={item}/>
+              ))}
+            </table></div>
+          </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Messages;

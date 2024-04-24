@@ -29,15 +29,15 @@ const NavbarComp = () => {
     
   }
     return (
-      <Navbar expand="lg"  variant="light" data-bs-theme="light">
+      <Navbar  expand="lg"  variant="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="/">PronađiPosao</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <Nav.Link href="/">Naslovna</Nav.Link>
+             
+              <NavDropdown title="Servisi" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
@@ -48,7 +48,7 @@ const NavbarComp = () => {
                   Separated link
                 </NavDropdown.Item>
               </NavDropdown>
-       
+              <Nav.Link href="#link">Narudžbe</Nav.Link>
               { !currentUser?.isSeller && <Nav.Link href="#link">Postani prodavaoc</Nav.Link>}
             </Nav> 
             {mySearch && <Nav> <Row >
@@ -83,7 +83,9 @@ const NavbarComp = () => {
                         <NavDropdown className="no-caret navDropdownWithMargin " title={currentUser?.username} id="basic-nav-dropdown">
                           {currentUser?.isSeller && (
                             <div>
-                              <NavDropdown.Item href="/myservices">Servisi</NavDropdown.Item>
+                            {/* <Link to={`/service/${item._id}`}> */}
+
+                            <NavDropdown.Item href={'/users/' + currentUser._id}>Moj profil</NavDropdown.Item>
                               <NavDropdown.Item href="/addnew">
                                 Dodaj nove servise
                               </NavDropdown.Item>

@@ -24,6 +24,9 @@ export const login = async (req, res, next) => {
 
         const isCorrect = bcrypt.compareSync(req.body.password, user.password);
     if (!isCorrect) return res.status(400).send('wrong password or username');
+    const isActive = user.isActive;
+
+    if (!isActive) return res.status(400).send('Račun je deaktiviran');
     const token = jwt.sign(
         {
             id: user._id,

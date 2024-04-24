@@ -1,77 +1,66 @@
 import React from 'react'
-import './MessageBox.css'
-const MessageBox = () => {
+import moment from "moment";
+import { Link } from "react-router-dom";
+import newRequest from '../../utils/newRequest';
+import {useMutation,  useQuery, useQueryClient } from "@tanstack/react-query";
+
+const MessageBox = ({item}) => {
+
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const queryClient = useQueryClient();
+
+   const myUser = currentUser.isSeller ? item.buyerId : item.sellerId
+    const {
+        isLoading: isLoadingUser,
+        error: errorUser,
+        data: dataUser,
+      } = useQuery({
+        queryKey: [myUser],
+        queryFn: () =>
+          newRequest.get(`/users/${myUser}`).then((res) => {
+            return res.data;
+          }),
+      });
+      console.log(dataUser)
+
+      const mutation = useMutation({
+        mutationFn: (id) => {
+          return newRequest.put(`/conversations/${id}`);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries(["conversations"]);
+        },
+      });
+      const handleRead = (id) => {
+        mutation.mutate(id);
+      };
   return (
-<div className="container">
-<div className="row">
-  <nav className="menu">
-    <ul className="items">
-      <li className="item">
-        <i className="fa fa-home" aria-hidden="true"></i>
-      </li>
-      <li className="item">
-        <i className="fa fa-user" aria-hidden="true"></i>
-      </li>
-      <li className="item">
-        <i className="fa fa-pencil" aria-hidden="true"></i>
-      </li>
-      <li className="item item-active">
-        <i className="fa fa-commenting" aria-hidden="true"></i>
-      </li>
-      <li className="item">
-        <i className="fa fa-file" aria-hidden="true"></i>
-      </li>
-      <li className="item">
-        <i className="fa fa-cog" aria-hidden="true"></i>
-      </li>
-    </ul>
-  </nav>
-
-  <section className="discussions">
-    <div className="discussion search">
-      <div className="searchbar">
-        <i className="fa fa-search" aria-hidden="true"></i>
-        <input type="text" placeholder="Search..."></input>
-      </div>
-    </div>
-    <div className="discussion message-active">
-      <div className="photo" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}}>
-        <div className="online"></div>
-      </div>
-      <div className="desc-contact">
-        <p className="name">Megan Leib</p>
-        <p className="message">9 pm at the bar if possible 😳</p>
-      </div>
-      <div className="timer">12 sec</div>
-    </div>
-    {/* Other discussion items */}
-  </section>
-
-  <section className="chat">
-    <div className="header-chat">
-      <i className="icon fa fa-user-o" aria-hidden="true"></i>
-      <p className="name">Megan Leib</p>
-      <i className="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
-    </div>
-    <div className="messages-chat">
-      <div className="message">
-        <div className="photo" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}}>
-          <div className="online"></div>
-        </div>
-        <p className="text"> Hi, how are you ? </p>
-      </div>
-      {/* Other message items */}
-      <p className="time"> 14h58</p>
-      {/* More message items */}
-    </div>
-    <div className="footer-chat">
-      <i className="icon fa fa-smile-o clickable" style={{fontSize: '25pt'}} aria-hidden="true"></i>
-      <input type="text" className="write-message" placeholder="Type your message here"></input>
-      <i className="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
-    </div>
-  </section>
-</div>
-</div>  )
+   <tr
+            className={
+              ((currentUser.isSeller && !item.readBySeller) ||
+                (!currentUser.isSeller && !item.readByBuyer)) &&
+              "active"
+            }
+            key={item.id}
+          >
+            {isLoadingUser ? "loading" : errorUser ? "error" :  (<td> <img src={dataUser.img}   style={{ maxWidth: '50px', maxHeight: '50px' }} />
+          {dataUser.username}</td>)}
+            <td>
+              <Link to={`/message/${item.id}`} className="link">
+                {item?.lastMessage?.substring(0, 100)}...
+              </Link>
+            </td>
+            <td>{moment(item.updatedAt).fromNow()}</td>
+            <td>
+              {((currentUser.isSeller && !item.readBySeller) ||
+                (!currentUser.isSeller && !item.readByBuyer)) && (
+                <button onClick={() => handleRead(item.id)}>
+                  Markiraj kao procitano
+                </button>
+              )}
+            </td>
+          </tr>
+  )
 }
 
 export default MessageBox

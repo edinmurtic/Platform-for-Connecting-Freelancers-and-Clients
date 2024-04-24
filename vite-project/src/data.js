@@ -1,52 +1,56 @@
 export const cards = [
     {
       id: 1,
-      title: "AI Artists",
-      desc: "Add talent to AI",
-      img: "https://images.pexels.com/photos/7532110/pexels-photo-7532110.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      title: "3D dizajn",
+      desc: "Obojite svoje snove",
+      img: "https://blog.adobe.com/en/publish/2020/09/11/media_174f6e925354dd893b82d23daa89b86e4392b7f35.jpeg?width=1200&format=pjpg&optimize=medium",
     },
     {
       id: 2,
-      title: "Logo Design",
-      desc: "Build yor brand",
-      img: "https://images.pexels.com/photos/11295165/pexels-photo-11295165.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      title: "Web",
+      desc: "Razvoj internet aplikacija po vašoj želji",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ52fl5r340dYloLRccZDaN8t2Zc_sVU963OyJkElLRSg&s",
     },
     {
       id: 3,
       title: "WordPress",
-      desc: "Customize your site",
-      img: "https://images.pexels.com/photos/4371669/pexels-photo-4371669.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      desc: "Prilagodite svoju web stranicu",
+      img: "https://assets-global.website-files.com/6411daab15c8848a5e4e0153/641b3f9ce3cdde01161582b2_629712455650ab2e848fe8c4_logo-wordpress.png",
     },
     {
       id: 4,
-      title: "Voice Over",
-      desc: "Share your message",
-      img: "https://images.pexels.com/photos/7608079/pexels-photo-7608079.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      title: "Poslovno savjetovanje",
+      desc: "Dobijte odgovarajuće biznis savjetovanje",
+      img: "https://s9.pik.ba/galerija/2022-10/29/07/slika-17797-635d5e7772eb9-velika.jpg",
     },
     {
       id: 5,
-      title: "Video Explainer",
-      desc: "Engage your audience",
-      img: "https://images.pexels.com/photos/13388047/pexels-photo-13388047.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      title: "Animacija",
+      desc: "Kreiranje animacija po vašoj želji",
+      img: "https://docs.krita.org/en/_images/Introduction_to_animation_walkcycle_02.gif",
     },
     {
       id: 6,
-      title: "Social Media",
+      title: "Marketinški video",
       desc: "Reach more customers",
-      img: "https://images.pexels.com/photos/11378899/pexels-photo-11378899.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      img: "https://squeezegrowth.com/wp-content/uploads/2022/03/Best-Tools-to-Create-Animated-Videos.png",
     },
     {
       id: 7,
-      title: "SEO",
-      desc: "Unlock growth online",
-      img: "https://images.pexels.com/photos/4820241/pexels-photo-4820241.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+      title: "Video igre",
+      desc: "Razvoj video igara",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzcR361dhUKpwXGTm9HLymbL3MqR3FgAC_pan49_6l9Q&s",
     },
     {
-      id: 8,
-      title: "Illustration",
-      desc: "Color you dreams",
-      img: "https://images.pexels.com/photos/15032623/pexels-photo-15032623.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-    },
+      
+        id: 8,
+        title: "Logo i brend dizajn",
+        desc: "Kreiranje logotipa i dizajna za vaš brend",
+        img: "https://play-lh.googleusercontent.com/nNMBcdPsob8Ea2NFHGD4_MNDMNfklhfAvqom1w4YEB8Ze_nOq2KssyCWVYSyBFImN2fl",
+      },
+
+
+     
   ];
   
   export const projects = [
@@ -186,33 +190,33 @@ export const cards = [
   [
 {
   id: 1,
-  title:"6h",
-  subtitle: "Average of hours saved per hire",
-  text: "Attract more applicants without the stress of managing multiple job boards."
+  title:"4h",
+  subtitle: "Prosjek ušteđenih sati po pronalasku zaposlenog",
+  text: "Privucite više kandidata bez stresa zbog upravljanja više radnih mjesta."
 
 
 }, 
 {
   id: 2,
   title:"3x",
-  subtitle: "Increase in completed interviews",
-  text: "Find the best candidates in a few seconds with automated screening and interview reminders."
+  subtitle: "Povećanje broja završenih intervjua",
+  text: "Pronađite najbolje kandidate za nekoliko sekundi uz našu aplikaciju."
 
 
 }, 
 {
   id: 3,
   title:"4 of 5",
-  subtitle: "New hires retained in the first 30 days",
-  text: "Increase retention rates by selecting the best fit candidates and onboarding new hires seamlessly within 48 hours of the interview."
+  subtitle: "Nastavak saradnje sa freelancerima",
+  text: "Povećajte stopu zadržavanja odabirom kandidata koji najbolje odgovaraju i neprimetno uključivanje novih radnika u roku od 48 sati od intervjua."
 
 
 }, 
 {
   id: 4,
   title:"1 day",
-  subtitle: "Average time to hire",
-  text: "Streamline your process by easily moving applicants from interviewed to hired, and allow the automation to do your busy work."
+  subtitle: "Prosječno vrijeme za zapošljavanje",
+  text: "Pojednostavite svoj proces tako što ćete lako premjestiti kandidate sa intervjuiranih na zaposlene i dozvoliti automatizaciji da obavi vaš užurban posao"
 
 
 }, ] 

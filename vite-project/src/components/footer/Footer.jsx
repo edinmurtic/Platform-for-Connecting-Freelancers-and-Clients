@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="footer-content">
           {/* box */}
           <div className="footer-box">
-            <strong>explore</strong>
+            <strong>Istraži</strong>
             <ul>
               <li><a href="#">Naslovna</a></li>
               <li><a href="#">O nama</a></li>
@@ -28,7 +28,7 @@ const Footer = () => {
           </div>
           {/* box */}
           <div className="footer-box">
-            <strong>Social</strong>
+            <strong>Društvene mreže</strong>
             <ul>
               <li><a href="#">Instagram</a></li>
               <li><a href="#">Youtube</a></li>
@@ -37,7 +37,7 @@ const Footer = () => {
           </div>
           {/* box */}
           <div className="footer-box">
-            <strong>Contact</strong>
+            <strong>Kontakt</strong>
             <ul>
               <li><a href="#">murtie@hotmail.com</a></li>
               <li><a href="#">++3876121213</a></li>
@@ -57,14 +57,14 @@ const Footer = () => {
         <div className="footer-bottom">
           {/* footer-bottom-link */}
           <div className="footer-bottom-link">
-            <a href="#">privacy</a>
-            <a href="#">site info</a>
-            <a href="#">terms</a>
+            <a href="#">Privatnost</a>
+            <a href="#">Informaicije o stranici</a>
+            <a href="#">Uslovi</a>
           </div>
           {/* copyright */}
           <div className="copyright">
             <span>Made by murticedin</span>
-            <span>&#169; 2022 murticedin</span>
+            <span>&#169; 2024 murticedin</span>
           </div>
         </div>
       </div>

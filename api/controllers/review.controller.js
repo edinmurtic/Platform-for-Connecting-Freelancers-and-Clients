@@ -1,6 +1,6 @@
 import createError from "./utils/createError.js";
 import Review from "../models/review.model.js";
-import Service from "../models/review.model.js"
+import Service from "../models/service.model.js"
 export const createReview = async (req, res, next) => {
     if (req.isSeller)
       return next(createError(403, "Sellers can't create a review!"));
@@ -13,6 +13,7 @@ export const createReview = async (req, res, next) => {
     });
   
     try {
+
       const review = await Review.findOne({
         serviceId: req.body.serviceId,
         userId: req.userId,
@@ -23,14 +24,15 @@ export const createReview = async (req, res, next) => {
           createError(403, "You have already created a review for this service!")
         );
   
-      //TODO: check if the user purchased the service.
   
       const savedReview = await newReview.save();
   
       await Service.findByIdAndUpdate(req.body.serviceId, {
         $inc: { totalStars: req.body.star, starNumber: 1 },
+        
       });
       res.status(201).send(savedReview);
+
     } catch (err) {
       next(err);
     }

@@ -1,7 +1,9 @@
 import React from 'react';
 import "./Card.css"
+import { Link } from 'react-router-dom';
 function Card({ image, title, description }) {
   return (
+<Link to={`/services?category=${title}`}> 
     <div className="card">
       <img src={image} className="card-img-top" alt={title}  />
       <div className="card-body">
@@ -9,6 +11,7 @@ function Card({ image, title, description }) {
         <p className="card-text">{description}</p>
       </div>
     </div>
+    </Link>
   );
 }
 

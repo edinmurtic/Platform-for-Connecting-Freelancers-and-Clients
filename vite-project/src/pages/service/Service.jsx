@@ -2,7 +2,7 @@ import {useState}  from 'react';
 import './Service.css';
 import CarouselComp from '../../components/carouselComp/CarouselComp';
 import SearchBar from '../../components/searchComponent/SearchComponent';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import Reviews from '../../components/reviews/Reviews';
@@ -21,6 +21,7 @@ function Service() {
     console.log(data)
   
   const userId = data?.userId;
+  console.log(userId)
 
    const {
      isLoading: isLoadingUser,
@@ -34,6 +35,7 @@ function Service() {
        }),
      enabled: !!userId,
    });
+   console.log(dataUser)
  
 
   const [activeButton, setActiveButton] = useState(1);
@@ -68,7 +70,8 @@ function Service() {
           </div>)}
         <p>{data.shortDesc} </p>
         <div className="button-container">
-          <button className="btn btn-primary continue-button">NASTAVI</button>
+          <Link to= {`/pay/${id}`}> <button className="btn btn-primary continue-button">NASTAVI</button></Link>
+         
           <button className="btn btn-primary contact-button">KONTAKTIRAJTE NAS</button>
 
         </div>
