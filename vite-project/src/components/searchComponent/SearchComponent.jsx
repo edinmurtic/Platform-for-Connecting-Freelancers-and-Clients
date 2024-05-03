@@ -17,7 +17,7 @@ const SearchComponent = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit} inline>
+    <Form onSubmit={handleSubmit} >
       <Row>
         <Col xs="auto">
           <Form.Control

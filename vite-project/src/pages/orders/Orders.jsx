@@ -1,14 +1,111 @@
-import { useQuery } from '@tanstack/react-query';
-import SortTable from '../../components/sortTable/SortTable'
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-
+import { DataGrid } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
+import "./Orders.css"
 const Orders = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const queryClient = useQueryClient();
+  const { data: userdata } = useQuery({
+    queryKey: ["user"],
+     queryFn: () =>
+      newRequest.get(`/users`).then((res) => {
+        return res.data.map((user, index) => ({ ...user, id: index }));
+      }),
+   });
+   const handleFinish = async (orderId) => {
+    try {
+      const response = await newRequest.put(`/orders/${orderId}/toggle-finish`, { orderId });
+      if (response.status === 200) {
+        console.log("Status finish order uspješno ažuriran.");
+        queryClient.invalidateQueries("orders");
+      } else {
+        console.error("Status finish order neuspješno ažuriran.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
+  };
+  const findUserById = (id) => {
+    if (userdata) {
+      const user = userdata.find(user => user._id === id);
+      if (user) {
+        return { username: user.username, img: user.img };
+      }
+    }
+    // Ako ne pronađemo odgovarajući ID, vraćamo null ili neku drugu vrednost po potrebi
+    return null;
+  };
+
+
+  const { isLoading: orderIsLoading, error: orderError, data: orderData } = useQuery({
+    queryKey: ["orders"],
+    queryFn: () =>
+      newRequest.get(`/orders?userId=${currentUser._id}`).then((res) => {
+        return res.data.map((orders, index) => ({ ...orders, id: index }));
+      }),
+  });
+
+  const columns2 = [
+    { field: 'id', headerName: 'ID', width: 50 },
+  {  field: 'title', 
+    headerName: 'Naziv', 
+    width: 450,
+    renderCell: (params) => (
+      
+      <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
+        <img src={params.row.img} alt="User" style={{ marginRight: 8, width: 35, height: 31 }} />
+        {params.value}
+      </div>
+    )
+  }, 
+  {
+    field: currentUser.isSeller ? 'buyerId' : 'sellerId',
+    headerName: currentUser.isSeller ? 'Kupac' : 'Prodavac',
+    width: 150,
+    renderCell: (params) => {
+      const userId = currentUser.isSeller ? params.row.buyerId : params.row.sellerId;
+      const user = findUserById(userId);
+      return user ? (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={user.img} alt="User" style={{ marginRight: 8, borderRadius: '50%', width: 33, height: 33 }} />
+          {user.username}
+        </div>
+      ) : null;
+    },
+  },
+  { 
+    field: 'isFinished', 
+    headerName: 'Stanje', 
+    width: 120,
+    renderCell: (params) => (
+      <div>
+        {params.row.isFinished ? "Završeno" : "Nedovršeno"}
+            </div>
+    )
+ },
+    { field: 'price', headerName: 'Cijena(KM)', width: 100 },
+    { 
+      field: 'Opcije', 
+      headerName: 'Opcije', 
+      width: 300,
+      renderCell: (params) => (
+       
+         <div>
+          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>kontaktiraj</Button>
+          {!currentUser.isSeller && !params.row.isFinished && (
+  <Button style={{marginRight: "15px"}} variant="outlined" color="success" onClick={() => handleFinish(params.row._id)}>
+    Završi
+  </Button>
+)}
+         </div>
+      )
+    },
+   
  
-  const [sortedField, setSortedField] = useState(null);
-  const [isAscending, setIsAscending] = useState(true);
+  ];
+  
 
   const navigate = useNavigate();
   const { isLoading, error, data } = useQuery({
@@ -38,81 +135,38 @@ const Orders = () => {
   };
 
 
-  const handleSort = (field) => {
-    if (sortedField === field) {
-      setIsAscending(!isAscending);
-    } else {
-      setSortedField(field);
-      setIsAscending(true);
-    }
-  };
-  const sortedData = sortedField
-  ? data.slice().sort((a, b) => {
-      if (a[sortedField] < b[sortedField]) {
-        return isAscending ? -1 : 1;
-      }
-      if (a[sortedField] > b[sortedField]) {
-        return isAscending ? 1 : -1;
-      }
-      return 0;
-    })
-  : data;
+  
+  const getRowId = (row) => row._id;
 
 
   return (
-    <div className='container'>
-    <p className="fs-1 text-start fw-bold">Narudžbe:</p>
-    {isLoading ? (
-        "loading"
-      ) : error ? (
-        "error"
-      ) : (
-        <div className='table-responsive'>
-    <table className=" container table align-middle mb-0 table-hover">
-      <thead className="bg-light">
-        <tr>
-        <th onClick={() => handleSort('title')}>Title</th>
-          <th onClick={() => handleSort('price')}>Price</th>
-          <th onClick={() => handleSort('first_name')}>First Name</th>
-          <th >Contact me</th>
-        </tr>
-      </thead>
-      <tbody className="table-group-divider table-divider-color">
-      {sortedData.map((item) => (
+<div className="bottom datatable">
+<h1 className="title">Narudžbe</h1>
+{orderIsLoading ? (
+  "Loading..."
+) : orderError ? (
+  "Error"
+) : (
+  <DataGrid
+        className="datagrid"
+        rows={orderData}
+        columns={columns2}
+        getRowId={getRowId}
 
-        <tr key={item._id}>
-          <td>
-            <div className="d-flex align-items-center">
-              <img
-                src={item.img}
-                alt=""
-                style={{ width: '45px', height: '45px' }}
-                className="rounded-circle"
-              />
-              <div className="ms-3">
-                <p className="fw-bold mb-1">{item.title}</p>
-              </div>
-            </div>
-          </td>
-          <td>
-            <p className="fw-normal mb-1">{item.price}</p>
-          </td>
-          {/* <td>
-            <span className="badge badge-success rounded-pill d-inline">Active</span>
-          </td> */}
-          <td>{item.sellerId}</td>
-          <td>
-            <button type="button" className="btn btn-link btn-sm btn-rounded" onClick={() => handleContact(item)}>
-              Contact
-            </button>
-          </td>
-        </tr>
-        ))}
-      </tbody>
-    </table>
-    </div>
-    )}</div>
-  )
-}
+        rowsPerPageOptions={[9]}
+        initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 5,
+      },
+    },
+  }}
+      />
+)}
+</div>
+
+
+)
+ }
 
 export default Orders

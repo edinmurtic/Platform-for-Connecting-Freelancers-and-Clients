@@ -31,6 +31,7 @@ import Success from "./pages/success/Success";
 import Pay from "./pages/pay/Pay";
 import ListServices from "./pages/listServices/ListServices";
 import UpdateService from "./pages/updateService/UpdateService";
+import UpdateUser from "./pages/updateUser/UpdateUser";
 
 
 function App() {
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path:"/updateService/:id",
         element:<UpdateService />
+      },
+      {
+        path:"/updateuser/:id",
+        element:<UpdateUser />
       },
       {
         path:"/messages",

@@ -36,7 +36,7 @@ const User = () => {
         const response = await newRequest.post(`/services/toggle/${serviceId}`, { serviceId });
         if (response.status === 200) {
           console.log("Stanje servisa uspješno ažurirano.");
-          // Osvježite podatke kako biste prikazali ažurirane informacije
+          queryClient.invalidateQueries("services");
         } else {
           console.error("Došlo je do greške prilikom ažuriranja statusa servisa.");
         }
@@ -56,6 +56,8 @@ const User = () => {
         
         if (response.status === 200) {
           console.log("Servis je uspješno obrisan.");
+          queryClient.invalidateQueries("services");
+
         } else {
           console.error("Došlo je do greške prilikom brisanja servisa.");
         }
@@ -87,11 +89,43 @@ const User = () => {
       }),
   });
 
+  const handleContact = async (order) => {
+    const sellerId = order.sellerId;
+    const buyerId = order.buyerId;
+    const id = sellerId + buyerId;
+
+    try {
+      const res = await newRequest.get(`/conversations/single/${id}`);
+      navigate(`/message/${res.data.id}`);
+    } catch (err) {
+      if (err.response.status === 404) {
+        const res = await newRequest.post(`/conversations/`, {
+          to: currentUser.seller ? buyerId : sellerId,
+        });
+        navigate(`/message/${res.data.id}`);
+      }
+    }
+  };
+
+  const handleFinish = async (orderId) => {
+    console.log("orderId",orderId)
+    try {
+      const response = await newRequest.put(`/orders/${orderId}/toggle-finish`, { orderId });
+      if (response.status === 200) {
+        console.log("Status finish order uspješno ažuriran.");
+        queryClient.invalidateQueries("orders");
+      } else {
+        console.error("Status finish order neuspješno ažuriran.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
+  };
     const columns = [
-      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'id', headerName: 'ID', width: 50 },
       { field: 'title', 
       headerName: 'Naziv', 
-      width: 350,
+      width: 450,
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
           <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
@@ -103,15 +137,15 @@ const User = () => {
       { field: 'sales', headerName: 'Prodanih', width: 75 },
 
       { 
-        field: 'actions', 
-        headerName: 'Actions', 
-        width: 300,
+        field: 'Opcije', 
+        headerName: 'Opcije', 
+        width: 350,
         renderCell: (params) => (
          
            <div>
-            <Button variant="contained" color="primary" onClick={() => handleEdit(params.row.id)}>Uredi</Button>
-             <Button variant="contained" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
-             <Button variant="contained" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
+          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
+             <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
+             <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
 
            </div>
         )
@@ -120,10 +154,10 @@ const User = () => {
     ];
 
     const columns2 = [
-      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'id', headerName: 'ID', width: 50 },
     {  field: 'title', 
       headerName: 'Naziv', 
-      width: 350,
+      width: 450,
       renderCell: (params) => (
         
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
@@ -147,25 +181,43 @@ const User = () => {
       },
     },
     { 
-      field: 'isCompleted', 
+      field: 'isFinished', 
       headerName: 'Stanje', 
-      width: 130,
+      width: 100,
       renderCell: (params) => (
         <div>
-          {params.row.isCompleted ? "Završeno" : "Nedovršeno"}
-        </div>
+          {params.row.isFinished ? "Završeno" : "Nedovršeno"}
+          {console.log("isFinished:",params.row.isFinished)}      </div>
       )
-    },
-      { field: 'price', headerName: 'Cijena', width: 75 },
-
+   },
+      { field: 'price', headerName: 'Cijena(KM)', width: 100 },
+      { 
+        field: 'Opcije', 
+        headerName: 'Opcije', 
+        width: 300,
+        renderCell: (params) => (
+         
+          <div>
+          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>kontaktiraj</Button>
+          {!params.row.isFinished && (
+  <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleFinish(params.row._id)}>
+    Završi
+  </Button>
+)}
+    {console.log(params.row)} 
+         </div>
+        )
+      },
      
    
     ];
 
+    
 
 
 
 
+    const getRowId = (row) => row._id;
 
 
   return (
@@ -174,7 +226,7 @@ const User = () => {
       <div className="singleContainer">
         <div className="top">
           <div className="left">
-            <div className="editButton">Uredi</div>
+            <div className="editButton"><Link to={`/updateUser/${currentUser._id}`}>Uredi</Link></div>
             <h1 className="title">Informacije</h1>
 {  isLoading ? ("loading") : error ? ("something went wrong") :(          <div className="item">
               <img
@@ -183,7 +235,11 @@ const User = () => {
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">{data.username}</h1>
+                <h1 className="itemTitle">{data.fullName}</h1>
+                <div className="detailItem">
+                  <span className="itemKey">Korisnicko ime:</span>
+                  <span className="itemValue">{data.username}</span>
+                </div>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
                   <span className="itemValue">{data.email}</span>
@@ -222,8 +278,15 @@ const User = () => {
         className="datagrid"
         rows={servicesData}
         columns={columns}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={8}
+        rowsPerPageOptions={[8]}
+        initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 8,
+      },
+    },
+  }}
       />
     )}
   </div>
@@ -239,8 +302,17 @@ const User = () => {
         className="datagrid"
         rows={orderData}
         columns={columns2}
+        getRowId={getRowId}
+
         pageSize={9}
         rowsPerPageOptions={[9]}
+        initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 5,
+      },
+    },
+  }}
       />
     )}
   </div>

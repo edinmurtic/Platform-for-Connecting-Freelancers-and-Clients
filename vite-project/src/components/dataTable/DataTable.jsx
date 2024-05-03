@@ -1,18 +1,19 @@
 import "./DataTable.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate, } from "react-router-dom";
+import { useQuery, useQueryClient} from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest.js";
 import Button from "@mui/material/Button";
-
 const Datatable = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleToggleActive = async (userId, isActive) => {
     try {
       const response = await newRequest.put(`/users/${userId}/toggle-active`, { isActive: !isActive });
       if (response.status === 200) {
         console.log("Status korisnika uspješno ažuriran.");
-        // Osvježite podatke kako biste prikazali ažurirane informacije
+        queryClient.invalidateQueries("user");
       } else {
         console.error("Došlo je do greške prilikom ažuriranja statusa korisnika.");
       }
@@ -21,6 +22,7 @@ const Datatable = () => {
     }
   };
 
+  
   const handleDelete = async (userId) => {
     try {          
 
@@ -70,12 +72,12 @@ const Datatable = () => {
       )
     },
     { 
-      field: 'actions', 
-      headerName: 'Actions', 
+      field: 'Opcije', 
+      headerName: 'Opcije', 
       width: 250,
       renderCell: (params) => (
         <div>
-          <Button variant="contained" color="primary" onClick={() => handleEdit(params.row.id)}>Uredi</Button>
+          <Button variant="contained" color="primary" onClick={() => ( navigate(`/updateUser/${params.row._id}`))}>Uredi</Button>
           {/* <Button variant="contained" color="error" onClick={() => handleDelete(params.row._id)}>Obriši</Button> */}
           <Button variant="contained" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
 
@@ -101,13 +103,21 @@ const Datatable = () => {
           </Link>
         </div>
        {isLoading ? ("Loading...") : error ? ("error") :(<DataGrid
-          className="datagrid"
-        rows={data}
-          columns={columns}
-         pageSize={9}
-          rowsPerPageOptions={[9]}
-          disableSelectionOnClick 
-        />) } 
+  className="datagrid"
+  rows={data}
+  columns={columns}
+  pagination
+  pageSize={5}
+  rowsPerPageOptions={[5]}
+  initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 10,
+      },
+    },
+  }}
+  disableSelectionOnClick 
+/>) } 
       </div>
   );
 };

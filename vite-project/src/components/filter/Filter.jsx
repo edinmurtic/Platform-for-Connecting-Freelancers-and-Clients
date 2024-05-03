@@ -16,13 +16,15 @@ function Filter({ onFilterChange }) {
   });
 
   const handleChange = (e) => {
-    setQuery({
-      ...query,
+    setQuery((prevQuery) => ({
+      ...prevQuery,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleFilter = () => {
+    console.log("Query before:", query); // Dodajte ovu liniju za debugiranje
+
     onFilterChange(query);
   };
 
@@ -30,12 +32,12 @@ function Filter({ onFilterChange }) {
     <div className="filter">
       <div className="top">
         <div className="item">
-          <label htmlFor="search">Service</label>
+          <label htmlFor="search">Pretraga</label>
           <input
             type="text"
             id="search"
             name="search"
-            placeholder="search name"
+            placeholder="Pretraga servisa"
             onChange={handleChange}
             value={query.search}
           />
@@ -43,60 +45,62 @@ function Filter({ onFilterChange }) {
       </div>
       <div className="bottom">
       <div className="item">
-          <label htmlFor="category">Category</label>
+          <label htmlFor="category">Kategorija</label>
           <select
             name="category"
             id="category"
             onChange={handleChange}
             defaultValue={query.category}
           >
-            <option value="">any</option>
-            <option value="Web Application">Web Application</option>
-            <option value="Mobile Application">Mobile Application</option>
-            <option value="Logo dizajn">Logo dizajn</option>
+            <option value="">Sve</option>
+            <option value="Grafika i dizajn">Grafika i dizajn</option>
+            <option value="Softver inzinjering">Softver Inžinjering</option>
+            <option value="Konsalting">Konsalting</option>
+            <option value="Video i animacija">Video i animacija</option>
+
           </select>
         </div>
         <div className="item">
-          <label htmlFor="minPrice">Min Price</label>
+          <label htmlFor="minPrice">Najniža cijena</label>
           <input
             type="number"
             id="minPrice"
             name="minPrice"
-            placeholder="Min Price"
+            placeholder="Unesite iznos"
             onChange={handleChange}
             value={query.minPrice}
           />
           
         </div>
         <div className="item">
-          <label htmlFor="maxPrice">Max Price</label>
+          <label htmlFor="maxPrice">Najviša cijena</label>
           <input
             type="number"
             id="maxPrice"
             name="maxPrice"
-            placeholder="Max Price"
+            placeholder="Unesite iznos"
             onChange={handleChange}
             value={query.maxPrice}
           />
         </div>
         <div className="item">
-          <label htmlFor="maxDeliveryTime">maxDeliveryTime</label>
+          <label htmlFor="maxDeliveryTime">Vrijeme isporuke</label>
           <input
             type="number"
             id="maxDeliveryTime"
             name="maxDeliveryTime"
-            placeholder="Max delivery time"
+            placeholder=""
             onChange={handleChange}
             value={query.maxDeliveryTime}
           />
         </div>
         <div className="item">
-          <label htmlFor="starsNumber">Stars</label>
+          <label htmlFor="starsNumber">Ocjena korisnika</label>
           <input
             type="number"
             id="starsNumber"
             name="starsNumber"
-            placeholder="Star number"
+            placeholder="Unesite broj zvijezdica"
             onChange={handleChange}
             value={query.starsNumber}
             min="0"
@@ -105,12 +109,12 @@ function Filter({ onFilterChange }) {
           
         </div>
         <div className="item">
-          <label htmlFor="revisionNumber">revisionNumber</label>
+          <label htmlFor="revisionNumber">Besplatne revizije</label>
           <input
             type="number"
             id="revisionNumber"
             name="revisionNumber"
-            placeholder="revisionNumber"
+            placeholder="Revizije"
             onChange={handleChange}
             value={query.revisionNumber}
           />

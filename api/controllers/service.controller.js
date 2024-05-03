@@ -7,7 +7,7 @@ export const updateService = async (req, res, next) => {
   if (!service) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-  if (req.user.id !== service.userRef) {
+  if (req.userId !== service.userId) {
     return next(errorHandler(401, 'You can only update your own listings!'));
   }
 
@@ -116,8 +116,11 @@ export const getServices = async (req, res, next) => {
     ...(q.deliveryTime && { deliveryTime: { $lte: q.deliveryTime } }), // Dodajemo filter za maksimalno vreme isporuke
     ...(q.search && { title: { $regex: q.search, $options: "i" } }),
     ...(q.stars && { starNumber: { $gt: 0 }, $expr: { $gte: [{ $divide: ["$totalStars", "$starNumber"] }, parseInt(q.stars)] } })
+    // ,isActive:true
   };
-
+  if (q.isActive) {
+    filters.isActive = q.isActive === 'true'; // Konvertujemo string 'true' u boolean vrijednost
+  }
   try {
     const services = await Service.find(filters).sort({ [q.sort]: -1 });
     res.status(200).send(services);

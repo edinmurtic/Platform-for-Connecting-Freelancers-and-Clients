@@ -22,8 +22,8 @@ export const columns = [
     )
   },
   { 
-    field: 'actions', 
-    headerName: 'Actions', 
+    field: 'Opcije', 
+    headerName: 'Opcije', 
     width: 200,
     renderCell: (params) => (
       <div>

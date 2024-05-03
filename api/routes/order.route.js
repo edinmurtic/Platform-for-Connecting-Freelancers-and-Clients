@@ -1,6 +1,6 @@
 import express from "express";
 import {verifyToken} from "../middleware/jwt.js"
-import {createOrder, getOrders, intent,confirm } from "../controllers/order.controller.js";
+import {createOrder, getOrders, intent,confirm,toggleFinishOrder } from "../controllers/order.controller.js";
 
 const router = express.Router();
 
@@ -8,5 +8,6 @@ const router = express.Router();
 router.get("/", verifyToken, getOrders);
 router.post("/create-payment-intent/:id", verifyToken, intent);
 router.put("/", verifyToken, confirm);
+router.put('/:id/toggle-finish',verifyToken, toggleFinishOrder);
 
 export default router;

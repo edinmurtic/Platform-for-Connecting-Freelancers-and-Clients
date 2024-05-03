@@ -1,32 +1,12 @@
-.carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 800px; /* Prilagodite maksimalnu širinu prema potrebama */
-    margin: 0 auto;
-  }
-  
-  .carousel-image {
-    width: 100%;
-    max-height: 700px;
-  }
-  
-  .carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1.5em;
-    cursor: pointer;
-  }
-  
-  .carousel-button.left {
-    left: 10px;
-  }
-  
-  .carousel-button.right {
-    right: 10px;
-  }
-  
+
+.swiper-container {
+  width: 512px; /* Postavljanje širine kontejnera */
+  height: 512px; /* Postavljanje visine kontejnera */
+}
+
+/* Stil za slike */
+.swiper-slide img {
+  width: 100%; /* Puno popunjavanje širine unutar slajda */
+  height: 100%; /* Puno popunjavanje visine unutar slajda */
+  object-fit: cover; /* Omogućuje skaliranje slike tako da se cijela slika prikaže unutar slajda */
+}

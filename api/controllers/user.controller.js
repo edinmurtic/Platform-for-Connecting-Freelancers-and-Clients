@@ -3,6 +3,28 @@ import Service from "../models/service.model.js";
 import { toggleServiceActiveStatus } from "./service.controller.js"; // Importajte funkciju za ažuriranje stanja servisa
 
 
+export const updateUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(errorHandler(404, 'User not found!'));
+  }
+  // if (req.userId !== service.userId) {
+  //   return next(errorHandler(401, 'You can only update your own listings!'));
+  // }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const toggleUserActiveStatus = async (req, res) => {
   try {
     const { id } = req.params;

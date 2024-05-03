@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import './UpdateService.css'
-import { serviceReducer, INITIAL_STATE } from "../../reducers/serviceReducer";
 
 import {
   getDownloadURL,
@@ -10,24 +9,28 @@ import {
 } from 'firebase/storage';
 import { imageDb } from '../../firebase.js';
 import { useNavigate, useParams  } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import getCurrentUser from '../../utils/getCurrentUser';
 import newRequest from '../../utils/newRequest';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const UpdateService = () => {
   const currentUser = getCurrentUser();
   const navigate = useNavigate();
   const { id } = useParams();
-
+  console.log("id:",id)
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
+    shortTitle: "",
     category: "",
+    subcategory: "",
     cover: "",
     images: [],
     desc: "",
     shortDesc: "",
+    serviceStyle: "",
+    serviceFormat:"",
     deliveryTime: 0,
     revisionNumber: 0,
     price: 0,
@@ -36,6 +39,11 @@ const UpdateService = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [subCategories, setSubCategories] = useState([]);
+  const [labels, setLabels] = useState({
+    serviceStyleLabel: "Stil servisa",
+    serviceFormatLabel: "Format servisa",
+  });
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.images.length < 7) {
       setUploading(true);
@@ -122,16 +130,78 @@ const UpdateService = () => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    let serviceStyleLabel = "serviceStyle";
+    let serviceFormatLabel = "serviceFormat";
+    let subCategoriesForCategory = [];
+    if (selectedCategory === "Grafika i dizajn") {
+      serviceStyleLabel = "Unesi Logo stil";
+      serviceFormatLabel = "Format dokumenta";
+      subCategoriesForCategory = ["Logo i brend dizajn", "Dizajn marketinškog materijala", "3D dizajn", "Web dizajn"];
+    } else if (selectedCategory === "Softver inzinjering") {
+      serviceStyleLabel = "Unesi programski jezik";
+      serviceFormatLabel = "Format dokumenta";
+      subCategoriesForCategory = ["Razvoj internet aplikacija", "Razvoj video igara", "Razvoj mobilnih aplikacija"];
+    } 
+    else if (selectedCategory === "Konsalting") {
+      serviceStyleLabel = "Unesi  jezik";
+      serviceFormatLabel = "Format dokumenta";
+      subCategoriesForCategory = ["Poslovno savjetovanje", "Marketing strategije", "Tehnicke konsultacije"];
+    } 
+    else if (selectedCategory === "Video i animacija") {
+      serviceStyleLabel = "Unesi programski jezik";
+      serviceFormatLabel = "Format dokumenta";
+      subCategoriesForCategory = ["Uređivanje i postprodukcija videa", "Kreiranje marketinških videa", "Animacija"];
+    } 
+    setFormData({
+      ...formData,
+      serviceStyle: "",
+      serviceFormat: "",
+    });
+  
+    setLabels({
+      serviceStyleLabel,
+      serviceFormatLabel,
+    });
 
-  console.log(e.target.value)
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
- 
+    setSubCategories(subCategoriesForCategory);
   };
 
+  // const handleChange = (e) => {
+
+  // console.log(e.target.value)
+  //     setFormData({
+  //       ...formData,
+  //       [e.target.id]: e.target.value,
+  //     });
+ 
+  // };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
+  const handleChange2 = (content, delta, source, editor) => {
+    setFormData({
+      ...formData,
+      desc: content 
+    });
+    console.log("desc",desc)
+
+  };
+  
+  const handleChange3 = (content, delta, source, editor) => {
+    setFormData({
+      ...formData,
+      shortDesc: content 
+    });
+    console.log("shortDesc",shortDesc)
+
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -140,39 +210,24 @@ const UpdateService = () => {
      
       setLoading(true);
       setError(false);
-      // const res = await fetch('/api/services/add', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     ...formData,
-      //     userRef: currentUser._id,
-      //   }),
-      // });
+  
+      const body = { ...formData, userRef: currentUser._id };
+      console.log("noviId:", id);
+      const response = await newRequest.post(`/services/update/${id}`, body);
       
-      try {
-        // console.log(formData);
-        const body = {...formData, userRef: currentUser._id}
-
-        await newRequest.post("/services/add", { ...body });
-      } catch (err) {
-        console.log(err);
-      }
-
-
-
-      const data = await res.json();
+      const data = await response.json();
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
+      } else {
+        navigate(`/services/${data._id}`);
       }
-      navigate(`/service/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
   };
+  
 
 
 
@@ -194,13 +249,31 @@ const UpdateService = () => {
               value={formData.title}
 
             />
+            <label htmlFor="">Kratak naslov</label>
+            <input
+              type="text"
+              name="shortTitle"
+              id='shortTitle'
+              placeholder="npr. Radit ću nešto u čemu sam jako dobar"
+              onChange={handleChange}
+              value={formData.shortTitle}
+
+            />
             <label htmlFor="">Category</label>
-            <select name="category" id="category" onChange={handleChange} value={formData.category}
+            <select name="category" id="category" onChange={(e)=>{handleCategoryChange(e);  handleChange(e);}} value={formData.category}
 >
               <option value="Grafika i dizajn">Grafika i dizajn</option>
-              <option value="Programiranje">Programiranje</option>
+              <option value="Softver inzinjering">Softver inzinjering</option>
               <option value="Konsalting">Konsalting</option>
               <option value="Video i animacija">Video i animacija</option>
+            </select>
+            <label htmlFor="">Podkategorija servisa</label>
+            <select name="subcategory" id="subcategory" value={formData.subcategory} onChange={handleChange}>
+              {subCategories.map((subcategory) => (
+                <option key={subcategory} value={subcategory}>
+                  {subcategory}
+                </option>
+              ))}
             </select>
             <div className="images">
               <div className="imagesInputs">
@@ -216,9 +289,9 @@ const UpdateService = () => {
                   onChange={(e) => setFiles(e.target.files)}
                 />
                 {console.log(uploading)}
-                {uploading ? 'Učitavanje...' : 'Učitaj'}
+                
               </div>
-              <button onClick={handleImageSubmit}>
+              <button id='uplButton' onClick={handleImageSubmit}>
                 {uploading ? "Učitavanje" : "Učitaj"}
               </button>
             </div>
@@ -229,49 +302,56 @@ const UpdateService = () => {
         <img
           src={url}
           alt="listing image"
-          style={{ width: '300px', height: '170px' }}
+          style={{ width: '290px', height: '290px' }}
         />
         <button
           type="button"
           onClick={() => handleRemoveImage(index)}
           className="delete-button"
+          id='delButton'
+
         >
-          Delete
+          Obriši
         </button>
       </div>
     ))}
 </div>
             
-            <button onClick={handleSubmit}>Kreiraj</button>
+            <button id='addButton' onClick={handleSubmit}>Izmjeni</button>
           </div>
           <div className="details">
                 
-          <label htmlFor="">Opis</label>
-            <textarea
-              name="desc"
-              id="desc"
-              placeholder="Kratki opisi za predstavljanje vaše usluge klijentima"
-              cols="0"
-              rows="16"
-              onChange={handleChange}
-              value={formData.desc}
+          <div>
+  <label htmlFor="desc">Opis servisa</label>
+  <ReactQuill
+    name="desc"
+    id="desc"
+    placeholder="Opis za predstavljanje vaše usluge klijentima"
+    theme="snow"
+    style={{ height: "400px" }}
+    className="mb-16"
+    value={formData.desc}
+  />
+</div>
+<div style={{marginTop: "40px", marginBottom: "40px"}}>
+  <label htmlFor="shortDesc">Kratak opis servisa</label>
+  <ReactQuill
+    name="shortDesc"
+    id="shortDesc"
+    placeholder="Kratki opisi za predstavljanje vaše usluge klijentima"
+    theme="snow"
+    style={{ height: "240px" }}
 
-            ></textarea>
-            <label htmlFor="">Kratki opis</label>
-           <textarea
-              name="shortDesc"
-              onChange={handleChange}
-              id="shortDesc"
-              placeholder="Kratak opis Vaše usluge"
-              cols="30"
-              rows="10"
-              value={formData.shortDesc}
+    className="mb-16"
+    value={formData.shortDesc}
+  />
+</div>
 
-            ></textarea>
-            <label htmlFor="" >Vrijeme isporuke (e.g. 3 days)</label>
+           
+            <label htmlFor="" >Vrijeme isporuke (npr. 3 dana)</label>
             <input type="number" id='deliveryTime' name="deliveryTime" onChange={handleChange} value={formData.deliveryTime}
  />
-            <label htmlFor="">Broj revizija</label>
+            <label htmlFor="">Broj revizija (npr. 2 besplatne revizije)</label>
             <input
               type="number"
               name="revisionNumber"
@@ -280,8 +360,27 @@ const UpdateService = () => {
               value={formData.revisionNumber}
 
             />
-        
-            <label htmlFor="">Cijena</label>
+        <label htmlFor="serviceStyle">{labels.serviceStyleLabel}</label>
+            <input
+              type="text"
+              name="serviceStyle"
+              id='serviceStyle'
+              placeholder="unesi stil"
+              onChange={handleChange}
+              value={formData.serviceStyle}
+
+            />
+               <label htmlFor="serviceFormat">{labels.serviceFormatLabel}</label>
+            <input
+              type="text"
+              name="serviceFormat"
+              id='serviceFormat'
+              placeholder="unesi format servisa"
+              onChange={handleChange}
+              value={formData.serviceFormat}
+
+            />
+            <label htmlFor="">Cijena (KM)</label>
             <input type="number" onChange={handleChange} id='price' name="price" value={formData.price}
  />
           </div>

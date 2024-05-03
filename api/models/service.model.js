@@ -13,16 +13,21 @@ const serviceShema = new Schema(
           type: String,
           required: true,
         },
-    desc:
+   shortTitle:
+     {
+       type: String,
+      // required: true,
+    },
+     desc:
         {
           type: String,
           required: true,
         },
-    shortDesc:
-        {
-          type: String,
-          required: true,
-        },
+   shortDesc:
+   {
+    type: String,
+    // required: true,
+   },
     totalStars:
         {
           type: Number,
@@ -38,6 +43,11 @@ const serviceShema = new Schema(
           type: String,
           required: true,
         },
+      subcategory: 
+      { 
+        type: String,
+        // required: true,
+      },
     price:
         {
           type: Number,
@@ -68,7 +78,19 @@ const serviceShema = new Schema(
           type: Number,
           default: 0,
         },
-     isActive:
+    serviceStyle: 
+        {
+          type: String,
+        },
+    serviceFormat:
+        {
+          type: String,
+        },
+    warrantyInfo:
+        {
+          type: String,
+        },
+    isActive:
      {
       type: Boolean,
       default: true

@@ -39,7 +39,7 @@ const Messages = () => {
                 <th>{currentUser.isSeller ? "Kupac" : "Prodavaoc"}</th>
                 <th>Posljednja poruka</th>
                 <th>Vrijeme</th>
-                <th>Action</th>
+                <th>Opcije</th>
               </tr>
               {data.map((item) => (
                 <MessageBox key={item._id} item={item}/>

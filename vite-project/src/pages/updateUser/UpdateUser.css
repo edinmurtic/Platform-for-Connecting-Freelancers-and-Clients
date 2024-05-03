@@ -95,16 +95,16 @@
     align-items: center;
     gap: 20px;
   }
-  .image-row {
-  min-height: 600px;
+  .secondimage-row {
+  min-height: 290px;
+  width: fit-content;
   border: 1px solid;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Raspored slika duž cijelog reda */
   }
   
-  .image-container {
-    width: calc(50% - 5px); /* Polovina širine roditeljskog kontejnera minus prostor između slika */
+  .secondimage-container {
     height: 290px; /* Željena visina slike */
     margin-bottom: 10px; /* Opciono: Dodajemo vertikalni razmak između redova */
     position: relative; /* Dodajemo relativni položaj kako bi dugme Delete bilo pozicionirano unutar kontejnera */
@@ -112,11 +112,11 @@
   
   .delete-button {
     position: absolute;
-    top: 8px;
-    right: 10px;
+    top: 4px;
+    right: 4px;
     border-radius: 10px;
   }
-  #serviceStyle, #serviceFormat {
+  #country, #phone, #username, #fullName {
     border: 1px solid black;
   }
   

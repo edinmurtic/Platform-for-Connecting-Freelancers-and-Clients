@@ -1,7 +1,7 @@
 import  {useEffect, useState } from 'react'
 import newRequest from "../../utils/newRequest"
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { imageDb } from './firebase'
+import { imageDb } from '../../firebase.js';
 import {v4} from "uuid"
 import { useNavigate } from 'react-router-dom';
 
@@ -9,8 +9,9 @@ const Register = () => {
   const navigate =useNavigate();
     const [img,setImg] = useState('')
     const [imgUrl,setImgUrl] =useState([])
-    const handleClick = () =>{
+    const handleClick = (e) =>{
       if(img !==null){
+        e.preventDefault()
          const imgRef =  ref(imageDb,`files/${v4()}`)
          uploadBytes(imgRef,img).then(value=>{
              console.log(value)
@@ -34,6 +35,7 @@ const Register = () => {
   //     })
   // },[])
     const [user, setUser] = useState({
+      fullName: "",
       username: "",
       email: "",
       password: "",
@@ -43,7 +45,7 @@ const Register = () => {
       desc: "",
 
     });
-    
+    console.log(user)
    const handleSeller = (e) =>
    {
     setUser((prev) => {
@@ -58,16 +60,13 @@ const Register = () => {
     } catch (err) {
       console.log(err);
     }
-    navigate("/")
 
   };
    const handleChange = (e) => {
     const { name, value, files } = e.target;
-    // Ako je promjena na polju slike, postavi sliku u useState i preskoči postavljanje u objekat korisnika
     if (name === 'img') {
       setImg(files[0]);
     } else {
-      // Za sve ostale promjene, ažuriraj objekat korisnika
       setUser((prev) => ({
         ...prev,
         [name]: value,
@@ -99,6 +98,10 @@ const Register = () => {
               <h2 className="fw-bold mb-5">Kreirajte Vaš račun</h2>
               <form onSubmit={handleSubmit}>
              
+              <div className="form-outline mb-4">
+                <input type="text" name="fullName"  className="form-control" onChange={handleChange}  />
+                  <label className="form-label" htmlFor="form3Example3">Ime i prezime</label>
+                </div>
               <div className="form-outline mb-4">
                 <input type="text" name="username"  className="form-control" onChange={handleChange} />
                   <label className="form-label" htmlFor="form3Example3">Korisničko ime</label>

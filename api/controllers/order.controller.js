@@ -26,7 +26,8 @@ export const createOrder =async (req, res, next) => {
             payment_intent: "temporary",
           });
           await newOrder.save();
-          res.status(200).send("successful")
+          res.status(200).send("successful");
+          
     } catch(err)
     {
         next(err);
@@ -87,9 +88,36 @@ export const intent = async (req, res, next) => {
            },
          }
        );
-  
+      // //  await Service.updateOne(
+      // //   { _id: order.serviceId },
+      // //   { $inc: { sales: 1 } } // Increment sales count by 1
+      // // );
+      // // console.log("_id",_id)
+      // // console.log("sales",sales)
+
        res.status(200).send("Order has been confirmed.");
      } catch (err) {
        next(err);
      }
    };
+   export const toggleFinishOrder = async (req, res) => {
+    try {
+      const { orderId } = req.body;
+      const order = await Order.findById(orderId);
+
+      if (!orderId) {
+        return res.status(404).send("narudžba nije pronađen.");
+      }
+  
+      order.isFinished = true;
+      await order.save();
+
+      res.status(200).json({
+        message: `Stanje order s ID-om ${orderId} uspješno promijenjeno.`,
+        isFinished: order.isFinished,
+      });
+    } catch (error) {
+      console.error("Došlo je do greške prilikom promjene stanja narudžbe:", error);
+      res.status(500).send("Došlo je do greške prilikom promjene stanja narudžbe.");
+    }
+  };

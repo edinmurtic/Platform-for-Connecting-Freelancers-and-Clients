@@ -1,40 +1,84 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../../components/dataTable/DataTable.css";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest.js";
 import Button from "@mui/material/Button";
-
+import { useNavigate } from "react-router-dom";
 
 
 const ListServices = () => {
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-      {  field: 'title', 
-        headerName: 'Title', 
-        width: 200,
-        renderCell: (params) => (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={params.row.cover} alt="cover" style={{ marginRight: 8, borderRadius: '50%', width: 24, height: 24 }} />
-            {params.value}
-          </div>
-        )
-      },    { field: 'category', headerName: 'Category', width: 130 },
-        { field: 'price', headerName: 'Price', width: 130 },
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const handleToggleActive = async (serviceId, isActive) => {
+    try {
+      const response = await newRequest.post(`/services/toggle/${serviceId}`, { serviceId });
+      if (response.status === 200) {
+        console.log("Stanje servisa uspješno ažurirano.");
+        queryClient.invalidateQueries("services");
+      } else {
+        console.error("Došlo je do greške prilikom ažuriranja statusa servisa.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
+  };
+  const handleServiceClick = (serviceId) => {
+    console.log("Kliknuli ste na servis sa ID:", serviceId);
+    navigate(`/service/${serviceId}`);
+  
+  };
+  
+  const handleDeleteService = async (serviceId) => {
+    try {          
+  
+      const response = await newRequest.delete(`/services/${serviceId}`);
+      
+      if (response.status === 200) {
+        console.log("Servis je uspješno obrisan.");
+        queryClient.invalidateQueries("services");
+  
+      } else {
+        console.error("Došlo je do greške prilikom brisanja servisa.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
+  };
+
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 50 },
+    { field: 'title', 
+    headerName: 'Naziv', 
+    width: 450,
+    renderCell: (params) => (
+      <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
+        <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
+        {params.value}
+      </div>
+    )
+  },     { field: 'category', headerName: 'Kategorija', width: 130 },
+    { field: 'price', headerName: 'Cijena', width: 75 },
+    { field: 'sales', headerName: 'Prodanih', width: 75 },
+
+    { 
+      field: 'Opcije', 
+      headerName: 'Opcije', 
+      width: 350,
+      renderCell: (params) => (
        
-        { 
-          field: 'actions', 
-          headerName: 'Actions', 
-          width: 150,
-          renderCell: (params) => (
-            <div>
-              <Button variant="contained" color="primary" onClick={() => handleEdit(params.row.id)}>Uredi</Button>
-              <Button variant="contained" color="secondary" onClick={() => handleDelete(params.row.id)}>Obriši</Button>
-            </div>
-          )
-        },
-     
-      ];
+         <div>
+        <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
+           <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
+           <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
+
+         </div>
+      )
+    },
+ 
+  ];
       
       const { isLoading, error, data } = useQuery({
         queryKey: ["services"],
@@ -77,8 +121,15 @@ const ListServices = () => {
               className="datagrid"
             rows={data}
               columns={columns}
-             pageSize={9}
-              rowsPerPageOptions={[9]}
+             pageSize={8}
+              rowsPerPageOptions={[8]}
+              initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 8,
+      },
+    },
+  }}
               checkboxSelection
             />) } 
           </div>

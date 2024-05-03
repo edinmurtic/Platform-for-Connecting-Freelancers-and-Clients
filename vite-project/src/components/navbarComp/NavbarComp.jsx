@@ -10,7 +10,6 @@ import Image from 'react-bootstrap/Image';
 import "./NavComp.css"
 import { FaSearch } from "react-icons/fa";
 import newRequest from "../../utils/newRequest";
-
 import { Link, useNavigate } from 'react-router-dom';
 
 const mycolor="#6495ED"; 
@@ -35,40 +34,22 @@ const NavbarComp = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Naslovna</Nav.Link>
+              <Nav.Link href="/Services?search=">Servisi</Nav.Link>
              
-              <NavDropdown title="Servisi" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
+              <NavDropdown title="Kategorije" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/Services?search=&category=Grafika i dizajn">Grafika i dizajn</NavDropdown.Item>
+                <NavDropdown.Item href="/Services?search=&category=Softver inzinjering">
+                  Softver inžinjering
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
+                
+                <NavDropdown.Item href="/Services?search=&category=Konsalting">Konsalting</NavDropdown.Item>
+                <NavDropdown.Item href="/Services?search=&category=Video i animacija">
+Video i animacija                </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#link">Narudžbe</Nav.Link>
-              { !currentUser?.isSeller && <Nav.Link href="#link">Postani prodavaoc</Nav.Link>}
+
             </Nav> 
-            {mySearch && <Nav> <Row >
-          <Col xs={8}>
-            <Form.Control style={{ backgroundColor: "white", color:"black"  }}
-              type="text"
-              placeholder="Search"
-              className=" mr-sm-2"
-            />
-          </Col>
-          <Col xs={2}>
-            <Button style={{ backgroundColor: mycolor, border:"0", color:"black" }} type="submit" onClick={()=> {
-              setMySearch(!mySearch)
-            }}>Submit</Button>
-          </Col>
-          <Col xs={2}></Col>
-        </Row></Nav>}
-          {!mySearch && <Button style={{ backgroundColor: mycolor, border:"0"  }} onClick={()=>{
-            setMySearch(!mySearch);
-          }}><FaSearch style={{color : "white" }} /></Button> }  
+           
+          
 
             {!currentUser && <NavLink href="/Login" >Pridruži se</NavLink>}
             {
@@ -81,18 +62,22 @@ const NavbarComp = () => {
                       </Col>
                       <Col>
                         <NavDropdown className="no-caret navDropdownWithMargin " title={currentUser?.username} id="basic-nav-dropdown">
+                        <NavDropdown.Item href={'/users/' + currentUser._id}>Moj profil</NavDropdown.Item>
+
                           {currentUser?.isSeller && (
                             <div>
                             {/* <Link to={`/service/${item._id}`}> */}
 
-                            <NavDropdown.Item href={'/users/' + currentUser._id}>Moj profil</NavDropdown.Item>
                               <NavDropdown.Item href="/addnew">
                                 Dodaj nove servise
                               </NavDropdown.Item>
+                              <NavDropdown.Item href="/admindashboard">
+                              Nadzorna ploča 
+                                </NavDropdown.Item>
                             </div>)}
-                          <NavDropdown.Item href="orders">Narudžbe</NavDropdown.Item>
                           <NavDropdown.Divider />
-                          <NavDropdown.Item href="messages">
+                          <NavDropdown.Item href="/orders/">Narudžbe</NavDropdown.Item>
+                          <NavDropdown.Item href="/messages/">
                             Poruke
                           </NavDropdown.Item>
                           <NavDropdown.Item href="#action/3.4" onClick={handleLogout}>

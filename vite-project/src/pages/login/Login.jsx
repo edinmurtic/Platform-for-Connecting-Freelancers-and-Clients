@@ -25,6 +25,7 @@ const Login = () => {
   return (
     <section className="text-center text-lg-start">
     <style>{`
+   
       .cascading-right {
         margin-right: -50px;
       }
@@ -44,7 +45,7 @@ const Login = () => {
             backdropFilter: 'blur(30px)'
           }}>
             <div className="card-body p-5 shadow-5 text-center">
-              <h2 className="fw-bold mb-5">Login</h2>
+              <h2 className="fw-bold mb-5">Prijava</h2>
               <form onSubmit={handleSubmit}>
                   <div className="col-md-12 mb-4 ">
                     <div className="form-outline">
@@ -63,22 +64,7 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary btn-block mb-4">
                 Prijava
                 </button>
-                <div className="text-center">
-                  <p>or sign up with:</p>
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="fab fa-facebook-f"></i>
-                  </button>
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="fab fa-google"></i>
-                  </button>
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="fab fa-twitter"></i>
-                  </button>
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="fab fa-github"></i>
-                  </button>
-                  {error && error}
-                </div>
+               
               </form>
             </div>
           </div>

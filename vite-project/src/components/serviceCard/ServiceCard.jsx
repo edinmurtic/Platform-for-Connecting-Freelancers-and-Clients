@@ -16,8 +16,62 @@ const ServiceCard = ({item }) => {
    })
   return (
     <Link to={`/service/${item._id}`}>
-   <div className="card ">
-    <img className="card-img-top" src={item.cover}  style={{ maxWidth: '100%', maxHeight: '200px' }} />
+   <div className="container">
+      <section className="mx-auto my-5" style={{ maxWidth: '23rem' }}>
+        <div className="card">
+          <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+            <img src={item.cover} className="img-fluid" alt="Restaurant" />
+           
+          </div>
+          <div className="card-body">
+            <h5 className="card-title font-weight-bold" style={{minHeight: "50px"}}>{item.shortTitle}</h5>
+           
+            {isLoading ? ("loading") : error ? ("Something went wrong!") : (
+
+            < > 
+      <div className="user-info">
+          <img src={data.img} className="profile-img"  style={{ maxWidth: '30px', maxHeight: '30px' }} />
+          <p>{data.fullName}</p>
+        </div>
+        <div style={{display:"flex"}}> <p style={{ fontSize: '34px', marginTop: '-5px' }}>{item.price}KM</p>  {!isNaN(item.totalStars / item.starNumber) && (
+ <div className="star" style={{marginTop: "5px", marginLeft: "10px"}}>
+ {Array(Math.round(item.totalStars / item.starNumber))
+ .fill()
+ .map((items,i)=>(
+   <img src="../img/star.png" alt="" key={i} width="25px"  />
+ ))}
+           
+            <span >
+    { Math.round(item.totalStars / item.starNumber) }
+            </span>
+            </div>)}</div>
+      </>)}
+     
+         
+            <hr className="my-4" />
+
+            {/* <p className="lead"><strong>Stil</strong></p>
+            <ul className="list-unstyled list-inline d-flex justify-content-between">
+              <li className="list-inline-item me-0">
+                <div className="chip me-0">{item.serviceStyle}</div>
+              </li>
+              <li className="list-inline-item me-0">
+                <div className="chip bg-secondary text-white me-0">7:30PM</div>
+              </li>
+              <li className="list-inline-item me-0">
+                <div className="chip me-0">8:00PM</div>
+              </li>
+              <li className="list-inline-item me-0">
+                <div className="chip me-0">9:00PM</div>
+              </li>
+            </ul> */}
+            {/* <a href="#!" className="btn btn-link link-secondary p-md-1 mb-0">Button</a> */}
+          </div>
+        </div>
+      </section>
+    </div>
+   {/* <div className="card ">
+    <img className="card-img-top" src={item.cover}   />
     <div className="card-body sccolor">
     {isLoading ? ("loading") : error ? ("Something went wrong!") : (
       <>
@@ -29,7 +83,6 @@ const ServiceCard = ({item }) => {
       
       </>
     )}
-      {/* <p className="card-text" style={{minHeight:'50px', maxHeight: '50px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.desc}</p> */}
       {!isNaN(item.totalStars / item.starNumber) && (
  <div className="star">
  {Array(Math.round(item.totalStars / item.starNumber))
@@ -46,7 +99,9 @@ const ServiceCard = ({item }) => {
           <p style={{ marginBottom: '5px' }}>Cijena od:</p>
           <div style={{ fontSize: '14px', marginTop: '-5px' }}>{item.price}KM</div>
         </div>   </div>
-  </div></Link>
+  </div> */}
+  
+  </Link>
         )
 }
 

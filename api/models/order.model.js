@@ -38,6 +38,11 @@ const orderShema = new Schema(
           type: String,
           default: false,
         },
+    isFinished:
+        {
+          type: Boolean,
+          default: false,
+        },
     payment_intent:
         {
           type: String,
