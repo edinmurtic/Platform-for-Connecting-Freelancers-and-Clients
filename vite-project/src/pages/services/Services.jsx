@@ -11,14 +11,13 @@ import ServiceC from "../../components/serviceC/ServiceC.jsx";
 function Services() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const {search} = useLocation();
-  const [searchValue,setSearchValue]=useState(search);
 
   // const {search} = useLocation();
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ['services'],
     queryFn: () =>
       newRequest.get(
-        `/services${searchValue}&min=${filterValues.minPrice}&max=${filterValues
+        `/services${search}&min=${filterValues.minPrice}&max=${filterValues
           .maxPrice}&category=${filterValues.category}&deliveryTime=${filterValues.maxDeliveryTime}&stars=${filterValues
             .starsNumber}&revisionNumber=${filterValues.revisionNumber}&isActive=true`
 
@@ -35,11 +34,7 @@ function Services() {
     starsNumber: "",
     revisionNumber: "" // Postavljamo podrazumevanu vrednost za revisionNumber ako nije definisan
   });
-    useEffect(() => {
-      setSearchValue("?search=" + filterValues.search)
-      refetch();
-    }, [filterValues]);
-
+  
 
    
 

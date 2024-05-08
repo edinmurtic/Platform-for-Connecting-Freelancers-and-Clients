@@ -1,7 +1,6 @@
-.card-img-top {
+.card-img-top-lane {
     height: 200px; /* Prilagodite željenu visinu */
 
     object-fit: cover; /* Osigurava da slika popuni cijeli prostor i zadrži svoj omjer */
   }
-  .card {
-  }
+

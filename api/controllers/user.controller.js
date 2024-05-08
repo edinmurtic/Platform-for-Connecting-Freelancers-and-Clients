@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"
 import Service from "../models/service.model.js";
 import { toggleServiceActiveStatus } from "./service.controller.js"; // Importajte funkciju za ažuriranje stanja servisa
+import bcrypt from "bcrypt";
 
 
 export const updateUser = async (req, res, next) => {
@@ -8,11 +9,12 @@ export const updateUser = async (req, res, next) => {
   if (!user) {
     return next(errorHandler(404, 'User not found!'));
   }
-  // if (req.userId !== service.userId) {
-  //   return next(errorHandler(401, 'You can only update your own listings!'));
-  // }
+
 
   try {
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, 5);
+    }
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -93,3 +95,12 @@ export const getAllUser = async (req, res, next) => {
     res.status(500).json({ message: 'Greška prilikom dobijanja korisnika' });
   }
 }
+
+export const getTotalUserCount = async (req, res, next) => {
+  try {
+    const totalCount = await User.countDocuments();
+    res.status(200).json({ totalCount });
+  } catch (error) {
+  // Uhvati i proslijedi grešku ako se dogodi
+  next(error); }
+};

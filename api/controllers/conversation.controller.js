@@ -56,3 +56,16 @@ export const createConversation = async (req, res, next) => {
       next(err);
     }
   };
+  export const getUnreadCount = async (req, res, next) => {
+    try {
+      const userId = req.userId;
+
+      const unreadCount = await Conversation.countDocuments({
+        [req.isSeller ? "sellerId" : "buyerId"]: userId,
+        [req.isSeller ? "readBySeller" : "readByBuyer"]: false
+      });
+      res.status(200).json({ unreadCount });
+    } catch (err) {
+      next(err);
+    }
+  };

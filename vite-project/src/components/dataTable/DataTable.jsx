@@ -74,12 +74,12 @@ const Datatable = () => {
     { 
       field: 'Opcije', 
       headerName: 'Opcije', 
-      width: 250,
+      width: 350,
       renderCell: (params) => (
         <div>
-          <Button variant="contained" color="primary" onClick={() => ( navigate(`/updateUser/${params.row._id}`))}>Uredi</Button>
-          {/* <Button variant="contained" color="error" onClick={() => handleDelete(params.row._id)}>Obriši</Button> */}
-          <Button variant="contained" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
+          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateUser/${params.row._id}`))}>Uredi</Button>
+           <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDelete(params.row._id)}>Obriši</Button> 
+          <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
 
         </div>
       )

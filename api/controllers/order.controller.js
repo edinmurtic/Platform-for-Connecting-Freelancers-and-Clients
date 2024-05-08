@@ -121,3 +121,152 @@ export const intent = async (req, res, next) => {
       res.status(500).send("Došlo je do greške prilikom promjene stanja narudžbe.");
     }
   };
+  export const getOrdersByBuyerAndService = async (req, res, next) => {
+    try {
+        const { buyerId, serviceId } = req.params;
+  
+        const orders = await Order.find({
+            serviceId,
+            buyerId,
+            isCompleted: "true",
+        });
+        res.status(200).send(orders);
+    } catch (err) {
+        next(err);
+    }
+};
+  export const getOrdersByMonth = async (req, res, next) => {
+    try {
+      const ordersByMonth = await Order.aggregate([
+        {
+          $match: {
+            $expr: {
+              $or: [
+                { $eq: ["$sellerId", req.userId] }, // Provjeravamo da li je trenutni korisnik prodavatelj
+                { $eq: ["$buyerId", req.userId] } // Provjeravamo da li je trenutni korisnik kupac
+              ]
+            }, // Filtriramo narudžbe samo za trenutnog korisnika
+            isCompleted: 'true' // Filtriramo završene narudžbe
+          }
+        },
+        {
+          $group: {
+            _id: { $month: "$createdAt" }, // Grupiramo po mjesecu kreiranja narudžbe
+            count: { $sum: 1 } // Brojimo koliko narudžbi ima u svakom mjesecu
+          }
+        },
+        { $sort: { "_id": 1 } } // Sortiramo po mjesecu
+      ]);
+      res.status(200).json(ordersByMonth);
+
+      console.log("ordersByMonth",ordersByMonth)
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  export const getTotalPricesByMonth = async (req, res, next) => {
+    try {
+      const totalPricesByMonth = await Order.aggregate([
+        {
+          $match: {
+            isCompleted: "true" // Filtriramo završene narudžbe
+          }
+        },
+        {
+          $group: {
+            _id: { $month: "$createdAt" }, // Grupiramo po mjesecu kreiranja narudžbe
+            totalAmount: { $sum: "$price" } // Sumiramo cijene narudžbi u svakom mjesecu
+          }
+        },
+        { $sort: { "_id": 1 } } // Sortiramo po mjesecu
+      ]);
+      res.status(200).json(totalPricesByMonth);
+    } catch (err) {
+      next(err);
+    }
+  };
+  export const getTotalCount = async (req, res, next) => {
+    try {
+      // Dohvati ukupan broj narudžbi iz baze podataka
+      const totalCount = await Order.countDocuments();
+  
+      // Vrati odgovor s ukupnim brojem narudžbi
+      res.status(200).json({ totalCount });
+    } catch (error) {
+      // Uhvati i proslijedi grešku ako se dogodi
+      next(error);
+    }
+  };
+  export const getTotalEarningsLast7DaysAndToday = async (req, res, next) => {
+    try {
+      const lastMonth = new Date();
+      lastMonth.setDate(lastMonth.getDate() -30)
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+  
+      const totalEarningsLastMonth = await Order.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: lastMonth }, // Filtriramo narudžbe kreirane u posljednjih 7 dana
+            isCompleted: "true" // Samo završene narudžbe
+          }
+        },
+        {
+          $group: {
+            _id: null, // Grupiramo sve narudžbe u jednu grupu
+            totalAmount: { $sum: "$price" } // Sumiramo cijene narudžbi
+          }
+        }
+      ]);
+      console.log("totalEarningsLastMonth:", totalEarningsLastMonth);
+
+      const totalEarningsLast7Days = await Order.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: sevenDaysAgo }, // Filtriramo narudžbe kreirane u posljednjih 7 dana
+            isCompleted: "true" // Samo završene narudžbe
+          }
+        },
+        {
+          $group: {
+            _id: null, // Grupiramo sve narudžbe u jednu grupu
+            totalAmount: { $sum: "$price" } // Sumiramo cijene narudžbi
+          }
+        }
+      ]);
+      console.log("totalEarningsLast7Days:", totalEarningsLast7Days);
+
+      const totalEarningsToday = await Order.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: today }, // Filtriramo narudžbe kreirane danas
+            isCompleted: "true" // Samo završene narudžbe
+          }
+        },
+        {
+          $group: {
+            _id: null, // Grupiramo sve narudžbe u jednu grupu
+            totalAmount: { $sum: "$price" } // Sumiramo cijene narudžbi
+          }
+        }
+      ]);
+      console.log("totalEarningsToday:", totalEarningsToday);
+
+      // Dohvaćanje samo iznosa zarade iz rezultata
+      const totalEarnings = {
+        last7Days: totalEarningsLast7Days.length > 0 ? totalEarningsLast7Days[0].totalAmount : 0,
+        today: totalEarningsToday.length > 0 ? totalEarningsToday[0].totalAmount : 0,
+        lastmonth: totalEarningsLastMonth.length > 0 ? totalEarningsLastMonth[0].totalAmount : 0
+
+      };
+  
+      res.status(200).json(totalEarnings);
+      console.log("totalEarnings:", totalEarnings);
+    } catch (err) {
+      next(err);
+    }
+  };
+  

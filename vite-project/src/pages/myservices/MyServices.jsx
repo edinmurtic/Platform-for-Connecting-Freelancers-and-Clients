@@ -2,115 +2,161 @@ import React, { useState } from 'react'
 import getCurrentUser from '../../utils/getCurrentUser';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
+import { DataGrid } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
+
 import './MyServices.css'
+import { useNavigate } from 'react-router-dom';
 const MyServices = () => {
   const currentUser = getCurrentUser();
+  const navigate = useNavigate(); 
 
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["myServices"],
+
+  const { data: userdata } = useQuery({
+    queryKey: ["user"],
+     queryFn: () =>
+      newRequest.get(`/users`).then((res) => {
+        return res.data.map((user, index) => ({ ...user, id: index }));
+      }),
+   });
+   const { isLoading: servicesIsLoading, error: servicesError, data: servicesData } = useQuery({
+    queryKey: ["services"],
     queryFn: () =>
       newRequest.get(`/services?userId=${currentUser._id}`).then((res) => {
-        return res.data;
+        return res.data.map((services, index) => ({ ...services, id: index }));
       }),
   });
-console.log(data);
-  const mutation = useMutation({
-    mutationFn: (id) => {
-      return newRequest.delete(`/services/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["myServices"]);
-    },
-  });
+  const handleContact = async (order) => {
+    const sellerId = order.sellerId;
+    const buyerId = order.buyerId;
+    const id = sellerId + buyerId;
 
-  const handleDelete = (id) => {
-    mutation.mutate(id);
+    try {
+      const res = await newRequest.get(`/conversations/single/${id}`);
+      navigate(`/message/${res.data.id}`);
+    } catch (err) {
+      if (err.response.status === 404) {
+        const res = await newRequest.post(`/conversations/`, {
+          to: currentUser.seller ? buyerId : sellerId,
+        });
+        navigate(`/message/${res.data.id}`);
+      }
+    }
   };
 
-  const [searchValue, setSearchValue] = useState('');
-  const [sortedColumn, setSortedColumn] = useState(null);
-  const [sortAsc, setSortAsc] = useState(true);
-
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value.toLowerCase());
+  const handleFinish = async (orderId) => {
+    console.log("orderId",orderId)
+    try {
+      const response = await newRequest.put(`/orders/${orderId}/toggle-finish`, { orderId });
+      if (response.status === 200) {
+        console.log("Status finish order uspješno ažuriran.");
+        queryClient.invalidateQueries("orders");
+      } else {
+        console.error("Status finish order neuspješno ažuriran.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
   };
+    const columns = [
+      { field: 'id', headerName: 'ID', width: 50 },
+      { field: 'title', 
+      headerName: 'Naziv', 
+      width: 450,
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
+          <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
+          {params.value}
+        </div>
+      )
+    },     { field: 'category', headerName: 'Kategorija', width: 130 },
+      { field: 'price', headerName: 'Cijena', width: 75 },
+      { field: 'sales', headerName: 'Prodanih', width: 75 },
 
-  const handleSort = (index) => {
-    setSortedColumn(index);
-    setSortAsc(!sortAsc);
+      { 
+        field: 'Opcije', 
+        headerName: 'Opcije', 
+        width: 350,
+        renderCell: (params) => (
+         
+           <div>
+          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
+             <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
+             <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
+
+           </div>
+        )
+      },
+   
+    ];
+  // const { isLoading, error, data } = useQuery({
+  //   queryKey: ["myServices"],
+  //   queryFn: () =>
+  //     newRequest.get(`/services?userId=${currentUser._id}`).then((res) => {
+  //       return res.data;
+  //     }),
+  // });
+  const handleToggleActive = async (serviceId, isActive) => {
+    try {
+      const response = await newRequest.post(`/services/toggle/${serviceId}`, { serviceId });
+      if (response.status === 200) {
+        console.log("Stanje servisa uspješno ažurirano.");
+        queryClient.invalidateQueries("services");
+      } else {
+        console.error("Došlo je do greške prilikom ažuriranja statusa servisa.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
   };
+  const handleServiceClick = (serviceId) => {
+    console.log("Kliknuli ste na servis sa ID:", serviceId);
+    navigate(`/service/${serviceId}`);
 
-  const searchTable = () => {
-    // Implement your search logic here
   };
+  const handleDeleteService = async (serviceId) => {
+    try {          
 
-  const sortTable = (column, sortAsc) => {
-    // Implement your sort logic here
-  };
+      const response = await newRequest.delete(`/services/${serviceId}`);
+      
+      if (response.status === 200) {
+        console.log("Servis je uspješno obrisan.");
+        queryClient.invalidateQueries("services");
 
-  const toPDF = () => {
-    // Implement your PDF export logic here
-  };
-
-  const toJSON = () => {
-    // Implement your JSON export logic here
-  };
-
-  const toCSV = () => {
-    // Implement your CSV export logic here
-  };
-
-  const toExcel = () => {
-    // Implement your Excel export logic here
+      } else {
+        console.error("Došlo je do greške prilikom brisanja servisa.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
   };
 
   return (
-    <main className="table container" id="customers_table">
-      <section className="table__header">
-        <h1>Customer's Orders</h1>
-        <div className="input-group">
-          <input type="search" placeholder="Search Data..." value={searchValue} onChange={handleSearchChange} />
-          <img src="images/search.png" alt="" />
-        </div>
-        <div className="export__file">
-          <label htmlFor="export-file" className="export__file-btn" title="Export File"></label>
-          <input type="checkbox" id="export-file" />
-        
-        </div>
-      </section>  {isLoading ? (
-        "loading"
-      ) : error ? (
-        "error"
-      ) : (
-      <section className="table__body">
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => handleSort(0)}> Id <span className="icon-arrow">{sortedColumn === 0 && (sortAsc ? '↑' : '↓')}</span></th>
-              <th onClick={() => handleSort(1)}> Customer <span className="icon-arrow">{sortedColumn === 1 && (sortAsc ? '↑' : '↓')}</span></th>
-              <th onClick={() => handleSort(2)}> Location <span className="icon-arrow">{sortedColumn === 2 && (sortAsc ? '↑' : '↓')}</span></th>
-              <th onClick={() => handleSort(3)}> Order Date <span className="icon-arrow">{sortedColumn === 3 && (sortAsc ? '↑' : '↓')}</span></th>
-              <th onClick={() => handleSort(4)}> Status <span className="icon-arrow">{sortedColumn === 4 && (sortAsc ? '↑' : '↓')}</span></th>
-              <th onClick={() => handleSort(5)}> Amount <span className="icon-arrow">{sortedColumn === 5 && (sortAsc ? '↑' : '↓')}</span></th>
-            </tr>
-          </thead>
-          <tbody>
-          {data.map((service) =>(
-            <tr key={service._id}>
-            <td>{service.createdAt}</td>
-            <td> <img src={service.cover}  alt="" /> {service.title} </td>
-            <td> {service.category} </td>
-            <td> {service.sales} </td>
-            <td> <p className="status pending">Pending</p> </td>
-                        <td> <strong>{service.price}</strong> </td>
-          </tr>
-          ))}
-          </tbody>
-        </table>
-      </section>)}
-    </main>
+    <div className="bottom datatable">
+    <h1 className="title">Servisi</h1>
+    {servicesIsLoading ? (
+      "Loading..."
+    ) : servicesError ? (
+      "Error"
+    ) : (
+      <DataGrid
+        className="datagrid"
+        rows={servicesData}
+        columns={columns}
+        pageSize={8}
+        rowsPerPageOptions={[8]}
+        initialState={{
+    pagination: {
+      paginationModel: {
+        pageSize: 8,
+      },
+    },
+  }}
+      />
+    )}
+  </div>
   );
 }
 

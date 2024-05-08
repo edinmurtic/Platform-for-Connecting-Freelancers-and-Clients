@@ -7,11 +7,14 @@ import newRequest from "../../utils/newRequest";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom"; 
+import { useEffect, useState } from "react";
 const User = () => {
 
     const currentUser = getCurrentUser();
     const queryClient = useQueryClient();
     const navigate = useNavigate(); 
+    const [chartData, setChartData] = useState([]);
+
     const { data: userdata } = useQuery({
       queryKey: ["user"],
        queryFn: () =>
@@ -20,6 +23,26 @@ const User = () => {
         }),
      });
 
+     useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await newRequest.get('/orders/getOrdersByMonth');
+          const adaptedData = response.data.map(item => {
+            const monthNames = ["Januar", "Februar", "Mart", "April", "Maj", "Juni", "Juli", "August", "Septembar", "Oktobar", "Novembar", "Decembar"];
+            return {
+              name: monthNames[item._id - 1],
+              Total: item.count
+            };
+          });
+          setChartData(adaptedData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+    
+      fetchData();
+    }, []);
+    console.log("chartData",chartData)
     const findUserById = (id) => {
       if (userdata) {
         const user = userdata.find(user => user._id === id);
@@ -125,31 +148,31 @@ const User = () => {
       { field: 'id', headerName: 'ID', width: 50 },
       { field: 'title', 
       headerName: 'Naziv', 
-      width: 450,
+      width: 650,
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
           <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
           {params.value}
         </div>
       )
-    },     { field: 'category', headerName: 'Kategorija', width: 130 },
+    },     { field: 'category', headerName: 'Kategorija', width: 200 },
       { field: 'price', headerName: 'Cijena', width: 75 },
       { field: 'sales', headerName: 'Prodanih', width: 75 },
 
-      { 
-        field: 'Opcije', 
-        headerName: 'Opcije', 
-        width: 350,
-        renderCell: (params) => (
+      // { 
+      //   field: 'Opcije', 
+      //   headerName: 'Opcije', 
+      //   width: 350,
+      //   renderCell: (params) => (
          
-           <div>
-          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
-             <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
-             <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
+      //      <div>
+      //     <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
+      //        <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
+      //        <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
 
-           </div>
-        )
-      },
+      //      </div>
+      //   )
+      // },
    
     ];
 
@@ -263,7 +286,7 @@ const User = () => {
             </div>)}
           </div>
           <div className="right">
-            <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
+            <Chart aspect={3 / 1} title="Broj završenih narudžbi (Posljednjih 6 mjeseci)" data={chartData} />
           </div>
         </div>
         {currentUser.isSeller ? (

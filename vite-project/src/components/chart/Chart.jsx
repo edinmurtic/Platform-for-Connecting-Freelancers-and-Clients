@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import newRequest from "../../utils/newRequest";
 import "./Chart.css";
 import {
   AreaChart,
@@ -8,16 +10,20 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "January", Total: 5 },
-  { name: "February", Total: 6 },
-  { name: "March", Total: 2 },
-  { name: "April", Total: 7 },
-  { name: "May", Total: 10 },
-  { name: "June", Total: 12 },
-];
+// const data = [
+//   { name: "January", Total: 5 },
+//   { name: "February", Total: 6 },
+//   { name: "March", Total: 2 },
+//   { name: "April", Total: 7 },
+//   { name: "May", Total: 10 },
+//   { name: "June", Total: 12 },
+// ];
 
-const Chart = ({ aspect, title }) => {
+
+
+const Chart = ({ aspect, title, data }) => {
+
+   
   return (
     <div className="chart">
       <div className="title">{title}</div>

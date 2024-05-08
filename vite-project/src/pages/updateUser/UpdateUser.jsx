@@ -21,8 +21,8 @@ const UpdateUser = () => {
     const [formData, setFormData] = useState({
         fullName: "",
         username: "",
-        email: "",
         password: "",
+        email: "",
          img: "",
         country: "",
         isSeller: false,
@@ -134,6 +134,15 @@ const UpdateUser = () => {
               value={formData.username}
 
             />
+           <label htmlFor="">Lozinka</label>
+            <input
+              type="password"
+              name="password"
+              id='password'
+              placeholder="Unesite vašu novu lozinku"
+              onChange={handleChange}
+
+            />
             <div className="images">
               <div className="imagesInputs">
                 {/* <label htmlFor="">Cover Image</label>
@@ -141,7 +150,7 @@ const UpdateUser = () => {
                   type="file"
                   onChange={(e) => setSingleFile(e.target.files[0])}
                 /> */}
-                <label htmlFor="">Učitaj slike</label>
+                <label htmlFor="">Učitajte profilnu sliku</label>
                 <input
                   type="file"
                   multiple

@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import SearchIcon from '@mui/icons-material/Search';
 const SearchComponent = () => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
@@ -25,11 +25,10 @@ const SearchComponent = () => {
             placeholder="Pretraži"
             className="mr-sm-2"
             onChange={(e) => setInput(e.target.value)}
+            style={{marginLeft: "25px",width: "1300px", height: "50px"}}
           />
         </Col>
-        <Col xs="auto">
-          <Button type="submit">Pronađi</Button>
-        </Col>
+       
       </Row>
     </Form>
   )

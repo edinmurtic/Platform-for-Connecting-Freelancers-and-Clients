@@ -18,27 +18,32 @@ function NavMenu() {
     
             {/* Drugi dropdown meni */}
             <div className="dropdown">
-              <button className="dropbtn">Softver inžinjering</button>
+              <button className="dropbtn">Razvoj aplikacija</button>
               <div className="dropdown-content">
                 <a href="#">Razvoj internet aplikacija</a>
                 <a href="#">Razvoj desktop aplikacija</a>
-                <a href="#">Razvoj video igara</a>
                 <a href="#">Razvoj mobilnih aplikacija</a>
               </div>
             </div>
     
             {/* Treći dropdown meni */}
             <div className="dropdown">
-              <button className="dropbtn">Konsalting</button>
+              <button className="dropbtn">IT konsalting</button>
               <div className="dropdown-content">
-                <a href="#">Poslovno savjetovanje</a>
-                <a href="#">Marketing strategije</a>
-                <a href="#">Tehnicke konsultacije</a>
-                {/* <a href="#">Testiranje softvera</a> */}
+                <a href="#">Poslovna analitika i inteligencija</a>
+                <a href="#">Cyber sigurnost i zaštita podataka</a>
+                <a href="#">Infrastruktura i mreže</a>
               </div>
             </div>
-    
-            {/* Četvrti dropdown meni */}
+            <div className="dropdown">
+              <button className="dropbtn">Razvoj video igara </button>
+              <div className="dropdown-content">
+                <a href="#">PC video igre</a>
+                <a href="#">Mobilne video igre</a>
+                <a href="#">VR igre</a>
+                {/* <a href="#">Stavka 4</a> */}
+              </div>
+            </div>
             <div className="dropdown">
               <button className="dropbtn">Video i animacija</button>
               <div className="dropdown-content">

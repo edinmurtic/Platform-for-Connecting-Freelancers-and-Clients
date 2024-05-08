@@ -3,7 +3,6 @@ import "./Filter.css";
 
 function Filter({ onFilterChange }) {
   const [query, setQuery] = useState({
-    search: "",
     category: "",
     minPrice: "",
     maxPrice: "",
@@ -31,17 +30,7 @@ function Filter({ onFilterChange }) {
   return (
     <div className="filter">
       <div className="top">
-        <div className="item">
-          <label htmlFor="search">Pretraga</label>
-          <input
-            type="text"
-            id="search"
-            name="search"
-            placeholder="Pretraga servisa"
-            onChange={handleChange}
-            value={query.search}
-          />
-        </div>
+   
       </div>
       <div className="bottom">
       <div className="item">
@@ -66,7 +55,7 @@ function Filter({ onFilterChange }) {
             type="number"
             id="minPrice"
             name="minPrice"
-            placeholder="Unesite iznos"
+            placeholder=""
             onChange={handleChange}
             value={query.minPrice}
           />
@@ -78,7 +67,7 @@ function Filter({ onFilterChange }) {
             type="number"
             id="maxPrice"
             name="maxPrice"
-            placeholder="Unesite iznos"
+            placeholder=""
             onChange={handleChange}
             value={query.maxPrice}
           />
@@ -100,7 +89,7 @@ function Filter({ onFilterChange }) {
             type="number"
             id="starsNumber"
             name="starsNumber"
-            placeholder="Unesite broj zvijezdica"
+            placeholder=""
             onChange={handleChange}
             value={query.starsNumber}
             min="0"
@@ -114,7 +103,7 @@ function Filter({ onFilterChange }) {
             type="number"
             id="revisionNumber"
             name="revisionNumber"
-            placeholder="Revizije"
+            placeholder=""
             onChange={handleChange}
             value={query.revisionNumber}
           />

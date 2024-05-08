@@ -7,7 +7,7 @@ export const cards = [
     },
     {
       id: 2,
-      title: "Web",
+      title: "Internet aplikacije",
       desc: "Razvoj internet aplikacija po vašoj želji",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ52fl5r340dYloLRccZDaN8t2Zc_sVU963OyJkElLRSg&s",
     },
@@ -190,33 +190,33 @@ export const cards = [
   [
 {
   id: 1,
-  title:"4h",
-  subtitle: "Prosjek ušteđenih sati po pronalasku zaposlenog",
-  text: "Privucite više kandidata bez stresa zbog upravljanja više radnih mjesta."
+  title:"3x",
+  subtitle: "Više Poslova, Više Mogućnosti",
+  text: "Povežite se s raznolikim projektima iz IT industrije i proširite svoje iskustvo radom na različitim projektima. Naša platforma nudi bogatstvo poslova koji odgovaraju vašim vještinama i interesima."
 
 
 }, 
 {
   id: 2,
-  title:"3x",
-  subtitle: "Povećanje broja završenih intervjua",
-  text: "Pronađite najbolje kandidate za nekoliko sekundi uz našu aplikaciju."
+  title:"24/7",
+  subtitle: "Korisnička Podrška koja Brine",
+  text: "Naš tim korisničke podrške je uvijek tu da vam pomogne. Bez obzira na pitanja ili probleme s kojima se suočavate, možete računati na našu podršku i brzu reakciju kako biste osigurali ugodno iskustvo korištenja naše platforme."
 
 
 }, 
 {
   id: 3,
   title:"4 of 5",
-  subtitle: "Nastavak saradnje sa freelancerima",
-  text: "Povećajte stopu zadržavanja odabirom kandidata koji najbolje odgovaraju i neprimetno uključivanje novih radnika u roku od 48 sati od intervjua."
+  subtitle: "Mreža Suradnika širom Svijeta",
+  text: "Povežite se s talentiranim profesionalcima iz cijelog svijeta i radite na projektima s globalnim utjecajem. Naša platforma vam omogućuje da proširite svoju mrežu i steknete nove poslovne kontakte diljem svijeta."
 
 
 }, 
 {
   id: 4,
-  title:"1 day",
-  subtitle: "Prosječno vrijeme za zapošljavanje",
-  text: "Pojednostavite svoj proces tako što ćete lako premjestiti kandidate sa intervjuiranih na zaposlene i dozvoliti automatizaciji da obavi vaš užurban posao"
+  title:"2h",
+  subtitle: "Fleksibilnost i Sloboda",
+  text: "Radite kad god vam odgovara i odakle god želite. Naša platforma omogućuje vam da prilagodite svoj radni raspored i radite iz udobnosti svog doma ili bilo kojeg drugog mjesta koji vam odgovara."
 
 
 }, ] 

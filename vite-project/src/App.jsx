@@ -1,5 +1,5 @@
 import Footer from "./components/footer/Footer";
-import NavbarComp from "./components/navbarComp/NavbarComp"
+import NavbarComp from "./components/navbarComp/NavbarComp";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -9,7 +9,7 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query"
 import Home from "./pages/home/Home";
 import Services from "./pages/services/Services";
 import Service from "./pages/service/Service";
@@ -17,7 +17,7 @@ import MyServices from "./pages/myservices/MyServices";
 import AddNew from "./pages/addnew/AddNew";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
-import NavMenu from './components/navmenu/NavMenu'
+import NavMenu from "./components/navmenu/NavMenu"
 import Orders from "./pages/orders/Orders";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -32,6 +32,8 @@ import Pay from "./pages/pay/Pay";
 import ListServices from "./pages/listServices/ListServices";
 import UpdateService from "./pages/updateService/UpdateService";
 import UpdateUser from "./pages/updateUser/UpdateUser";
+import SearchComponent from "./components/searchComponent/SearchComponent";
+import SearchComp from "./components/searchComp/searchComp";
 
 
 function App() {
@@ -44,8 +46,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
 
    <NavbarComp  />
-    <NavMenu />
-
+    <SearchComp />
     <Outlet />
     <Footer />
     </QueryClientProvider>

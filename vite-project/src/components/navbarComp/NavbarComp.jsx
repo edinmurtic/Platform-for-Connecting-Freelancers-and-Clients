@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Container,Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -11,10 +11,12 @@ import "./NavComp.css"
 import { FaSearch } from "react-icons/fa";
 import newRequest from "../../utils/newRequest";
 import { Link, useNavigate } from 'react-router-dom';
+import LoginModal from '../loginmodal/LoginModal';
 
 const mycolor="#6495ED"; 
 const NavbarComp = () => {
-  const [mySearch, setMySearch]= useState();
+  const [unreadCount, setUnreadCount] = useState(0);
+
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const navigate = useNavigate();
   const handleLogout = async ()=>{
@@ -27,31 +29,43 @@ const NavbarComp = () => {
     }
     
   }
+
+  useEffect(() => {
+    if (currentUser) {
+
+      const fetchUnreadCount = async () => {
+        try {
+          const response = await newRequest.get('/conversations/unreadCount');
+          setUnreadCount(response.data.unreadCount);
+        } catch (error) {
+          console.error('Greška prilikom dobijanja broja nepročitanih poruka:', error);
+        }
+      };
+      fetchUnreadCount();
+    }
+  }, []);
     return (
-      <Navbar  expand="lg"  variant="light" data-bs-theme="light">
+      <Navbar  expand="lg"  >
         <Container>
           <Navbar.Brand href="/">PronađiPosao</Navbar.Brand>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/Services?search=">Servisi</Nav.Link>
-             
-              <NavDropdown title="Kategorije" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/Services?search=&category=Grafika i dizajn">Grafika i dizajn</NavDropdown.Item>
-                <NavDropdown.Item href="/Services?search=&category=Softver inzinjering">
-                  Softver inžinjering
-                </NavDropdown.Item>
-                
-                <NavDropdown.Item href="/Services?search=&category=Konsalting">Konsalting</NavDropdown.Item>
-                <NavDropdown.Item href="/Services?search=&category=Video i animacija">
-Video i animacija                </NavDropdown.Item>
-              </NavDropdown>
-
+              <Nav.Link href="/Services?search=">Servisi i usluge</Nav.Link>
+              {!currentUser && <NavLink href="/register" >Registracija</NavLink>}
+              {currentUser && <><NavLink href="/messages/" className='notification' ><span>Poruke</span>  {unreadCount > 0 && (
+        <span className="badge">{unreadCount}</span>
+      )}
+</NavLink> <NavLink href="/orders/">Narudžbe</NavLink></>}
+           
             </Nav> 
            
           
+            {!currentUser && (      <LoginModal  /> 
 
-            {!currentUser && <NavLink href="/Login" >Pridruži se</NavLink>}
+      )}
+
             {
               currentUser && (
                 <div>
@@ -71,15 +85,16 @@ Video i animacija                </NavDropdown.Item>
                               <NavDropdown.Item href="/addnew">
                                 Dodaj nove servise
                               </NavDropdown.Item>
+                              <NavDropdown.Item href="/myservices">
+                              Moji servisi
+                              </NavDropdown.Item>
                               <NavDropdown.Item href="/admindashboard">
                               Nadzorna ploča 
-                                </NavDropdown.Item>
+                              </NavDropdown.Item>
                             </div>)}
                           <NavDropdown.Divider />
-                          <NavDropdown.Item href="/orders/">Narudžbe</NavDropdown.Item>
-                          <NavDropdown.Item href="/messages/">
-                            Poruke
-                          </NavDropdown.Item>
+                     
+
                           <NavDropdown.Item href="#action/3.4" onClick={handleLogout}>
                             Odjavi se
                           </NavDropdown.Item>

@@ -23,11 +23,9 @@ function Service() {
         return res.data;
       }),
     });
-    console.log("data",data)
   
   const userId = data?.userId;
   const getCategory=data?.category;
-  console.log("categorija:",getCategory);
 
    const {
    isLoading: userisLoading,
@@ -41,7 +39,6 @@ function Service() {
        }),
      enabled: !!userId,
    });
-   console.log(dataUser)
    
    const handleContact = async () => {
     const sellerId = dataUser._id;
@@ -71,7 +68,6 @@ function Service() {
         return res.data;
       }),
     });
-    console.log("dataCategoryNiz",dataCategory)
     useEffect(() => {
       refetch();
     }, [activeTab]);  return (
@@ -138,11 +134,7 @@ function Service() {
             </span>
           </div>)}
             
-              {/* <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fas fa-star-half-alt"></i> */}
+          
             
             </div>
             <span className="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>{data.starNumber}</span>
@@ -289,7 +281,7 @@ function Service() {
    
       </>)}
  
-   <Reviews serviceId={id} />
+   <Reviews serviceId={id} currentUser={currentUser} />
         </div>
   );
   }

@@ -1,86 +1,76 @@
+/* .search_section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 
- 
-  
-  .bar{
-    width:700px;
-    background:white;
-    box-shadow:0 0 5px hsl(0 0% 78%);
-    border-radius:100vw;
-    display:flex;
-    justify-content:center;
-    font-size:0.7rem;
-    margin-top: 30px;
-    margin-bottom: 30px;
+.search_input {
+  height: 57px;
+  flex: 1;
+  padding: 0 20px;
+  font-size: 20px;
+  border: 1px solid;
+}
 
-    
-  }
+.search_input_div {
   
-  .bar div{
-    border-radius:inherit;
-    padding:0.8rem 1.5rem;
-  }
-  
-  .bar div:hover{
-    background:hsl(0 0% 94%);
-  }
-  
-  .location{
-    width:34%;
-  }
-  .check-in, .check-out, .guests{
-    width:22%;
-  }
-  
-  input[type="text"]{
-    background:none;
-    border:none;
-    padding:0.2rem 0 0 0;
-  }
-  
-  input[type="text"]:focus{
-    outline:none;
-  }
-  
-  ::placeholder{
-    font-size:0.75rem;
-  }
-  
-  .guests{
-    position: relative;  
-  }
-  .guests span{
-    position:absolute;
-    top:50%;
-    right:10px;
-    transform:translateY(-50%);
-    background:#FF385C;
-    color:white;
-    font-size:0.9rem;
-    padding:0.9rem;
-    border-radius:50%;
-  }
-  
-  .bar>div{
-    position:relative;
-  }
-  
-  
-  .bar>div::before{
-    position:absolute;
-    content:"";
-    left:0;
-    top:50%;
-    transform:translateY(-50%);
-    width:1px;
-    height:55%;
-    background:hsl(0 0% 90%);
-  }
-  
-  .bar>div:nth-of-type(1)::before{
-     background:transparent;
-  }
-  
-  
-  .bar>div:hover::before{
-    background:transparent;
-  }
+  background-color: white;
+  width: 800px;
+  min-height: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search_result {
+  background: white;
+  width: 800px;
+  margin-top: 10px;
+  position: absolute;
+  top: 70px;
+}
+
+.search_result::-webkit-scrollbar {
+  display: none;
+}
+
+.search_suggestion_line,
+.search_loading {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  display: block;
+}
+
+.search_suggestion_line:hover {
+  background: rgb(227, 227, 227);
+}
+.search_suggestion_line.active {
+  background: rgb(227, 227, 227);
+}
+.search_icon {
+  background-color: #EEF1FF;
+  padding: 0 25px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input {
+  outline: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+} */
