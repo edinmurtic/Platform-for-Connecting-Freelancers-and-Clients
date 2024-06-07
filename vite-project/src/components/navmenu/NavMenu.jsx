@@ -10,7 +10,7 @@ function NavMenu() {
               <button className="dropbtn">Grafika i dizajn</button>
               <div className="dropdown-content">
                 <a href="#">Logo i brend dizajn</a>
-                <a href="#">Dizajn marketinškog materijala</a>
+                <a href="#">UX dizajn</a>
                 <a href="#">3D dizajn</a>
                 {/* <a href="#">Pisanje i uređivanje</a> */}
               </div>
@@ -30,13 +30,13 @@ function NavMenu() {
             <div className="dropdown">
               <button className="dropbtn">IT konsalting</button>
               <div className="dropdown-content">
-                <a href="#">Poslovna analitika i inteligencija</a>
-                <a href="#">Cyber sigurnost i zaštita podataka</a>
+                <a href="#">Agilno upravljanje projektima </a>
+                <a href="#">Sajber sigurnost i zaštita podataka</a>
                 <a href="#">Infrastruktura i mreže</a>
               </div>
             </div>
             <div className="dropdown">
-              <button className="dropbtn">Razvoj video igara </button>
+              <button className="dropbtn">Razvoj video igara</button>
               <div className="dropdown-content">
                 <a href="#">PC video igre</a>
                 <a href="#">Mobilne video igre</a>
@@ -48,7 +48,7 @@ function NavMenu() {
               <button className="dropbtn">Video i animacija</button>
               <div className="dropdown-content">
                 <a href="#">Uređivanje i postprodukcija videa</a>
-                <a href="#">Kreiranje marketinških videa</a>
+                <a href="#">AI video umjetnost</a>
                 <a href="#">Animacija</a>
                 {/* <a href="#">Stavka 4</a> */}
               </div>

@@ -4,11 +4,15 @@ import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from '../../firebase.js';
 import {v4} from "uuid"
 import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+
 
 const Register = () => {
   const navigate =useNavigate();
     const [img,setImg] = useState('')
     const [imgUrl,setImgUrl] =useState([])
+    const [uploading, setUploading] = useState(false);
+
     const handleClick = (e) =>{
       if(img !==null){
         e.preventDefault()
@@ -17,25 +21,27 @@ const Register = () => {
              console.log(value)
              getDownloadURL(value.ref).then(url=>{
                  setImgUrl(data=>[...data,url])
-                 setUser((prev) => ({ ...prev, img: url }));
+                 setFormData((prev) => ({ ...prev, img: url }));
 
              })
          })
       }
      }
-
-  //    useEffect(()=>{
-  //     listAll(ref(imageDb,"files")).then(imgs=>{
-  //         console.log(imgs)
-  //         imgs.items.forEach(val=>{
-  //             getDownloadURL(val).then(url=>{
-  //                 setImgUrl(data=>[...data,url])
-  //             })
-  //         })
-  //     })
-  // },[])
-    const [user, setUser] = useState({
+     const handleRemoveImage = () => {
+      setFormData({
+        ...formData,
+        img: "",
+      });
+    };
+    const handleChange2 = (content, delta, source, editor) => {
+      setFormData({
+        ...formData,
+        desc: content 
+      });
+    };
+    const [formData, setFormData] = useState({
       fullName: "",
+      professionalArea:"",
       username: "",
       email: "",
       password: "",
@@ -45,18 +51,18 @@ const Register = () => {
       desc: "",
 
     });
-    console.log(user)
+    console.log(formData)
    const handleSeller = (e) =>
    {
-    setUser((prev) => {
+    setFormData((prev) => {
       return { ...prev, isSeller: e.target.checked}
     })
    }
    const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await newRequest.post("/auth/register", { ...user });
-      console.log(img);
+      await newRequest.post("/auth/register", { ...formData });
+      navigate("/")
     } catch (err) {
       console.log(err);
     }
@@ -67,97 +73,140 @@ const Register = () => {
     if (name === 'img') {
       setImg(files[0]);
     } else {
-      setUser((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
     }
   };
+
+
+
   return (
-    <section className="text-center text-lg-start">
-    <style>{`
-      .cascading-right {
-        margin-right: -50px;
-      }
+    <div className="add">
+    <div className="container">
+      <h1>Registrirajte se</h1>
+      <div className="sections">
+        <div className="info">
+          <label htmlFor="">Ime i prezime</label>
+          <input
+            type="text"
+            name="fullName"
+            id='fullName'
+            placeholder="Vaše ime i prezime"
+            onChange={handleChange}
+            value={formData.fullName}
 
-      @media (max-width: 991.98px) {
-        .cascading-right {
-          margin-right: 0;
-        }
-      }
-    `}</style>
+          />
+         
+         <label htmlFor="">Korisničko ime</label>
+          <input
+            type="text"
+            name="username"
+            id='username'
+            placeholder="Vaše korisnicko ime"
+            onChange={handleChange}
+            value={formData.username}
 
-    <div className="container py-4">
-      <div className="row g-0 align-items-center">
-        <div className="col-lg-6 mb-5 mb-lg-0">
-          <div className="card cascading-right" style={{
-            background: 'hsla(0, 0%, 100%, 0.55)',
-            backdropFilter: 'blur(30px)'
-          }}>
-            <div className="card-body p-5 shadow-5 text-center">
-              <h2 className="fw-bold mb-5">Kreirajte Vaš račun</h2>
-              <form onSubmit={handleSubmit}>
+          />
+          <label htmlFor="">Email</label>
+          <input
+            type="email"
+            name="email"
+            id='email'
+            placeholder="Vaš email"
+            onChange={handleChange}
+            value={formData.email}
+
+          />
+         <label htmlFor="">Lozinka</label>
+          <input
+            type="password"
+            name="password"
+            id='password'
+            placeholder="Unesite vašu novu lozinku"
+            onChange={handleChange}
+
+          />
+          <div className="images">
+            <div className="imagesInputs">
+              {/* <label htmlFor="">Cover Image</label>
+              <input
+                type="file"
+                onChange={(e) => setSingleFile(e.target.files[0])}
+              /> */}
+              <label htmlFor="">Učitajte profilnu sliku</label>
+              <input
+                type="file"
+                multiple
+                onChange={(e) => setImg(e.target.files[0])}                />
              
-              <div className="form-outline mb-4">
-                <input type="text" name="fullName"  className="form-control" onChange={handleChange}  />
-                  <label className="form-label" htmlFor="form3Example3">Ime i prezime</label>
-                </div>
-              <div className="form-outline mb-4">
-                <input type="text" name="username"  className="form-control" onChange={handleChange} />
-                  <label className="form-label" htmlFor="form3Example3">Korisničko ime</label>
-                </div>
-                <div className="form-outline mb-4">
-                  <input type="email" name="email"  className="form-control" onChange={handleChange} />
-                  <label className="form-label" htmlFor="form3Example3">E-mail adresa</label>
-                </div>
-                <div className="form-outline mb-4">
-                  <input type="password" name="password" className="form-control" onChange={handleChange}/>
-                  <label className="form-label" >Lozinka</label>
-                </div>
-                <div className="form-outline mb-4">
-                  <input type="file" name="img" className="form-control" onChange={(e) => setImg(e.target.files[0])} />
-                  <button onClick={handleClick}>Učitaj sliku</button>
-               
-                  {/* <label className="form-label" >Učitaj sliku</label> */}
-                </div>
-                <div className="row">
-                  <div className="col-md-6 mb-4">
-                    <div className="form-outline">
-                      <input type="text" name="country"  className="form-control" onChange={handleChange} />
-                      <label className="form-label" >Država</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6 mb-4">
-                    <div className="form-outline">
-                    <input type="text" name="phone"  className="form-control" onChange={handleChange} />
-                      <label className="form-label" >Broj telefona</label>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div className="form-outline mb-4">
-                  <textarea className='form-control' name="desc" rows="3" onChange={handleChange}></textarea>
-                  <label className="form-label" >Kratak opis</label>
-                </div>
-                <div className="form-outline mb-4">
-                  <input className='form-check-input' type="checkbox" role="switch" onChange={handleSeller} />
-                  <label className="form-check-label" >Aktiviraj račun kao prodavaoc</label>
-                </div>
-                <button type="submit" className="btn btn-primary btn-block mb-4">
-                  Registriraj se!
-                </button>
               
-               
-              </form>
             </div>
+            <button id='uplButton' onClick={handleClick}>
+              {uploading ? "Učitavanje" : "Učitaj"}
+            </button>
           </div>
+          <div className="secondimage-row">
+{formData.img.length > 0 &&
+ 
+    <div  className="secondimage-container" >
+      <img
+        src={formData.img}
+        alt="listing image"
+        style={{ width: '300px', height: '300px' }}
+      />
+      <button
+        type="button"
+        onClick={() => handleRemoveImage()}
+        className="delete-button"
+        id='delButton'
+
+      >
+        Obriši
+      </button>
+    </div>
+  }
+</div>
+          
+          <button id='addButton' onClick={handleSubmit}>Registriraj se</button>
         </div>
-        <div className="col-lg-6 mb-5 mb-lg-0">
-          <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" className="w-100 rounded-4 shadow-4" alt="" />
+        <div className="details">
+              
+        <label htmlFor="">Opis</label>
+        <ReactQuill name="desc" id='desc' placeholder="Kratak opis" style={{minHeight:"400px", marginBottom:"50px"}} theme="snow" className=' mb-16' value={formData.desc} onChange={handleChange2} />
+        <label htmlFor="" >Stručna oblast</label>
+          <input type="text" id='professionalArea' name="professionalArea" onChange={handleChange} value={formData.professionalArea}
+/>
+         
+          <label htmlFor="" >Država</label>
+          <input type="text" id='country' name="country" onChange={handleChange} value={formData.country}
+/>
+          <label htmlFor="">Broj telefona</label>
+          <input
+            type="text"
+            name="phone"
+            id='phone'
+            onChange={handleChange}
+            value={formData.phone}
+
+          />
+   <div> <label htmlFor="" style={{marginRight:"20px"}}><strong>Aktiviraj račun kao prodavaoc</strong></label>
+          <input
+            type="checkbox"
+            name="isSeller"
+            id='isSeller'
+            onChange={handleSeller}
+            value={formData.isSeller}
+
+          /></div> 
         </div>
       </div>
     </div>
-  </section>  )
-}
+  </div>
 
+              
+            )
+}
+//Aktiviraj racun kao prodavaoc
 export default Register

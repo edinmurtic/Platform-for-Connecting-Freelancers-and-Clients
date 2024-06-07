@@ -1,30 +1,18 @@
-.card {
-    margin-right: 10px; /* Dodajte željeni razmak između kartica */
-    max-width: 350px;
-  }
-  
-  /* Stil za kontejner */
-  .card-container {
-    padding: 20px; /* Dodajte unutarnji razmak kontejneru */
-    margin: 0 auto; /* Centrirajte kontejner */
-    max-width: 1400px; /* Postavite maksimalnu širinu kontejnera */
-    position: relative; /* Postavite relativno pozicioniranje */
-  }
-  
-  /* Stil za prev button */
-  .prev-button {
-    position: absolute; /* Postavite apsolutno pozicioniranje */
-    left: 0; /* Postavite lijevu ivicu na 0 */
-    top: 50%; /* Postavite vrh na sredinu */
-    transform: translateY(-50%); /* Centrirajte vertikalno */
-    margin-left: -10px; /* Pomaknite ikonicu malo ulijevo */
+.cardGroup
+{
+  margin-top: 40px;
+}
+.naslov h2 {
+  font-size: 46px; /* Promijenite veličinu fonta po potrebi */
+  font-weight: bold; /* Dodajte debljinu fonta ako je potrebno */
+  color: #333; /* Dodajte boju po želji */
+  margin-bottom: 20px;
+}
+.opis {
+  font-size: 18px; /* Veličina fonta */
+  color: #666; /* Boja teksta */
+  margin-top: 10px; /* Razmak iznad opisa */
+  line-height: 1.5; /* Visina linije */
+  margin-bottom: 30px;
+}
 
-  }
-  
-  /* Stil za next button */
-  .next-button {
-    position: absolute; /* Postavite apsolutno pozicioniranje */
-    right: 0; /* Postavite desnu ivicu na 0 */
-    top: 50%; /* Postavite vrh na sredinu */
-    transform: translateY(-50%); /* Centrirajte vertikalno */
-  }

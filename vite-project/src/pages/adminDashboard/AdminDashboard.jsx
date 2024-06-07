@@ -87,8 +87,8 @@ const AdminDashboard = () => {
           <div className="homeContainer">
             <div className="widgets">
            <Link to={"/list"} style={{ textDecoration: 'none', color: "black", width:"100%" }}> <Widget type="user" amount={totalUsers} /></Link>
-           <Link to={"/listServices"} style={{ textDecoration: 'none', color: "black", width:"100%" }}> <Widget type="order" amount={totalOrders} /></Link>
-           <Link to={"/list"} style={{ textDecoration: 'none', color: "black", width:"100%" }}>  <Widget type="earning" /></Link>
+           <Link to={"/listorders"} style={{ textDecoration: 'none', color: "black", width:"100%" }}> <Widget type="order" amount={totalOrders} /></Link>
+           <Link to={"/listservices"} style={{ textDecoration: 'none', color: "black", width:"100%" }}>  <Widget type="services" amount={earnLastMonth} /></Link>
               {/* <Widget type="balance" /> */}
             </div>
              <div className="charts">

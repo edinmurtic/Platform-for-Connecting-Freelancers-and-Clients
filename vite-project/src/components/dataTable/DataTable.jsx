@@ -97,9 +97,8 @@ const Datatable = () => {
   return (
       <div className="datatable">
         <div className="datatableTitle">
-          Add New User
-         <Link to="/users/new" className="link">
-           Add New
+Dodaj novog korisnika         <Link to="/register/" className="link">
+           Dodaj
           </Link>
         </div>
        {isLoading ? ("Loading...") : error ? ("error") :(<DataGrid

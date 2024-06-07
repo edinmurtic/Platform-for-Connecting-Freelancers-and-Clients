@@ -44,11 +44,11 @@ const Widget = ({ type, amount }) => {
         ),
       };
       break;
-    case "earning":
+    case "services":
       data = {
-        title: "Zarada",
+        title: "Servisi",
         isMoney: true,
-        link: "Prikaži cjelokupnu zaradu",
+        link: "Prikaži sve servise",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"

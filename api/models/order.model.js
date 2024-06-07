@@ -38,10 +38,15 @@ const orderShema = new Schema(
           type: String,
           default: false,
         },
-    isFinished:
+    isFinishedSeller:
         {
           type: Boolean,
           default: false,
+        },
+        isFinishedBuyer:
+        {
+          type: Boolean,
+          default:false,
         },
     payment_intent:
         {

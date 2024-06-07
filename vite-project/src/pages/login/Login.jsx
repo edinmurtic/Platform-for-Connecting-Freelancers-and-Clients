@@ -6,7 +6,7 @@ const Login = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
-    const [error, setError] = useState(null)
+    const [errors, setErrors] = useState({})
 
     const navigate =useNavigate();
     const handleSubmit = async (e)=>
@@ -16,7 +16,7 @@ const Login = () => {
             localStorage.setItem('currentUser',JSON.stringify(res.data));
             navigate("/")
         }catch(err){
-            setError(err.response.data);
+            setErrors(validation(username));
             console.log(err.response.data);
 
         }

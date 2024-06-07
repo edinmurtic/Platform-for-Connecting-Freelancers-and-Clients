@@ -83,7 +83,7 @@ const Message = () => {
     <div className="message">
       <div className="container">
         <span className="breadcrumbs">
-          <Link to="/messages">Messages</Link> { nameOfOtherUser }
+          <Link to="/messages">Poruka</Link> { nameOfOtherUser }
         </span>
         {isLoading ? (
           "loading"

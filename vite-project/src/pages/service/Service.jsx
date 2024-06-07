@@ -8,6 +8,7 @@ import newRequest from '../../utils/newRequest';
 import Reviews from '../../components/reviews/Reviews';
 import RecommendedService from '../../components/recommendedService/RecommendedService';
 import getCurrentUser from '../../utils/getCurrentUser';
+import AboutUser from '../../components/aboutUser/AboutUser';
 
 function Service() {
   const [activeTab, setActiveTab] = useState('Specification');
@@ -15,7 +16,6 @@ function Service() {
   const navigate = useNavigate();
 
   const { id } = useParams();
-
   const { isLoading, error, data } = useQuery({
     queryKey: ["service"],
     queryFn: () =>
@@ -39,29 +39,38 @@ function Service() {
        }),
      enabled: !!userId,
    });
-   
-   const handleContact = async () => {
-    const sellerId = dataUser._id;
-    const buyerId = currentUser._id;
-    const id = sellerId + buyerId;
+   console.log(dataUser)
 
-    try {
-      const res = await newRequest.get(`/conversations/single/${id}`);
-      navigate(`/message/${res.data.id}`);
-    } catch (err) {
-      if (err.response.status === 404) {
-        const res = await newRequest.post(`/conversations/`, {
-          to: currentUser.seller ? buyerId : sellerId,
-        });
+   const handleContact = async () => {
+  if(currentUser !== null)
+    {
+      const sellerId = dataUser._id;
+      const buyerId = currentUser._id;
+      const id = sellerId + buyerId;
+  
+      try {
+        const res = await newRequest.get(`/conversations/single/${id}`);
         navigate(`/message/${res.data.id}`);
+      } catch (err) {
+        if (err.response.status === 404) {
+          const res = await newRequest.post(`/conversations/`, {
+            to: currentUser.seller ? buyerId : sellerId,
+          });
+          navigate(`/message/${res.data.id}`);
+        }
       }
+    }
+    else
+    {
+      navigate("/register/")
+      alert("Da biste kontaktirali korisnika potrebno je da se registrujete!")
     }
   };
 
    const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
-  const { isLoading:isLoadingCategory, error:errorCategory, data: dataCategory,refetch } = useQuery({
+  const { isLoading:isLoadingCategory, error:errorCategory, data: dataCategory, refetch } = useQuery({
     queryKey: ["serviceCat"],
     queryFn: () =>
       newRequest.get(`/services?search=&category=${getCategory}&isActive=true`).then((res) => {
@@ -70,7 +79,12 @@ function Service() {
     });
     useEffect(() => {
       refetch();
-    }, [activeTab]);  return (
+    }, [activeTab]); 
+    
+    
+    
+    
+    return (
 <div className="container">
 { isLoading ? ("loading") : error ? ("Something went wrong") : (
 <>
@@ -116,9 +130,9 @@ function Service() {
       </aside>
       <main className="col-lg-6">
         <div className="ps-lg-3">
-          <h4 className="title text-dark">
+          <h2 className="title text-dark">
             {data.title}
-          </h4>
+          </h2>
           <div className="d-flex flex-row my-3">
             <div className="text-warning mb-1 me-2">
             {!isNaN(data.totalStars / data.starNumber) && (
@@ -126,10 +140,10 @@ function Service() {
  {Array(Math.round(data.totalStars / data.starNumber))
  .fill()
  .map((item,i)=>(
-   <img src="../img/star.png" width="20px" alt="" key={i} />
+   <img src="../img/star.png" width="20px" alt="" key={i} style={{paddingBottom:"7px"}} />
  ))}
            
-            <span className="ms-1">
+            <span className="ms-1" style={{fontSize:"20px"}}>
     { Math.round(data.totalStars / data.starNumber) }
             </span>
           </div>)}
@@ -137,12 +151,13 @@ function Service() {
           
             
             </div>
-            <span className="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>{data.starNumber}</span>
-            <span className="text-success ms-2">RECENZIJA</span>
+            <div style={{ fontSize:"20px"}}> <span className="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"  ></i>{data.starNumber}</span>
+            <span className="text-success ms-2">RECENZIJA</span></div>
+           
           </div>
 
           <div className="mb-3">
-            <span className="h5">{data.price}KM</span>
+            <span className="h3">{data.price}KM</span>
           </div>
 
           <p>
@@ -171,7 +186,7 @@ function Service() {
           <hr />
 
          
-         <Link to= {`/pay/${id}`}> <button className="btn btn-warning shadow-0">NASTAVI</button></Link>
+         {currentUser && !currentUser?.isSeller && <Link to= {`/pay/${id}`}> <button className="btn btn-success icon-hover  border-secondary" style={{height:"42px"}}>NASTAVI NA PLAĆANJE</button></Link> }
        
          <button style={{marginLeft:"10px"}} onClick={() => handleContact()} className="btn btn-light border border-secondary py-2 icon-hover px-3">KONTAKTIRAJTE NAS</button>
 
@@ -184,7 +199,7 @@ function Service() {
 <section className="bg-light border-top py-4">
   <div className="container">
     <div className="row gx-4">
-      <div className="col-lg-8 mb-4">
+      <div className="col-lg-9 mb-4">
         <div className="border rounded-2 px-3 py-2 bg-white">
         <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
   <li className="nav-item d-flex" role="presentation">
@@ -220,47 +235,33 @@ function Service() {
             <li><strong>Hitne narudžbe:</strong> Za hitne projekte ili potrebe za brzom isporukom, kontaktirajte nas kako bismo pružili mogućnosti ubrzane usluge ili rješenja prema vašim potrebama. Dodatne naknade mogu se primjenjivati za hitne narudžbe izvan standardnih uvjeta isporuke.</li>
         </ul>  </div>
   <div className={`tab-pane fade ${activeTab === 'Seller profile' ? 'show active' : ''}`} id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
-{  userisLoading ? ("loading") : usererror ? ("something went wrong") :(          <div className="item">
-              <img
-                src={dataUser.img}
-                alt=""
-                className="itemImg"
-              />
-              <div className="details">
-                <h1 className="itemTitle">{dataUser.username}</h1>
-                <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">{dataUser.email}</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Mobitel:</span>
-                  <span className="itemValue">{dataUser.phone}</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Država:</span>
-                  <span className="itemValue">{dataUser.country}</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Pozicija:</span>
-                  <span className="itemValue">
-                  {dataUser.isSeller ? "Prodavac" : "Kupac"}
-                  </span>
-                </div>
-               
-              </div> 
-            </div>)}
+  {userisLoading ?("isLoading"): usererror ? ("error"):(
+    <AboutUser professionalArea={dataUser.professionalArea}
+               fullName={dataUser.fullName}
+               username={dataUser.username}
+               email={dataUser.email}
+               img={dataUser.img}
+               phone={dataUser.phone}
+               country={dataUser.country}
+               desc={dataUser.desc}
+               isSeller={dataUser.isSeller}
+               id={dataUser._id}
+               myDate={new Date(dataUser.createdAt).toLocaleDateString('hr-HR')}
+
+
+                /> )} 
   </div>
 </div>
-         
+      
         </div>
       </div>
-       <div className="col-lg-4">
-        <div className="px-0 border rounded-2 shadow-0">
-          <div className="card">
-            <div className="card-body">
+       <div className="col-lg-3" >
+        <div className="px-0 border rounded-2 shadow-0" >
+          <div className="card" style={{maxWidth:"310px"}} >
+            <div className="card-body" >
               <h5 className="card-title">Slični servisi</h5>
               {isLoadingCategory ? ("isLoading") : errorCategory ? ("error") : (
-  dataCategory.slice(0, 4).map((categoryItem) => (
+  dataCategory.slice(0, 5).map((categoryItem) => (
     <RecommendedService key={categoryItem._id} categoryItem={categoryItem} />
   ))
 )}

@@ -52,146 +52,123 @@ export const cards = [
 
      
   ];
-  
-  export const projects = [
+
+  export const subCategoryCard = [
     {
       id: 1,
-      img: "https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Web and Mobile Design",
-      username: "Anna Bell",
+      category: "Grafika i dizajn",
+      subCategory: "Logo i brend dizajn",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FLogoandbranddesign.jpg?alt=media&token=8c017b65-cbd0-4f40-8bf9-c31751ba64f7",
     },
     {
       id: 2,
-      img: "https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Logo Design",
-      username: "Morton Green",
+      category: "Grafika i dizajn",
+      subCategory: "UX dizajn",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FUXdesign.jpg?alt=media&token=8d5e05e4-4489-484a-a2a4-745a985e6412",
     },
     {
       id: 3,
-      img: "https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Animated GIFs",
-      username: "Emmett Potter",
+      category: "Grafika i dizajn",
+      subCategory: "3D dizajn",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2F3DDesign.jpg?alt=media&token=d6446b2f-417c-4b0c-978e-d66c929ae8b0",
     },
     {
       id: 4,
-      img: "https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Packaging Design",
-      username: "Freddie Johnston",
+      category: "Razvoj aplikacija",
+      subCategory: "Razvoj internet aplikacija",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FDevelopment%20of%20internet%20applications%20IT%20JOB.jpg?alt=media&token=d9000e17-bc1a-4f83-b598-5dc62f2366e8",
     },
     {
       id: 5,
-      img: "https://images.pexels.com/photos/4458554/pexels-photo-4458554.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Social Media Design",
-      username: "Audrey Richards",
+      category: "Razvoj aplikacija",
+      subCategory: "Razvoj desktop aplikacija",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FDevelopment%20of%20desktop%20applications.jpg?alt=media&token=f9bae40e-caaf-4801-a260-6361f45805cf",
     },
     {
       id: 6,
-      img: "https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Illustration",
-      username: "Dalton Hudson",
+      category: "Razvoj aplikacija",
+      subCategory: "Razvoj mobilnih aplikacija",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FDevelopment%20of%20mobile%20applications%20IT%20JOB.jpg?alt=media&token=2b75b603-2c84-4514-8b61-705932d43f16",
     },
     {
       id: 7,
-      img: "https://images.pexels.com/photos/6077368/pexels-photo-6077368.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Book Design",
-      username: "Hannah Dougherty",
+      category: "IT konsalting",
+      subCategory: "Agilno upravljanje projektima",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FAgile%20project%20management.jpg?alt=media&token=fb558771-7a46-4e5c-bb1c-6ec1183e6041",
     },
     {
-      id: 8,
-      img: "https://images.pexels.com/photos/4065876/pexels-photo-4065876.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1680175/pexels-photo-1680175.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      cat: "Digital Marketing",
-      username: "Ward Brewer",
+      
+        id: 8,
+        category: "IT konsalting",
+        subCategory: "Sajber sigurnost i zastita podataka",
+        img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FSajber%20sigurnost%20i%20za%C5%A1tita%20podataka.jpg?alt=media&token=b7194077-1a32-4f3e-a5db-1dc8ed53a765",
     },
+    {
+      
+      id: 9,
+      category: "IT konsalting",
+      subCategory: "Infrastruktura i mreze",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FInfrastruktura%20i%20mre%C5%BEe.jpg?alt=media&token=8358ff14-6e81-4cff-9d78-d18a3a0fa849",
+    },
+    {
+      
+      id: 10,
+      category: "Razvoj video igara",
+      subCategory: "PC video igre",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FPC%20video%20game%20development.jpg?alt=media&token=69767ecd-2218-4c3a-b568-467ff52110ac",
+    },
+    {
+      
+    id: 11,
+    category: "Razvoj video igara",
+    subCategory: "Mobilne video igre",
+    img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FMobile%20video%20game%20development.jpg?alt=media&token=f551516e-7b1e-40be-88af-2c2073521abf",
+    },
+    {
+      
+     id: 12,
+     category: "Razvoj video igara",
+  	 subCategory: "VR igre",
+    img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FVR%20video%20game%20development.jpg?alt=media&token=661873bf-caf2-4106-82ff-aa1869aefd68",
+    },
+    {
+      
+      id: 13,
+      category: "Razvoj video igara",
+      subCategory: "Scenarij za video igre",
+     img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FConsoleVideoGames.jpg?alt=media&token=4d69033a-d8ab-4ba9-bb03-e199554d26ae",
+     },
+    {
+      
+     id: 14,
+     category: "Video i animacija",
+     subCategory: "Uređivanje i postprodukcija videa",
+     img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FVideo%20editing%20and%20post-production.jpg?alt=media&token=65f23513-092b-40e7-bb81-4d8493b44898",
+    },
+    {
+      
+      id: 15,
+      category: "Video i animacija",
+      subCategory: "AI video umjetnost",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FAIvideoumjetnost.jpg?alt=media&token=ce5757fc-1309-46ae-8b10-6753232b305a",
+     },
+     {
+      
+      id: 16,
+      category: "Video i animacija",
+      subCategory: "Animacija",
+      img: "https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/SubCategoryImages%2FAnimacija.jpg?alt=media&token=4246e6f9-2179-4f1a-ba0d-938a6331e4af",
+     },
+     
+     
   ];
   
-  export const serviceData = [
-    {
-      id: 1,
-      img: "https://images.pexels.com/photos/580151/pexels-photo-580151.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/720598/pexels-photo-720598.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will create ai art character from your images and prompts",
-      price: 59,
-      star: 5,
-      username: "Anna Bell",
-    },
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will create ultra high quality character art with ai",
-      price: 79,
-      star: 5,
-      username: "Lannie Coleman",
-    },
-    {
-      id: 3,
-      img: "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1062280/pexels-photo-1062280.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will creating unique ai generated artworks mid journey ai artist",
-      price: 112,
-      star: 5,
-      username: "Carol Steve",
-    },
-    {
-      id: 4,
-      img: "https://images.pexels.com/photos/5708069/pexels-photo-5708069.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will create custom ai generated artwork using your photos",
-      price: 99,
-      star: 4,
-      username: "Don Weber",
-    },
-    {
-      id: 5,
-      img: "https://images.pexels.com/photos/5699456/pexels-photo-5699456.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1771383/pexels-photo-1771383.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will recreate your dreams in high quality pictures",
-      price: 59,
-      star: 5,
-      username: "Audrey Richards",
-    },
-    {
-      id: 6,
-      img: "https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/715546/pexels-photo-715546.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will create ai digital art illustration hyper realistic painting",
-      price: 79,
-      star: 4,
-      username: "Walton Shepard ",
-    },
-    {
-      id: 7,
-      img: "https://images.pexels.com/photos/6039245/pexels-photo-6039245.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/720606/pexels-photo-720606.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will generate images with your prompts using ai dalle",
-      price: 89,
-      star: 5,
-      username: "Waverly Schaefer",
-    },
-    {
-      id: 8,
-      img: "https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      pp: "https://images.pexels.com/photos/1699159/pexels-photo-1699159.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "I will create custom art using midjourney generator",
-      price: 110,
-      star: 4,
-      username: "Wilton Hunt",
-    },
-  ];
   export const infocards=
   [
 {
   id: 1,
   title:"3x",
-  subtitle: "Više Poslova, Više Mogućnosti",
+  subtitle: "Više poslova, više mogućnosti",
   text: "Povežite se s raznolikim projektima iz IT industrije i proširite svoje iskustvo radom na različitim projektima. Naša platforma nudi bogatstvo poslova koji odgovaraju vašim vještinama i interesima."
 
 
@@ -199,7 +176,7 @@ export const cards = [
 {
   id: 2,
   title:"24/7",
-  subtitle: "Korisnička Podrška koja Brine",
+  subtitle: "Korisnička podrška koja brine",
   text: "Naš tim korisničke podrške je uvijek tu da vam pomogne. Bez obzira na pitanja ili probleme s kojima se suočavate, možete računati na našu podršku i brzu reakciju kako biste osigurali ugodno iskustvo korištenja naše platforme."
 
 
@@ -207,7 +184,7 @@ export const cards = [
 {
   id: 3,
   title:"4 of 5",
-  subtitle: "Mreža Suradnika širom Svijeta",
+  subtitle: "Mreža suradnika širom svijeta",
   text: "Povežite se s talentiranim profesionalcima iz cijelog svijeta i radite na projektima s globalnim utjecajem. Naša platforma vam omogućuje da proširite svoju mrežu i steknete nove poslovne kontakte diljem svijeta."
 
 
@@ -215,7 +192,7 @@ export const cards = [
 {
   id: 4,
   title:"2h",
-  subtitle: "Fleksibilnost i Sloboda",
+  subtitle: "Fleksibilnost i sloboda",
   text: "Radite kad god vam odgovara i odakle god želite. Naša platforma omogućuje vam da prilagodite svoj radni raspored i radite iz udobnosti svog doma ili bilo kojeg drugog mjesta koji vam odgovara."
 
 

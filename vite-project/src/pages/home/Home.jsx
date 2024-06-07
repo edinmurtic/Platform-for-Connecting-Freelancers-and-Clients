@@ -7,8 +7,11 @@ const Home = () => {
   return (
 <>
 <TitleDisplay />
+<hr  />
+
 <CardGroup />
-<TwoColumnLayout /> 
+<hr  />
+
 <Testimonials /> </>
 
 

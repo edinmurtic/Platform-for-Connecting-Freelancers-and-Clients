@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./Filter.css";
+import Search from "@mui/icons-material/Search";
 
 function Filter({ onFilterChange }) {
   const [query, setQuery] = useState({
+    search:"",
     category: "",
     minPrice: "",
     maxPrice: "",
@@ -30,7 +32,17 @@ function Filter({ onFilterChange }) {
   return (
     <div className="filter">
       <div className="top">
-   
+      <div className="item">
+          <label htmlFor="search">Servis i usluga</label>
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Pretraži"
+            onChange={handleChange}
+            value={query.search}
+          />
+        </div>
       </div>
       <div className="bottom">
       <div className="item">
@@ -111,6 +123,7 @@ function Filter({ onFilterChange }) {
         <button onClick={handleFilter}>
         <img src="/img/search.png" alt="" />        </button>
       </div>
+
     </div>
   );
 }

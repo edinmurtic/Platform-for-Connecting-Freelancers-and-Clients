@@ -9,16 +9,16 @@ import ServiceC from "../../components/serviceC/ServiceC.jsx";
 
 
 function Services() {
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const {search} = useLocation();
+  const [searchValue,setSearchValue]=useState(search);
 
   // const {search} = useLocation();
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ['services'],
     queryFn: () =>
       newRequest.get(
-        `/services${search}&min=${filterValues.minPrice}&max=${filterValues
-          .maxPrice}&category=${filterValues.category}&deliveryTime=${filterValues.maxDeliveryTime}&stars=${filterValues
+        `/services${searchValue}&min=${filterValues.minPrice}&max=${filterValues
+        .maxPrice}&category=${filterValues.category}&deliveryTime=${filterValues.maxDeliveryTime}&stars=${filterValues
             .starsNumber}&revisionNumber=${filterValues.revisionNumber}&isActive=true`
 
       ).then((res) => {
@@ -26,6 +26,7 @@ function Services() {
       })
   })
   const [filterValues, setFilterValues] = useState({
+    search:"",
     service: "",
     category: "",
     minPrice: "",
@@ -33,7 +34,12 @@ function Services() {
     maxDeliveryTime:"",
     starsNumber: "",
     revisionNumber: "" // Postavljamo podrazumevanu vrednost za revisionNumber ako nije definisan
+    
   });
+  useEffect(() => {
+    setSearchValue("?search=" + filterValues.search)
+    refetch();
+  }, [filterValues]);
   
 
    
@@ -53,6 +59,7 @@ function Services() {
       <div className="row">
         <div className="col-md-12">
           <div className="row">
+          <p className="highparagraph">Servisi i usluge </p>
           {isLoading ? ("loading") : error ? ("Something went wrong!") : (data && data.map((service) => (
       <div className="col-md-4 mb-5 " key={service._id}>
         <ServiceCard

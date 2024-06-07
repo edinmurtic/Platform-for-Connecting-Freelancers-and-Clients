@@ -71,10 +71,12 @@ const Reviews = ({serviceId,currentUser}) => {
 console.log("userHasBoughtService",userHasBoughtService)
   return (
     <section id="testimonials">
-    <div className="testimonial-heading">
-        <span>Recenzije</span>
-        <h1>Klijenti kažu</h1>
-    </div>
+   {data && data.length > 0 && (
+                <div className="testimonial-heading">
+                    <span>Recenzije</span>
+                    <h1>Klijenti kažu</h1>
+                </div>
+            )}
     <div className="testimonial-box-container">
     {isLoading
         ? "loading"
@@ -85,8 +87,17 @@ console.log("userHasBoughtService",userHasBoughtService)
     </div>
         {userHasBoughtService  && (<form onSubmit={handleSubmit} className="testimonial-box" >
           <div className="box-top">
+          <div className="profile">
+                <div className="profile-img">
+                    <img src={currentUser.img} alt="Client 1" />
+                </div>
+                <div className="name-user">
+                    <strong>{currentUser.fullName}</strong>
+                    <span>@{currentUser.username}</span>
+                </div>
+            </div>
             <div >
-                    Ocijenite proizvod:
+                    Ocijenite servis:
                     {[1, 2, 3, 4, 5].map((star) => (
                         <FontAwesomeIcon
                             key={star}
@@ -98,11 +109,18 @@ console.log("userHasBoughtService",userHasBoughtService)
                 </div>
         </div>
         <label className="client-comment">
-                    Unesite svoju recenziju:
-                    <input type="text" value={reviewText} onChange={handleReviewTextChange}  />
+                    <textarea
+                    value={reviewText}
+                    onChange={handleReviewTextChange}
+              name="rev"
+              id=""
+              placeholder="Unesite svoju recenziju:"
+              cols="50"
+              rows="6"
+            ></textarea>
                 </label>
                
-                <button type="submit" className="add-review-button">Dodaj recenziju</button>
+                <button type="submit" className="btn btn-success">Dodaj recenziju</button>
             </form>)}
 </section>  )
 }

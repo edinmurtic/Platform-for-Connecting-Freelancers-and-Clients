@@ -17,8 +17,7 @@ const SearchComp = () => {
   const [selectedItem,setSelectedItem] = useState(-1);
   const [category, setCategory] = useState("");
 
-  const handleSearch = (e) => {
-    e.preventDefault(); // Prevent form submission
+  const handleSearch = () => {
     navigate(`/services?search=${search}`);
     window.location.reload(); // Refresh page
 
@@ -126,6 +125,9 @@ const SearchComp = () => {
         </li>
         <li className='dropdown2-list-item' onClick={() => handleItemClick('Grafika i dizajn')}>
         Grafika i dizajn
+        </li>
+        <li className='dropdown2-list-item' onClick={() => handleItemClick('Razvoj aplikacija')}>
+        Razvoj aplikacija
         </li>
         <li className='dropdown2-list-item' onClick={() => handleItemClick('IT konsalting')}>
         IT konsalting

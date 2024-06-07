@@ -1,6 +1,11 @@
 .highparagraph
 {
     font-size: 50px;
+    font-weight: bold;
+}
+.lowparagraph
+{
+    font-size: 22px;
 }
 .leftSideTD{
     padding-top: 50px;

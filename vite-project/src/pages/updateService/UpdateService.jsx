@@ -136,23 +136,28 @@ const UpdateService = () => {
     let serviceFormatLabel = "serviceFormat";
     let subCategoriesForCategory = [];
     if (selectedCategory === "Grafika i dizajn") {
-      serviceStyleLabel = "Unesi Logo stil";
+      serviceStyleLabel = "Unesi stil";
       serviceFormatLabel = "Format dokumenta";
-      subCategoriesForCategory = ["Logo i brend dizajn", "Dizajn marketinškog materijala", "3D dizajn", "Web dizajn"];
-    } else if (selectedCategory === "Softver inzinjering") {
+      subCategoriesForCategory = ["Logo i brend dizajn", "UX dizajn", "3D dizajn"];
+    } else if (selectedCategory === "Razvoj aplikacija") {
       serviceStyleLabel = "Unesi programski jezik";
       serviceFormatLabel = "Format dokumenta";
-      subCategoriesForCategory = ["Razvoj internet aplikacija", "Razvoj video igara", "Razvoj mobilnih aplikacija"];
+      subCategoriesForCategory = ["Razvoj internet aplikacija", "Razvoj desktop aplikacija", "Razvoj mobilnih aplikacija"];
     } 
-    else if (selectedCategory === "Konsalting") {
+    else if (selectedCategory === "IT konsalting") {
       serviceStyleLabel = "Unesi  jezik";
       serviceFormatLabel = "Format dokumenta";
-      subCategoriesForCategory = ["Poslovno savjetovanje", "Marketing strategije", "Tehnicke konsultacije"];
+      subCategoriesForCategory = ["Sajber sigurnost i zastita podataka", "Infrastruktura i mreže", "Agilno upravljanje projektima"];
+    } 
+    else if (selectedCategory === "Razvoj video igara") {
+      serviceStyleLabel = "Unesi programski jezik";
+      serviceFormatLabel = "Format dokumenta";
+      subCategoriesForCategory = ["PC video igre", "Mobilne video igre", "VR igre","Scenarij za video igre"];
     } 
     else if (selectedCategory === "Video i animacija") {
       serviceStyleLabel = "Unesi programski jezik";
       serviceFormatLabel = "Format dokumenta";
-      subCategoriesForCategory = ["Uređivanje i postprodukcija videa", "Kreiranje marketinških videa", "Animacija"];
+      subCategoriesForCategory = ["Uređivanje i postprodukcija videa", "AI video umjetnost", "Animacija"];
     } 
     setFormData({
       ...formData,
@@ -263,8 +268,9 @@ const UpdateService = () => {
             <select name="category" id="category" onChange={(e)=>{handleCategoryChange(e);  handleChange(e);}} value={formData.category}
 >
               <option value="Grafika i dizajn">Grafika i dizajn</option>
-              <option value="Softver inzinjering">Softver inzinjering</option>
-              <option value="Konsalting">Konsalting</option>
+              <option value="Razvoj aplikacija">Razvoj aplikacija</option>
+              <option value="IT konsalting">IT konsalting</option>
+              <option value="Razvoj video igara">Razvoj video igara</option>
               <option value="Video i animacija">Video i animacija</option>
             </select>
             <label htmlFor="">Podkategorija servisa</label>
@@ -331,6 +337,8 @@ const UpdateService = () => {
     style={{ height: "400px" }}
     className="mb-16"
     value={formData.desc}
+    onChange={handleChange2}
+
   />
 </div>
 <div style={{marginTop: "40px", marginBottom: "40px"}}>
@@ -341,7 +349,7 @@ const UpdateService = () => {
     placeholder="Kratki opisi za predstavljanje vaše usluge klijentima"
     theme="snow"
     style={{ height: "240px" }}
-
+    onChange={handleChange3}
     className="mb-16"
     value={formData.shortDesc}
   />

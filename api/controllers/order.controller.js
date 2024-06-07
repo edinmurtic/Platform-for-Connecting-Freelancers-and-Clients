@@ -70,12 +70,31 @@ export const intent = async (req, res, next) => {
           ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
           isCompleted: true,
         });
-  
+        console.log(orders.length)
         res.status(200).send(orders);
       } catch (err) {
         next(err);
       }
    };
+   export const countOrders = async (req, res, next) => {
+    try {
+      const userId = req.query.userId;
+      const isSeller = req.query.isSeller === 'true';
+  
+
+  
+      const count = await Order.countDocuments({
+        ...(isSeller ? { sellerId: userId } : { buyerId: userId }),
+        isCompleted: true,
+        isFinishedBuyer: true,
+        isFinishedSeller: true,
+      });
+  
+      res.status(200).send({ count });
+    } catch (err) {
+      next(err);
+    }
+  };
    export const confirm = async (req, res, next) => {
      try {
        const orders = await Order.findOneAndUpdate(
@@ -102,19 +121,26 @@ export const intent = async (req, res, next) => {
    };
    export const toggleFinishOrder = async (req, res) => {
     try {
-      const { orderId } = req.body;
+      const  currentUserIsSeller  = req.body.isSeller
+      const  orderId  = req.body.orderId
+
       const order = await Order.findById(orderId);
 
       if (!orderId) {
-        return res.status(404).send("narudžba nije pronađen.");
+        return res.status(404).send("narudžba nije pronađena.");
       }
-  
-      order.isFinished = true;
-      await order.save();
-
+      if(currentUserIsSeller)
+        {
+          order.isFinishedSeller = true;
+        }
+      
+      if(!currentUserIsSeller)
+          {
+            order.isFinishedBuyer = true;
+          }
+          await order.save();
       res.status(200).json({
-        message: `Stanje order s ID-om ${orderId} uspješno promijenjeno.`,
-        isFinished: order.isFinished,
+        message: `Stanje order s ID-om ${orderId} uspješno promijenjeno.`
       });
     } catch (error) {
       console.error("Došlo je do greške prilikom promjene stanja narudžbe:", error);
@@ -159,7 +185,6 @@ export const intent = async (req, res, next) => {
       ]);
       res.status(200).json(ordersByMonth);
 
-      console.log("ordersByMonth",ordersByMonth)
     } catch (err) {
       next(err);
     }
@@ -221,7 +246,6 @@ export const intent = async (req, res, next) => {
           }
         }
       ]);
-      console.log("totalEarningsLastMonth:", totalEarningsLastMonth);
 
       const totalEarningsLast7Days = await Order.aggregate([
         {
@@ -237,7 +261,6 @@ export const intent = async (req, res, next) => {
           }
         }
       ]);
-      console.log("totalEarningsLast7Days:", totalEarningsLast7Days);
 
       const totalEarningsToday = await Order.aggregate([
         {
@@ -253,7 +276,6 @@ export const intent = async (req, res, next) => {
           }
         }
       ]);
-      console.log("totalEarningsToday:", totalEarningsToday);
 
       // Dohvaćanje samo iznosa zarade iz rezultata
       const totalEarnings = {
@@ -264,7 +286,6 @@ export const intent = async (req, res, next) => {
       };
   
       res.status(200).json(totalEarnings);
-      console.log("totalEarnings:", totalEarnings);
     } catch (err) {
       next(err);
     }

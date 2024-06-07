@@ -1,7 +1,7 @@
 
 .info-card {
   border-radius: 10px;
-  background-color: #EEF1FF;
+  background-color: #EFEFEF;
   padding: 20px;
   margin: 10px;
 }
@@ -16,9 +16,10 @@
   font-size: 24px;
   font-weight: 500;
   color: #000000;
+  min-height: 60px;
 }
 
 .info-text {
-  font-size: 20px;
+  font-size: 22px;
   color: #666666;
 }

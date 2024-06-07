@@ -26,6 +26,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    professionalArea:
+    {
+      type: String,
+    },
     img:
     {
       type: String,
@@ -55,7 +59,11 @@ const userSchema = new Schema(
      {
       type:Boolean,
       default: true
-     }
+     },
+     admin: {
+      type: Boolean,
+      default: false, // Default value set to false for non-admin users
+    },
   },
   {
     timestamps: true,

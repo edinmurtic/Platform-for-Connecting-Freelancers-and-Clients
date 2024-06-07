@@ -106,6 +106,8 @@ export const getServices = async (req, res, next) => {
   const filters = {
     ...(q.userId && { userId: q.userId }),
     ...(q.category && { category: q.category }),
+    ...(q.subcategory && { subcategory: q.subcategory }),
+
     ...((q.min || q.max) && {
       price: {
         ...(q.min && { $gt: q.min }),

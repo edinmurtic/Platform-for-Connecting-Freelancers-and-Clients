@@ -20,10 +20,10 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({username: req.body.username });
-    if (!user) return res.status(404).send('User not found');
+    if (!user) return res.status(404).send('Korisnik nije pronađen');
 
         const isCorrect = bcrypt.compareSync(req.body.password, user.password);
-    if (!isCorrect) return res.status(400).send('wrong password or username');
+    if (!isCorrect) return res.status(400).send('Pogrešna lozinka ili korisničko ime');
     const isActive = user.isActive;
 
     if (!isActive) return res.status(400).send('Račun je deaktiviran');

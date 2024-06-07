@@ -13,10 +13,11 @@
   position: relative;
   width: 280px;
   border-radius: 50px;
-  border: 1px solid #EEF1FF;
-  background-color: #EEF1FF;
+  border: 1px solid #F8F9FA;
+  background-color: #EFEFEF;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;;
   cursor: pointer;
+
 }
 .dropdown2-text
 {
@@ -37,7 +38,7 @@ width: 100%;
 border-radius: 15px;
 max-height: 0;
 overflow: hidden;
-background-color: #EEF1FF;
+background-color: #EFEFEF;
 transition: max-height 0.5s;
 }
 #list.show
@@ -48,7 +49,7 @@ transition: max-height 0.5s;
 {
   font-size: 0.9rem ;
   font-weight: 500;
-  padding: 1rem 0 1rem 1.5rem;
+  padding: 0.9rem 0 0.8rem 1.5rem;
   cursor: pointer;
   transition: margin-left 0.2s ease, color 0.2s ease;
 }
@@ -88,11 +89,13 @@ color: black
 }
 
 .search_result {
-  background-color: #EEF1FF;
+  background-color: #F8F9FA;
   width: 800px;
   margin-left: 250px;
   margin-top: 10px;
   position: absolute;
+  z-index: 1000;
+  
 }
 .search_result a {
   color: inherit;
@@ -120,7 +123,7 @@ color: black
 }
 
 .search_suggestion_line:hover {
-  background-color: #EEF1FF;
+  background-color: #EFEFEF;
 }
 .search_suggestion_line.active {
   background: rgb(227, 227, 227);

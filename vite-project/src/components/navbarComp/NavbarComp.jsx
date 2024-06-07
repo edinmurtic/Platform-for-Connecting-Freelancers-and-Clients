@@ -47,18 +47,21 @@ const NavbarComp = () => {
     return (
       <Navbar  expand="lg"  >
         <Container>
-          <Navbar.Brand href="/">PronađiPosao</Navbar.Brand>
+          <Navbar.Brand href="/">Klik.ba</Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/Services?search=">Servisi i usluge</Nav.Link>
+              <Nav.Link href="/services?search=">Servisi i usluge</Nav.Link>
               {!currentUser && <NavLink href="/register" >Registracija</NavLink>}
               {currentUser && <><NavLink href="/messages/" className='notification' ><span>Poruke</span>  {unreadCount > 0 && (
         <span className="badge">{unreadCount}</span>
       )}
 </NavLink> <NavLink href="/orders/">Narudžbe</NavLink></>}
-           
+           {currentUser?.isSeller && (
+                         <><NavLink href="/myservices/">Moji servisi</NavLink><NavLink href="/addnew/">Dodaj novi servis</NavLink></> 
+                         
+                       )} 
             </Nav> 
            
           
@@ -78,24 +81,11 @@ const NavbarComp = () => {
                         <NavDropdown className="no-caret navDropdownWithMargin " title={currentUser?.username} id="basic-nav-dropdown">
                         <NavDropdown.Item href={'/users/' + currentUser._id}>Moj profil</NavDropdown.Item>
 
-                          {currentUser?.isSeller && (
-                            <div>
-                            {/* <Link to={`/service/${item._id}`}> */}
-
-                              <NavDropdown.Item href="/addnew">
-                                Dodaj nove servise
-                              </NavDropdown.Item>
-                              <NavDropdown.Item href="/myservices">
-                              Moji servisi
-                              </NavDropdown.Item>
-                              <NavDropdown.Item href="/admindashboard">
-                              Nadzorna ploča 
-                              </NavDropdown.Item>
-                            </div>)}
+                         
                           <NavDropdown.Divider />
                      
 
-                          <NavDropdown.Item href="#action/3.4" onClick={handleLogout}>
+                          <NavDropdown.Item href="" onClick={handleLogout}>
                             Odjavi se
                           </NavDropdown.Item>
                         </NavDropdown>

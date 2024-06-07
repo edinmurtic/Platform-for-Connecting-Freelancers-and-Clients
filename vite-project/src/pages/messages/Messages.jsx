@@ -27,12 +27,12 @@ const Messages = () => {
           </div>
           {data.length === 0 ? (
             <div className="row rowmessage">
-            <div className='col-6'><img src="https://i.ibb.co/0F0R9kw/preview.png" className="imgMessage" alt="Slika"  /></div>
+            <div className='col-6'><img src="https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/emptyInbox.png?alt=media&token=2eeecb38-28ab-4ba2-998e-54f09a4465d0" className="imgMessage" alt="Slika"  /></div>
               <div class="text col-6"><strong>Vaš inbox je prazan</strong><br/>Još niste započeli nijedan razgovor, ali kada to učinite, naći ćete ih ovdje.</div>
             </div>
           ) : ( 
           <div className='row'>
-          <div className='col-5'><img src="https://i.ibb.co/0F0R9kw/preview.png" className="imgMessage" alt="Slika"  /></div>
+          <div className='col-5'><img src="https://firebasestorage.googleapis.com/v0/b/myjob-c95a8.appspot.com/o/emptyInbox.png?alt=media&token=2eeecb38-28ab-4ba2-998e-54f09a4465d0" className="imgMessage" alt="Slika"  /></div>
 
             <div className='col-7'>  <table>
               <tr>

@@ -20,16 +20,16 @@ const UpdateUser = () => {
     console.log("id:",id)
     const [formData, setFormData] = useState({
         fullName: "",
+        professionalArea:"",
         username: "",
         password: "",
         email: "",
          img: "",
         country: "",
-        isSeller: false,
+      //  isSeller: false,
         desc: "",
   
       });
-      console.log("img:",img)
       const handleClick = (e) =>{
         e.preventDefault()
         if(img !==null){
@@ -124,7 +124,7 @@ const UpdateUser = () => {
 
             />
            
-           <label htmlFor="">Korisnicko ime</label>
+           <label htmlFor="">Korisničko ime</label>
             <input
               type="text"
               name="username"
@@ -190,7 +190,9 @@ const UpdateUser = () => {
                 
           <label htmlFor="">Opis</label>
           <ReactQuill name="desc" id='desc' placeholder="Kratak opis" style={{minHeight:"400px", marginBottom:"50px"}} theme="snow" className=' mb-16' value={formData.desc} onChange={handleChange2} />
-
+          <label htmlFor="" >Stručna oblast</label>
+            <input type="text" id='professionalArea' name="professionalArea" onChange={handleChange} value={formData.professionalArea}
+ />
            
             <label htmlFor="" >Država</label>
             <input type="text" id='country' name="country" onChange={handleChange} value={formData.country}

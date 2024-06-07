@@ -27,8 +27,8 @@ function Review({ review }) {
                     <img src={data.img} alt="Client 1" />
                 </div>
                 <div className="name-user">
-                    <strong>{data.username}</strong>
-                    <span>{data.country}</span>
+                    <strong>{data.fullName}</strong>
+                    <span>@{data.username}</span>
                 </div>
             </div>
             <div className="reviews">

@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import "./Orders.css"
 const Orders = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isSeller =currentUser.isSeller;
   const queryClient = useQueryClient();
   const { data: userdata } = useQuery({
     queryKey: ["user"],
@@ -14,9 +15,14 @@ const Orders = () => {
         return res.data.map((user, index) => ({ ...user, id: index }));
       }),
    });
+   const handleServiceClick = (serviceId) => {
+    console.log("Kliknuli ste na servis sa ID:", serviceId);
+    navigate(`/service/${serviceId}`);
+  
+  };
    const handleFinish = async (orderId) => {
     try {
-      const response = await newRequest.put(`/orders/${orderId}/toggle-finish`, { orderId });
+      const response = await newRequest.put(`/orders/${orderId}/toggle-finish`, { orderId,isSeller});
       if (response.status === 200) {
         console.log("Status finish order uspješno ažuriran.");
         queryClient.invalidateQueries("orders");
@@ -54,7 +60,7 @@ const Orders = () => {
     width: 450,
     renderCell: (params) => (
       
-      <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
+      <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row.serviceId)}>
         <img src={params.row.img} alt="User" style={{ marginRight: 8, width: 35, height: 31 }} />
         {params.value}
       </div>
@@ -81,7 +87,7 @@ const Orders = () => {
     width: 120,
     renderCell: (params) => (
       <div>
-        {params.row.isFinished ? "Završeno" : "Nedovršeno"}
+        {(params.row.isFinishedBuyer && params.row.isFinishedSeller) ? "Završeno" : "Nedovršeno"}
             </div>
     )
  },
@@ -94,7 +100,12 @@ const Orders = () => {
        
          <div>
           <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>kontaktiraj</Button>
-          {!currentUser.isSeller && !params.row.isFinished && (
+          {!currentUser.isSeller && !params.row.isFinishedBuyer && (
+  <Button style={{marginRight: "15px"}} variant="outlined" color="success" onClick={() => handleFinish(params.row._id)}>
+    Završi
+  </Button>
+)}
+{currentUser.isSeller && !params.row.isFinishedSeller && (
   <Button style={{marginRight: "15px"}} variant="outlined" color="success" onClick={() => handleFinish(params.row._id)}>
     Završi
   </Button>

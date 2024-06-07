@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 
 import './MyServices.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const MyServices = () => {
   const currentUser = getCurrentUser();
   const navigate = useNavigate(); 
@@ -135,7 +135,11 @@ const MyServices = () => {
 
   return (
     <div className="bottom datatable">
-    <h1 className="title">Servisi</h1>
+    <div className="dataTableMyServices">
+Servisi         <Link to="/addnew/" className="link">
+           Dodaj novi
+          </Link>
+        </div>
     {servicesIsLoading ? (
       "Loading..."
     ) : servicesError ? (
