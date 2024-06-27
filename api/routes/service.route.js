@@ -8,6 +8,7 @@ import {
   getServices,
   updateService,
   toggleServiceActiveStatusById,
+  getTotalCountServ,
 } from '../controllers/service.controller.js'
 
 const router = express.Router();
@@ -17,5 +18,5 @@ router.get('/single/:id', getService);
 router.get('/', getServices);
 router.post('/update/:id', verifyToken, updateService);
 router.post('/toggle/:serviceId', verifyToken, toggleServiceActiveStatusById);
-
+router.get('/totalCountServ',verifyToken, getTotalCountServ);
 export default router;

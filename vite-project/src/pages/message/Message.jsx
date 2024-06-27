@@ -98,6 +98,7 @@ const Message = () => {
                   alt=""
                 />
                 <p>{m.desc}</p>
+                
               </div>
             ))}
           </div>

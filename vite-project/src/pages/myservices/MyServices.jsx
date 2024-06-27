@@ -64,17 +64,30 @@ const MyServices = () => {
       { field: 'id', headerName: 'ID', width: 50 },
       { field: 'title', 
       headerName: 'Naziv', 
-      width: 450,
+      width: 350,
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
           <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
           {params.value}
         </div>
       )
-    },     { field: 'category', headerName: 'Kategorija', width: 130 },
+    },     { field: 'category', headerName: 'Kategorija', width: 200 },
       { field: 'price', headerName: 'Cijena', width: 75 },
       { field: 'sales', headerName: 'Prodanih', width: 75 },
-
+      { field: 'stars', headerName: 'Ocjena kupaca', width: 165,
+        renderCell: (params) => (
+          !isNaN(params.row.totalStars / params.row.starNumber) ? (
+            <div className="star">
+              {Array(Math.round(params.row.totalStars / params.row.starNumber))
+                .fill()
+                .map((item, i) => (
+                  <img src="../img/star.png" width="20px" alt="" key={i} style={{ paddingBottom: "7px" }} />
+                ))}
+             
+            </div>
+          ) : null
+        )
+      },
       { 
         field: 'Opcije', 
         headerName: 'Opcije', 

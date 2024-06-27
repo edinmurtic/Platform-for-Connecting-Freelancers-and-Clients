@@ -47,7 +47,7 @@ const Widget = ({ type, amount }) => {
     case "services":
       data = {
         title: "Servisi",
-        isMoney: true,
+        isMoney: false,
         link: "Prikaži sve servise",
         icon: (
           <MonetizationOnOutlinedIcon

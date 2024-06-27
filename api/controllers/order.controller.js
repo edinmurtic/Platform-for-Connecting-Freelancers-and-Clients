@@ -107,12 +107,8 @@ export const intent = async (req, res, next) => {
            },
          }
        );
-      // //  await Service.updateOne(
-      // //   { _id: order.serviceId },
-      // //   { $inc: { sales: 1 } } // Increment sales count by 1
-      // // );
-      // // console.log("_id",_id)
-      // // console.log("sales",sales)
+      
+   
 
        res.status(200).send("Order has been confirmed.");
      } catch (err) {
@@ -235,8 +231,8 @@ export const intent = async (req, res, next) => {
       const totalEarningsLastMonth = await Order.aggregate([
         {
           $match: {
-            createdAt: { $gte: lastMonth }, // Filtriramo narudžbe kreirane u posljednjih 7 dana
-            isCompleted: "true" // Samo završene narudžbe
+            createdAt: { $gte: lastMonth }, 
+            isCompleted: "true" 
           }
         },
         {
@@ -290,4 +286,78 @@ export const intent = async (req, res, next) => {
       next(err);
     }
   };
+  export const handleStateOrder = async (req, res) => {
+   
+   console.log(req.body)
+    try {
+      const { orderId, newState } = req.body;
   
+      const order = await Order.findById(orderId);
+  
+      if (!order) {
+        return res.status(404).send("Narudžba nije pronađena.");
+      }
+  
+      // Provjeri je li stanje valjano
+      if (newState !== "Prihvaćena" && newState !== "Odbijena") {
+        return res.status(400).send("Nevaljano stanje narudžbe.");
+      }
+  
+      // Ažuriraj stanje narudžbe
+      order.isOrderApproved = newState;
+      await order.save();
+      if (newState === "Prihvaćena") {
+        await Service.findByIdAndUpdate(
+          order.serviceId,
+          { $inc: { sales: 1 } }
+        );
+      }
+      res.status(200).json({
+        message: `Stanje narudžbe s ID-om ${orderId} uspješno promijenjeno u ${newState}.`
+      });
+    } catch (error) {
+      console.error("Došlo je do greške prilikom promjene stanja narudžbe:", error);
+      res.status(500).send("Došlo je do greške prilikom promjene stanja narudžbe.");
+    }
+  };
+  export const countUnprocessedOrders = async (req, res, next) => {
+    try {
+      const userId = req.userId;
+      const isSeller = req.isSeller;
+  
+      // Kreiramo query objekat za pretragu
+      const query = {
+        isOrderApproved: "Neprocesirana",
+        ...(isSeller ? { sellerId: userId } : { buyerId: userId }),
+        isCompleted:"true"
+      };
+      console.log("query:",query)
+
+      // Brojimo dokumente koji odgovaraju query-ju
+      const count = await Order.countDocuments(query);
+  
+      // Vraćamo broj narudžbi
+      res.status(200).json({ count });
+      console.log("brojNaru:",count)
+    } catch (err) {
+      next(err);
+    }
+  };
+  export const getApprovedOrders = async (req, res, next) => {
+  try {
+    const { userId, isSeller } = req; // Dohvaćamo userId i isSeller iz request objekta
+
+    // Postavljamo filter na osnovu uloge korisnika (prodavatelj ili kupac) i isOrderApproved statusa
+    const query = {
+      ...(isSeller ? { sellerId: userId } : { buyerId: userId }), // Filtriramo prema ulozi korisnika
+      isOrderApproved: "Prihvaćena", // Samo "Neprocesirane" narudžbe
+      isCompleted: true, // Završene narudžbe
+    };
+
+    const approvedOrders = await Order.find(query);
+
+    res.status(200).json(approvedOrders);
+  } catch (err) {
+    next(err); // Proslijeđujemo grešku dalje u slučaju da se dogodi
+  }
+};

@@ -1,6 +1,6 @@
 import express from "express";
 import {verifyToken} from "../middleware/jwt.js"
-import {countOrders,createOrder, getOrders, intent,confirm,toggleFinishOrder,getOrdersByMonth, getTotalPricesByMonth, getTotalCount, getTotalEarningsLast7DaysAndToday, getOrdersByBuyerAndService   } from "../controllers/order.controller.js";
+import { getApprovedOrders,countOrders,createOrder, getOrders,countUnprocessedOrders, intent,confirm,toggleFinishOrder,getOrdersByMonth, getTotalPricesByMonth, getTotalCount, getTotalEarningsLast7DaysAndToday, getOrdersByBuyerAndService, handleStateOrder    } from "../controllers/order.controller.js";
 
 const router = express.Router();
 
@@ -17,6 +17,9 @@ router.get('/getOrdersByMonth',verifyToken, getOrdersByMonth);
 router.get('/getTotalPricesByMonth',verifyToken, getTotalPricesByMonth);
 router.get('/totalCount',verifyToken, getTotalCount);
 router.get('/:buyerId/:serviceId',verifyToken, getOrdersByBuyerAndService);
+router.put("/handle-state-order", verifyToken, handleStateOrder); 
+router.get("/count-unprocessed", verifyToken, countUnprocessedOrders);
+router.get("/approved-orders", verifyToken, getApprovedOrders); 
 
 
 export default router;

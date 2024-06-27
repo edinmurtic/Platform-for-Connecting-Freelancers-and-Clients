@@ -39,3 +39,21 @@
    background: red;
    color: white;
  }
+ .notification2 {
+   text-decoration: none;
+   position: relative;
+   display: inline-block;
+   border-radius: 1px;
+ }
+ 
+ 
+ 
+ .notification2 .badge2 {
+   position: absolute;
+   top: -5px;
+   right: 12px;
+   padding: 5px 10px;
+   border-radius: 50%;
+   background: red;
+   color: white;
+ }

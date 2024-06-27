@@ -130,3 +130,15 @@ export const getServices = async (req, res, next) => {
     next(err);
   }
 };
+export const getTotalCountServ = async (req, res, next) => {
+  try {
+    // Dohvati ukupan broj narudžbi iz baze podataka
+    const totalCount = await Service.countDocuments();
+    console.log("totalCount",totalCount)
+    // Vrati odgovor s ukupnim brojem narudžbi
+    res.status(200).json({ totalCount });
+  } catch (error) {
+    // Uhvati i proslijedi grešku ako se dogodi
+    next(error);
+  }
+};

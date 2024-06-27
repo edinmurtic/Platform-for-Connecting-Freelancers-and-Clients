@@ -7,12 +7,11 @@ const TitleDisplay = () => {
   return (
     <div className='container'>
     <div className='row'>
-        <div className='col-12 col-md-6 leftSideTD'><p className='highparagraph'>Unaprijedite vaš biznis uz pomoć stručnjaka koje jednostavno
-         možete zaposliti na našoj stranici.</p>
+        <div className='col-12 col-md-6 leftSideTD'><p className='highparagraph'>Otkrijte i zaposlite vrhunske IT stručnjake za unaprijeđenje vašeg biznisa na našoj platformi!</p>
                <p className='lowparagraph'>
-               Pronađite stručnjaka iz različitih područja ili postavite svoje usluge kako biste privukli nove klijente. 
-              <br /> Bez obzira jeste li u potrazi za timom stručnjaka ili želite ponuditi svoje vještine, ovdje ste na pravom mjestu.</p>
-        <p className='lowparagraph'>Registrirajte se danas i započnite graditi uspješnu suradnju!</p>
+               Povežite se sa stručnjacima iz raznih IT oblasti ili ponudite svoje vještine kako biste privukli nove klijente. 
+              <br /> Bilo da tražite tim profesionalaca ili želite promovirati svoje usluge, naš portal je pravo mjesto za vas.</p>
+        <p className='lowparagraph'>Registrirajte se danas i započnite izgradnju uspješne saradnje!</p>
 
       
 

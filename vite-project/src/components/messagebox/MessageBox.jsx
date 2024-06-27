@@ -42,12 +42,13 @@ const MessageBox = ({item}) => {
               "active"
             }
             key={item.id}
+            // style={{borderBottom: "1px solid"}}
           >
-            {isLoadingUser ? "loading" : errorUser ? "error" :  (<td> <img src={dataUser.img}   style={{ maxWidth: '50px', maxHeight: '50px' }} />
-          {dataUser.username}</td>)}
+            {isLoadingUser ? "loading" : errorUser ? "error" :  (<td> <img src={dataUser.img}   style={{ maxWidth: '55px', maxHeight: '55px', borderRadius:"25%", marginRight:"10px"}} />
+          {dataUser.fullName}</td>)}
             <td>
               <Link to={`/message/${item.id}`} className="link">
-                {item?.lastMessage?.substring(0, 100)}...
+                {item?.lastMessage?.substring(0, 23)}...
               </Link>
             </td>
             <td>{moment(item.updatedAt).fromNow()}</td>
@@ -55,10 +56,11 @@ const MessageBox = ({item}) => {
               {((currentUser.isSeller && !item.readBySeller) ||
                 (!currentUser.isSeller && !item.readByBuyer)) && (
                 <button onClick={() => handleRead(item.id)}>
-                  Markiraj kao procitano
+                  Označi kao procitano
                 </button>
               )}
             </td>
+
           </tr>
   )
 }

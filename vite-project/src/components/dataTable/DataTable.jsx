@@ -43,7 +43,7 @@ const Datatable = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     { 
       field: 'isActive', 
-      headerName: 'Active', 
+      headerName: 'Stanje', 
       width: 130,
       renderCell: (params) => (
         <div>
@@ -51,7 +51,7 @@ const Datatable = () => {
         </div>
       )
     },  {  field: 'username', 
-    headerName: 'Username', 
+    headerName: 'Korisničko ime', 
     width: 150,
     renderCell: (params) => (
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -59,15 +59,15 @@ const Datatable = () => {
         {params.value}
       </div>
     )
-  },    { field: 'email', headerName: 'Email', width: 130 },
-    { field: 'country', headerName: 'Country', width: 130 },
+  },    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'country', headerName: 'Država', width: 200 },
     { 
       field: 'role', 
-      headerName: 'Role', 
+      headerName: 'Uloga', 
       width: 130,
       renderCell: (params) => (
         <div>
-          {params.row.isSeller ? "Prodavač" : "Kupac"}
+          {params.row.isSeller ? "Prodavaoc" : "Kupac"}
         </div>
       )
     },
@@ -97,8 +97,8 @@ const Datatable = () => {
   return (
       <div className="datatable">
         <div className="datatableTitle">
-Dodaj novog korisnika         <Link to="/register/" className="link">
-           Dodaj
+Lista svih korisnika         <Link to="/register/" className="link">
+           Dodaj novog korisnika
           </Link>
         </div>
        {isLoading ? ("Loading...") : error ? ("error") :(<DataGrid
@@ -111,7 +111,7 @@ Dodaj novog korisnika         <Link to="/register/" className="link">
   initialState={{
     pagination: {
       paginationModel: {
-        pageSize: 10,
+        pageSize: 14,
       },
     },
   }}

@@ -46,6 +46,15 @@ export const createReview = async (req, res, next) => {
       next(err);
     }
   };
+  export const getUserReviews = async (req, res, next) => {
+    try {
+      const reviews = await Review.find({serviceId: req.params.serviceId, userId: req.params.userId });
+      res.status(200).send(reviews);
+      console.log("reviews",reviews)
+    } catch (err) {
+      next(err);
+    }
+  };
   export const deleteReview = async (req, res, next) => {
     try {
     } catch (err) {

@@ -33,6 +33,19 @@ const Orders = () => {
       console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
     }
   };
+  const handleStateOrder = async (orderId, newState) => {
+    try {
+      const response = await newRequest.put(`/orders/handle-state-order`, { orderId, newState });
+      if (response.status === 200) {
+        console.log(`Status narudžbe uspješno ažuriran na ${newState}.`);
+        queryClient.invalidateQueries("orders");
+      } else {
+        console.error("Ažuriranje statusa narudžbe nije uspjelo.");
+      }
+    } catch (error) {
+      console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
+    }
+  };
   const findUserById = (id) => {
     if (userdata) {
       const user = userdata.find(user => user._id === id);
@@ -87,7 +100,12 @@ const Orders = () => {
     width: 120,
     renderCell: (params) => (
       <div>
-        {(params.row.isFinishedBuyer && params.row.isFinishedSeller) ? "Završeno" : "Nedovršeno"}
+       {(params.row.isOrderApproved === "Neprocesirana" ) && ("Na čekanju") 
+    }
+    {(params.row.isOrderApproved === "Prihvaćena" ) && ((params.row.isFinishedBuyer && params.row.isFinishedSeller) ? "Završeno" : "Nedovršeno") 
+    }
+    {(params.row.isOrderApproved === "Odbijena" ) && ("Odbijena") 
+    }
             </div>
     )
  },
@@ -95,24 +113,94 @@ const Orders = () => {
     { 
       field: 'Opcije', 
       headerName: 'Opcije', 
-      width: 300,
+      width: 400,
       renderCell: (params) => (
        
          <div>
           <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>kontaktiraj</Button>
-          {!currentUser.isSeller && !params.row.isFinishedBuyer && (
+          {!currentUser.isSeller && !params.row.isFinishedBuyer && params.row.isOrderApproved === "Prihvaćena" && (
   <Button style={{marginRight: "15px"}} variant="outlined" color="success" onClick={() => handleFinish(params.row._id)}>
     Završi
   </Button>
 )}
-{currentUser.isSeller && !params.row.isFinishedSeller && (
-  <Button style={{marginRight: "15px"}} variant="outlined" color="success" onClick={() => handleFinish(params.row._id)}>
-    Završi
-  </Button>
-)}
+{console.log("Pokazi",params.row.title,)}
+{currentUser.isSeller && params.row.isOrderApproved === "Neprocesirana" && (
+          <>
+          <Button
+               style={{ marginRight: "15px",fontSize:"10px", paddingBottom:"0px", paddingTop:"0px" }}
+               variant="outlined"
+               color="success"
+               onClick={() => handleStateOrder(params.row._id, "Prihvaćena")}
+             >
+               Prihvati <br/> narudžbu
+             </Button>
+             <Button
+                            style={{fontSize:"10px",paddingBottom:"0px", paddingTop:"0px" }}
+
+               variant="outlined"
+               color="error"
+              onClick={() => handleStateOrder(params.row._id, "Odbijena")}
+             >
+               Odbij <br/> narudžbu
+             </Button>
+           </>
+         )}
+         {currentUser.isSeller && params.row.isOrderApproved === "Prihvaćena" && !params.row.isFinishedSeller && (
+           <Button
+             style={{ marginRight: "15px" }}
+             variant="outlined"
+             color="success"
+             onClick={() => handleFinish(params.row._id)}
+           >
+             Završi
+           </Button>
+         )}
+     
+
+
          </div>
       )
     },
+//     {
+//       field: 'newOrder',
+//       headerName: 'Narudžba', 
+//       width: 300,
+//     renderCell: (params) => 
+//       (
+//         <>
+//         {currentUser.isSeller && params.row.isOrderApproved === "Neprocesirana" && (
+//           <>
+//             <Button
+//               style={{ marginRight: "15px" }}
+//               variant="outlined"
+//               color="success"
+//               onClick={() => handleStateOrder(params.row._id, "Prihvaćena")}
+//             >
+//               Prihvati narudžbu
+//             </Button>
+//             <Button
+//               variant="outlined"
+//               color="error"
+//               onClick={() => handleStateOrder(params.row._id, "Odbijena")}
+//             >
+//               Odbij narudžbu
+//             </Button>
+//           </>
+//         )}
+//         {currentUser.isSeller && params.row.isOrderApproved === "Prihvaćena" && !params.row.isFinishedSeller && (
+//           <Button
+//             style={{ marginRight: "15px" }}
+//             variant="outlined"
+//             color="success"
+//             onClick={() => handleFinish(params.row._id)}
+//           >
+//             Završi
+//           </Button>
+//         )}
+//     </>
+//   )
+// }
+      
    
  
   ];
@@ -168,7 +256,7 @@ const Orders = () => {
         initialState={{
     pagination: {
       paginationModel: {
-        pageSize: 5,
+        pageSize: 7,
       },
     },
   }}

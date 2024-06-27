@@ -16,6 +16,7 @@ const AdminDashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [totalServices, setTotalServices] = useState(0);
   const [earnLastMonth, setEarnLastMonth] = useState(0);
   const [earnlast7days, setEarnlast7days] = useState(0);
   const [earnToday, setEarnToday] = useState(0);
@@ -62,6 +63,18 @@ const AdminDashboard = () => {
   
     fetchTotalOrders();
   }, []);
+  useEffect(() => {
+    const fetchTotalServices = async () => {
+      try {
+        const response = await newRequest.get('/services/totalCountServ');
+        setTotalServices(response.data.totalCount);
+      } catch (error) {
+        console.error('Error fetching total services:', error);
+      }
+    };
+  
+    fetchTotalServices();
+  }, []);
 //  console.log("totalOrders:",totalOrders)
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +101,7 @@ const AdminDashboard = () => {
             <div className="widgets">
            <Link to={"/list"} style={{ textDecoration: 'none', color: "black", width:"100%" }}> <Widget type="user" amount={totalUsers} /></Link>
            <Link to={"/listorders"} style={{ textDecoration: 'none', color: "black", width:"100%" }}> <Widget type="order" amount={totalOrders} /></Link>
-           <Link to={"/listservices"} style={{ textDecoration: 'none', color: "black", width:"100%" }}>  <Widget type="services" amount={earnLastMonth} /></Link>
+           <Link to={"/listservices"} style={{ textDecoration: 'none', color: "black", width:"100%" }}>  <Widget type="services" amount={totalServices} /></Link>
               {/* <Widget type="balance" /> */}
             </div>
              <div className="charts">

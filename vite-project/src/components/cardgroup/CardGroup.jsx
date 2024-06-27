@@ -8,7 +8,7 @@ function CardGroup() {
     <div >
     <h2 className="highparagraph">  Pronađite savršenu uslugu za svoj projekt</h2>
 </div>
-    <div className='lowparagraph'>Naša platforma vam omogućava da brzo i jednostavno pronađete idealnog freelancera za svoj projekt. Bez obzira jeste li u potrazi za web dizajnerom, marketing stručnjakom ili programerom, ovdje možete pregledati širok spektar kvalificiranih stručnjaka i njihovih usluga. S našom jednostavnom navigacijom i preglednim prikazom, pronalaženje savršenog partnera za vaš projekt nikada nije bilo lakše.</div>
+    <div className='lowparagraph'>Otkrijte širok spektar usluga koje nudimo putem naše aplikacije. Bez obzira tražite li web dizajnera, marketing stručnjaka ili programera, naša galerija slika omogućava vam brz i jednostavan pregled kvalificiranih stručnjaka i njihovih ponuda. Uživajte u jednostavnoj navigaciji i preglednom prikazu koji vam pomažu pronaći savršenog partnera za vaš projekt.</div>
     <div className="row" style={{ display: 'flex', justifyContent: 'space-between' }}>
 {        subCategoryCard.map(card => (
   <div className='col-md-3 mb-5 ' >  

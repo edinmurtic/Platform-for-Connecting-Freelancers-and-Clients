@@ -47,7 +47,7 @@ const User = () => {
       if (userdata) {
         const user = userdata.find(user => user._id === id);
         if (user) {
-          return { username: user.username, img: user.img };
+          return { username: user.username, img: user.img, fullName: user.fullName };
         }
       }
       // Ako ne pronađemo odgovarajući ID, vraćamo null ili neku drugu vrednost po potrebi
@@ -96,13 +96,13 @@ const User = () => {
       }),
     });
 
-  const { isLoading: servicesIsLoading, error: servicesError, data: servicesData } = useQuery({
-    queryKey: ["services"],
-    queryFn: () =>
-      newRequest.get(`/services?userId=${currentUser._id}`).then((res) => {
-        return res.data.map((services, index) => ({ ...services, id: index }));
-      }),
-  });
+    const { isLoading: orderrIsLoading, error: orderrError, data: orderrData } = useQuery({
+      queryKey: ["order", currentUser._id],
+      queryFn: () =>
+        newRequest.get(`/orders/approved-orders`).then((res) => {
+          return res.data.map((order, index) => ({ ...order, id: index }));
+        }),
+    });
 
   const { isLoading: orderIsLoading, error: orderError, data: orderData } = useQuery({
     queryKey: ["orders"],
@@ -144,38 +144,102 @@ const User = () => {
       console.error("Došlo je do greške prilikom komunikacije sa serverom:", error);
     }
   };
+  const fetchAverageReview = async (serviceId,userId) => {
+    try {
+      const response = await newRequest.get(`/reviews/${serviceId}/${userId}`);
+      console.log("odgovor",response.data[0].star);
+      const reviews = response.data[0].star
+      if (reviews === 0) {
+        return "Neocjenjeno"; // If no reviews found, return 0 or handle as per your requirement
+      }
+   else if(reviews > 0)
+    {
+      return reviews;
+    }
+      
+    } catch (error) {
+      console.error("Error fetching average review:", error);
+      return 0; // Return 0 or handle error scenario
+    }
+  };
     const columns = [
       { field: 'id', headerName: 'ID', width: 50 },
       { field: 'title', 
       headerName: 'Naziv', 
-      width: 650,
+      width: 350,
       renderCell: (params) => (
-        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
-          <img src={params.row.cover} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
+        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row.serviceId)}>
+          <img src={params.row.img} alt="User" style={{ marginRight: 8, width: 35, height: 31 }} />
           {params.value}
         </div>
       )
-    },     { field: 'category', headerName: 'Kategorija', width: 200 },
-      { field: 'price', headerName: 'Cijena', width: 75 },
-      { field: 'sales', headerName: 'Prodanih', width: 75 },
+    },     { field: 'buyerId', headerName: 'Kupac', width: 200,
+      renderCell: (params) => {
+        const userId = params.row.buyerId;
+        const user = findUserById(userId);
+        return user ? (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={user.img} alt="User" style={{ marginRight: 8, borderRadius: '50%', width: 33, height: 33 }} />
+            {user.username}
+          </div>
+        ) : null;
+      },
+     },
+      { field: 'price', headerName: 'Cijena(KM)', width: 125 },
+      { field: 'date', headerName: 'Datum prodaje', width: 155, renderCell:(params) => {
+    const date = new Date(params.row.updatedAt);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return <div>{`${day}/${month}/${year}`}</div>;
+  }
+        
 
-      // { 
-      //   field: 'Opcije', 
-      //   headerName: 'Opcije', 
-      //   width: 350,
-      //   renderCell: (params) => (
+       },
+       {
+        field: 'averageReview',
+        headerName: 'Ocjena usluge',
+        width: 175,
+        renderCell: (params) => (
+          <div>
+            {params.row.serviceId ? (
+              <AverageReview serviceId={params.row.serviceId} userId={params.row.buyerId}/>
+            ) : (
+              <span>N/A</span>
+            )}
+          </div>
+        ),
+      },
+      { 
+        field: 'Opcije', 
+        headerName: 'Opcije', 
+        width: 120,
+        renderCell: (params) => (
          
-      //      <div>
-      //     <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => ( navigate(`/updateService/${params.row._id}`))}>Uredi</Button>
-      //        <Button style={{marginRight: "15px"}} variant="outlined" color="secondary" onClick={() => handleDeleteService(params.row._id)}>Obriši</Button>
-      //        <Button variant="outlined" color={params.row.isActive ? "error" : "primary"} onClick={() => handleToggleActive(params.row._id, params.row.isActive)}>{params.row.isActive ? "Deaktiviraj" : "Aktiviraj"}</Button>
-
-      //      </div>
-      //   )
-      // },
-   
+          <div>
+          <Button style={{marginRight: "15px",fontSize:"10px", paddingBottom:"0px", paddingTop:"0px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>Kontaktiraj <br/> prodavca <br/> </Button>
+        
+         </div>
+        )
+      },
     ];
-
+    const AverageReview = ({ serviceId,userId }) => {
+      const { isLoading, error, data } = useQuery({
+        queryKey: ['averageReview',serviceId,userId],
+        queryFn: () => fetchAverageReview(serviceId,userId),
+      });
+  
+      if (isLoading) return <span>Loading...</span>;
+      if (error) return <span>Error</span>;
+  console.log("data",data)
+      // Create an array of stars based on the average review
+      const stars = [];
+      for (let i = 0; i < data; i++) {
+        stars.push(<img src="../img/star.png" width="20px" alt="" key={i} style={{ paddingBottom: "7px" }} />);
+      }
+  
+      return <div className="star">{stars}</div>;
+    };
     const columns2 = [
       { field: 'id', headerName: 'ID', width: 50 },
     {  field: 'title', 
@@ -183,7 +247,7 @@ const User = () => {
       width: 450,
       renderCell: (params) => (
         
-        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row._id)}>
+        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row.serviceId)}>
           <img src={params.row.img} alt="User" style={{ marginRight: 8, width: 35, height: 31 }} />
           {params.value}
         </div>
@@ -192,42 +256,66 @@ const User = () => {
     {
       field: 'sellerId',
       headerName: 'Prodavac',
-      width: 150,
+      width: 200,
       renderCell: (params) => {
         const user = findUserById(params.row.sellerId);
         return user ? (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={user.img} alt="User" style={{ marginRight: 8, borderRadius: '50%', width: 33, height: 33 }} />
-            {user.username}
+            {user.fullName}
           </div>
         ) : null;
       },
     },
-    { 
-      field: 'isFinished', 
-      headerName: 'Stanje', 
-      width: 100,
-      renderCell: (params) => (
-        <div>
-          {params.row.isFinished ? "Završeno" : "Nedovršeno"}
-          {console.log("isFinished:",params.row.isFinished)}      </div>
-      )
-   },
-      { field: 'price', headerName: 'Cijena(KM)', width: 100 },
+  //   { 
+  //     field: 'isFinished', 
+  //     headerName: 'Stanje', 
+  //     width: 100,
+  //     renderCell: (params) => (
+  //       <div>
+  //         {params.row.isFinished ? "Završeno" : "Nedovršeno"}
+  //         {console.log("isFinished:",params.row.isFinished)}      </div>
+  //     )
+  //  },
+  { field: 'price', headerName: 'Cijena(KM)', width: 100 },
+  { field: 'date', headerName: 'Datum prodaje', width: 155, renderCell:(params) => {
+    const date = new Date(params.row.updatedAt);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return <div>{`${day}/${month}/${year}`}</div>;
+  }
+        
+
+       },
+  {
+    field: 'averageReview',
+    headerName: 'Ocjena usluge',
+    width: 175,
+    renderCell: (params) => (
+      <div>
+        {params.row.serviceId ? (
+          <AverageReview serviceId={params.row.serviceId} userId={params.row.buyerId}/>
+        ) : (
+          <span>N/A</span>
+        )}
+      </div>
+    ),
+  },
+     
       { 
         field: 'Opcije', 
         headerName: 'Opcije', 
-        width: 300,
+        width: 140,
         renderCell: (params) => (
          
           <div>
-          <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>kontaktiraj</Button>
-          {!params.row.isFinished && (
+          <Button style={{marginRight: "15px",fontSize:"10px", paddingBottom:"0px", paddingTop:"0px"}} variant="outlined" color="primary" onClick={() => handleContact(params.row)}>Kontaktiraj <br/> prodavca <br/> </Button>
+          {/* {!params.row.isFinished && (
   <Button style={{marginRight: "15px"}} variant="outlined" color="primary" onClick={() => handleFinish(params.row._id)}>
     Završi
   </Button>
-)}
-    {console.log(params.row)} 
+)} */}
          </div>
         )
       },
@@ -290,23 +378,23 @@ const User = () => {
           </div>
         </div>
         {currentUser.isSeller ? (
-  <div className="bottom datatable">
-    <h1 className="title">Servisi</h1>
-    {servicesIsLoading ? (
+  <div className="bottom datatable" style={{marginBottom:"30px", paddingBottom:"70px"}}>
+    <h1 className="title">Završene usluge</h1>
+    {orderrIsLoading ? (
       "Loading..."
-    ) : servicesError ? (
+    ) : orderrError ? (
       "Error"
     ) : (
       <DataGrid
         className="datagrid"
-        rows={servicesData}
+        rows={orderrData}
         columns={columns}
-        pageSize={8}
-        rowsPerPageOptions={[8]}
+        pageSize={6}
+        rowsPerPageOptions={[6]}
         initialState={{
     pagination: {
       paginationModel: {
-        pageSize: 8,
+        pageSize: 6,
       },
     },
   }}
@@ -314,7 +402,7 @@ const User = () => {
     )}
   </div>
 ) : (
-  <div className="bottom datatable">
+  <div className="bottom datatable" style={{marginBottom:"30px", paddingBottom:"70px"}}>
     <h1 className="title">Narudžbe</h1>
     {orderIsLoading ? (
       "Loading..."
@@ -327,12 +415,12 @@ const User = () => {
         columns={columns2}
         getRowId={getRowId}
 
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={6}
+        rowsPerPageOptions={[6]}
         initialState={{
     pagination: {
       paginationModel: {
-        pageSize: 5,
+        pageSize: 6,
       },
     },
   }}

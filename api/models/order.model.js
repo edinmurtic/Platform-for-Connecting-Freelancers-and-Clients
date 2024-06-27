@@ -38,6 +38,12 @@ const orderShema = new Schema(
           type: String,
           default: false,
         },
+    isOrderApproved:
+        {
+          type: String,
+          enum: ['Neprocesirana', 'Prihvaćena', 'Odbijena'],
+          default: 'Neprocesirana'
+        },
     isFinishedSeller:
         {
           type: Boolean,

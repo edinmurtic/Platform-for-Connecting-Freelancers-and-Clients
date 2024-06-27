@@ -12,10 +12,12 @@ import { FaSearch } from "react-icons/fa";
 import newRequest from "../../utils/newRequest";
 import { Link, useNavigate } from 'react-router-dom';
 import LoginModal from '../loginmodal/LoginModal';
-
-const mycolor="#6495ED"; 
+import MessageIcon from '@mui/icons-material/Message';
+import EmailIcon from '@mui/icons-material/Email';
+import ReceiptIcon from '@mui/icons-material/Receipt';const mycolor="#6495ED"; 
 const NavbarComp = () => {
   const [unreadCount, setUnreadCount] = useState(0);
+  const [countUnprocessedOrders, setCountUnprocessedOrders] = useState(0);
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const navigate = useNavigate();
@@ -32,7 +34,15 @@ const NavbarComp = () => {
 
   useEffect(() => {
     if (currentUser) {
-
+      const fetchUnprocessedOrders  = async () => {
+        try {
+          const response = await newRequest.get('/orders/count-unprocessed');
+          console.log(response.data)
+          setCountUnprocessedOrders(response.data.count);
+        } catch (error) {
+          console.error('Greška prilikom dobijanja broja nepročitanih narudžbi:', error);
+        }
+      };
       const fetchUnreadCount = async () => {
         try {
           const response = await newRequest.get('/conversations/unreadCount');
@@ -41,6 +51,7 @@ const NavbarComp = () => {
           console.error('Greška prilikom dobijanja broja nepročitanih poruka:', error);
         }
       };
+      fetchUnprocessedOrders();
       fetchUnreadCount();
     }
   }, []);
@@ -53,17 +64,21 @@ const NavbarComp = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/services?search=">Servisi i usluge</Nav.Link>
+
               {!currentUser && <NavLink href="/register" >Registracija</NavLink>}
-              {currentUser && <><NavLink href="/messages/" className='notification' ><span>Poruke</span>  {unreadCount > 0 && (
+              {currentUser &&  <><NavLink href="/messages/" className='notification' ><span>Poruke</span> <EmailIcon /> {unreadCount > 0 && (
         <span className="badge">{unreadCount}</span>
       )}
-</NavLink> <NavLink href="/orders/">Narudžbe</NavLink></>}
+</NavLink> {!currentUser.admin &&(<NavLink href="/orders/" className='notification2'><span>Narudžbe</span><ReceiptIcon/>{countUnprocessedOrders > 0 && (
+        <span className="badge">{        <span className="badge2">{countUnprocessedOrders}</span>
+}</span>
+      )}</NavLink>)}</>}
            {currentUser?.isSeller && (
                          <><NavLink href="/myservices/">Moji servisi</NavLink><NavLink href="/addnew/">Dodaj novi servis</NavLink></> 
                          
                        )} 
             </Nav> 
-           
+
           
             {!currentUser && (      <LoginModal  /> 
 
@@ -80,6 +95,7 @@ const NavbarComp = () => {
                       <Col>
                         <NavDropdown className="no-caret navDropdownWithMargin " title={currentUser?.username} id="basic-nav-dropdown">
                         <NavDropdown.Item href={'/users/' + currentUser._id}>Moj profil</NavDropdown.Item>
+                        {currentUser.admin &&(<NavDropdown.Item href={'/adminDashboard/' }>Nadzorna ploča</NavDropdown.Item>)}
 
                          
                           <NavDropdown.Divider />

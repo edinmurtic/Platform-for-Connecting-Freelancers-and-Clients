@@ -5,19 +5,13 @@ import {
   AreaChart,
   Area,
   XAxis,
+  YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 
-// const data = [
-//   { name: "January", Total: 5 },
-//   { name: "February", Total: 6 },
-//   { name: "March", Total: 2 },
-//   { name: "April", Total: 7 },
-//   { name: "May", Total: 10 },
-//   { name: "June", Total: 12 },
-// ];
+
 
 
 
@@ -41,6 +35,8 @@ const Chart = ({ aspect, title, data }) => {
             </linearGradient>
           </defs>
           <XAxis dataKey="name" stroke="gray" />
+          <YAxis stroke="gray" />
+
           <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
           <Tooltip />
           <Area
