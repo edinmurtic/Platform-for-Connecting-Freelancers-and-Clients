@@ -216,7 +216,7 @@ const UpdateService = () => {
       setLoading(true);
       setError(false);
   
-      const body = { ...formData, userRef: currentUser._id };
+      const body = { ...formData, userRef: currentUser._id, isAdmin: currentUser.isAdmin};
       console.log("noviId:", id);
       const response = await newRequest.post(`/services/update/${id}`, body);
       

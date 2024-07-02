@@ -4,10 +4,11 @@ import Service from "../models/service.model.js"
 
 export const updateService = async (req, res, next) => {
   const service = await Service.findById(req.params.id);
+  const isAdmin = req._body;
   if (!service) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-  if (req.userId !== service.userId) {
+  if (req.userId !== service.userId && !isAdmin ) {
     return next(errorHandler(401, 'You can only update your own listings!'));
   }
 
@@ -82,7 +83,7 @@ try {
 export const deleteService = async(req, res, next) => {
   try {
     const service = await Service.findById(req.params.id);
-    if (service.userId !== req.userId)
+    if (service.userId !== req.userId && !req.body)
       return next(createError(403, "Možes obrisati samo svoju uslugu!"));
 
     await Service.findByIdAndDelete(req.params.id);

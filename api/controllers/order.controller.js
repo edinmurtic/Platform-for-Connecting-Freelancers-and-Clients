@@ -6,10 +6,10 @@ import Stripe from "stripe";
 export const createOrder =async (req, res, next) => {
     try{
 
-        console.log("Service ID:", req.params.serviceId); // Log the service ID
+        // console.log("Service ID:", req.params.serviceId); // Log the service ID
 
         const service = await Service.findById(req.params.serviceId);
-        console.log("Service:", service); // Log the service object
+        // console.log("Service:", service); // Log the service object
 
         if (!service) {
             return res.status(404).send("Service not found");
@@ -64,13 +64,29 @@ export const intent = async (req, res, next) => {
   });
 };
 
+ export const adminOrders = async (req, res, next) =>
+ {
+  try {
+   
+    const orders = await Order.find();
+    res.send(orders);
+  
+ 
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Greška prilikom dobijanja svih narudžbi' });
+}
+ }
+
+
  export const getOrders = async (req, res, next) => {
-      try {
+    
+  try {
         const orders = await Order.find({
           ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
           isCompleted: true,
         });
-        console.log(orders.length)
+        // console.log(orders.length)
         res.status(200).send(orders);
       } catch (err) {
         next(err);
@@ -288,7 +304,6 @@ export const intent = async (req, res, next) => {
   };
   export const handleStateOrder = async (req, res) => {
    
-   console.log(req.body)
     try {
       const { orderId, newState } = req.body;
   
@@ -331,14 +346,12 @@ export const intent = async (req, res, next) => {
         ...(isSeller ? { sellerId: userId } : { buyerId: userId }),
         isCompleted:"true"
       };
-      console.log("query:",query)
 
       // Brojimo dokumente koji odgovaraju query-ju
       const count = await Order.countDocuments(query);
   
       // Vraćamo broj narudžbi
       res.status(200).json({ count });
-      console.log("brojNaru:",count)
     } catch (err) {
       next(err);
     }

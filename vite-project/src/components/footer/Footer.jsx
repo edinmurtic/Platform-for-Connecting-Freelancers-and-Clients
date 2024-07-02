@@ -86,17 +86,17 @@ Bilo da tražite tim profesionalaca ili želite promovirati svoje usluge, naš p
             <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>Korisni linkovi</h6>
               <p>
-                <a href='#!' className='text-reset'>
+                <a href='/services' className='text-reset'>
                   Servisi i usluge
                 </a>
               </p>
               <p>
-                <a href='#!' className='text-reset'>
+                <a href='' className='text-reset'>
                   Poruke
                 </a>
               </p>
               <p>
-                <a href='#!' className='text-reset'>
+                <a href='' className='text-reset'>
                   Narudžbe
                 </a>
               </p>

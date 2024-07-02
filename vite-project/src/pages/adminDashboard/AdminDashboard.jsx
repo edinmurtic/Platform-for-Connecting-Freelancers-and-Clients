@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   const [earnLastMonth, setEarnLastMonth] = useState(0);
   const [earnlast7days, setEarnlast7days] = useState(0);
   const [earnToday, setEarnToday] = useState(0);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

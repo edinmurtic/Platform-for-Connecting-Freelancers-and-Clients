@@ -5,10 +5,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest.js";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import getCurrentUser from "../../utils/getCurrentUser.js";
 
 
 const ListServices = () => {
-
+  const currentUser= getCurrentUser();
+  const isAdmin = currentUser.isAdmin;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleToggleActive = async (serviceId, isActive) => {
@@ -33,7 +35,7 @@ const ListServices = () => {
   const handleDeleteService = async (serviceId) => {
     try {          
   
-      const response = await newRequest.delete(`/services/${serviceId}`);
+      const response = await newRequest.delete(`/services/${serviceId}`, {data: { isAdmin }});
       
       if (response.status === 200) {
         console.log("Servis je uspješno obrisan.");
@@ -50,7 +52,7 @@ const ListServices = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
-    { field: 'title', 
+    { field: 'shortTitle', 
     headerName: 'Naziv', 
     width: 450,
     renderCell: (params) => (

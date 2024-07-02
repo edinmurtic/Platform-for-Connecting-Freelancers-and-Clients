@@ -55,8 +55,9 @@ function Filter({ onFilterChange }) {
           >
             <option value="">Sve</option>
             <option value="Grafika i dizajn">Grafika i dizajn</option>
-            <option value="Softver inzinjering">Softver Inžinjering</option>
-            <option value="Konsalting">Konsalting</option>
+            <option value="Razvoj aplikacija">Razvoj aplikacija</option>
+            <option value="IT konsalting">IT konsalting</option>
+            <option value="Razvoj video igara">Razvoj video igara</option>
             <option value="Video i animacija">Video i animacija</option>
 
           </select>

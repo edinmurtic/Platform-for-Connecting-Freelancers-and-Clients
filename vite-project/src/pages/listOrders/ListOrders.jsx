@@ -40,7 +40,7 @@ const ListOrders = () => {
     { field: 'id', headerName: 'ID', width: 50 },
     { field: 'title', 
     headerName: 'Naziv', 
-    width: 600,
+    width: 520,
     renderCell: (params) => (
       <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleServiceClick(params.row.serviceId)}>
         <img src={params.row.img} alt="User" style={{ marginRight: 8, width: 30, height: 25 }} />
@@ -48,11 +48,10 @@ const ListOrders = () => {
       </div>
     )
   },     
-    { field: 'price', headerName: 'Cijena', width: 75 },
     {
         field: 'sellerId',
         headerName: 'Prodavac',
-        width: 120,
+        width: 150,
         renderCell: (params) => {
           const userId =  params.row.sellerId;
           const user = findUserById(userId);
@@ -67,7 +66,7 @@ const ListOrders = () => {
       {
         field: 'buyerId',
         headerName: 'Kupac',
-        width: 120,
+        width: 150,
         renderCell: (params) => {
           const userId =  params.row.buyerId;
           const user = findUserById(userId);
@@ -82,13 +81,27 @@ const ListOrders = () => {
       { 
         field: 'isFinished', 
         headerName: 'Stanje', 
-        width: 120,
+        width: 110,
         renderCell: (params) => (
           <div>
-            {(params.row.isFinishedBuyer && params.row.isFinishedSeller) ? "Završeno" : "Nedovršeno"}
+           {(params.row.isOrderApproved === "Neprocesirana" ) && ("Na čekanju") 
+        }
+        {(params.row.isOrderApproved === "Prihvaćena" ) && ((params.row.isFinishedBuyer && params.row.isFinishedSeller) ? "Završeno" : "Nedovršeno") 
+        }
+        {(params.row.isOrderApproved === "Odbijena" ) && ("Odbijena") 
+        }
                 </div>
         )
      },
+     { field: 'date', headerName: 'Datum narudžbe', width: 155, renderCell:(params) => {
+      const date = new Date(params.row.updatedAt);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return <div>{`${day}/${month}/${year}`}</div>;
+    }},
+    { field: 'price', headerName: 'Cijena(KM)', width: 100 }
+
     // { 
     //   field: 'Opcije', 
     //   headerName: 'Opcije', 
@@ -107,10 +120,10 @@ const ListOrders = () => {
   ];
       
   const { isLoading, error, data } = useQuery({
-    queryKey: ["orders"],
+    queryKey: ["order"],
     queryFn: () =>
-      newRequest.get(`/orders`).then((res) => {
-        return res.data.map((user, index) => ({ ...user, id: index }));
+      newRequest.get(`/orders/adminOrders`).then((res) => {
+        return res.data.map((order, index) => ({ ...order, id: index }));
     }),
   });
 

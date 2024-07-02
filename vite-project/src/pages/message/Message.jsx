@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Message.css'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import getCurrentUser from '../../utils/getCurrentUser';
@@ -10,7 +10,7 @@ const Message = () => {
   const [nameOfOtherUser, setNewUser] = useState('Loading');
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery({
+  const { isLoading, error, data,refetch } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
       let res = await newRequest.get(`/messages/${id}`);
@@ -21,18 +21,15 @@ const Message = () => {
       let nizPromise = [];
       for (const userId of userIds) {
         
-        console.log('test', userId);
         
         let userDataPromise = newRequest.get(`/users/${userId}`);
         nizPromise.push(userDataPromise);
       }
       let userDatas = await Promise.all(nizPromise)
-      console.log('userDatas', userDatas)
       for (const userData of userDatas) {
         if(userData.data._id != currentUser._id)
         {
           setNewUser(userData.data.username)
-          console.log('drugi korisnik', userData.data)
 
         }
         for (const elementx of res.data) {
@@ -60,7 +57,6 @@ const Message = () => {
   //   }
   // });
 
-  console.log(data)
   const mutation = useMutation({
     mutationFn: (message) => {
       return newRequest.post(`/messages`, message);
@@ -78,7 +74,13 @@ const Message = () => {
     });
     e.target[0].value = "";
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 3000);
 
+    return () => clearInterval(interval);
+  }, [refetch]);
   return (
     <div className="message">
       <div className="container">

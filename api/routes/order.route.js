@@ -1,10 +1,11 @@
 import express from "express";
 import {verifyToken} from "../middleware/jwt.js"
-import { getApprovedOrders,countOrders,createOrder, getOrders,countUnprocessedOrders, intent,confirm,toggleFinishOrder,getOrdersByMonth, getTotalPricesByMonth, getTotalCount, getTotalEarningsLast7DaysAndToday, getOrdersByBuyerAndService, handleStateOrder    } from "../controllers/order.controller.js";
+import {adminOrders, getApprovedOrders,countOrders,createOrder, getOrders,countUnprocessedOrders, intent,confirm,toggleFinishOrder,getOrdersByMonth, getTotalPricesByMonth, getTotalCount, getTotalEarningsLast7DaysAndToday, getOrdersByBuyerAndService, handleStateOrder    } from "../controllers/order.controller.js";
 
 const router = express.Router();
 
 router.get("/", verifyToken, getOrders);
+router.get("/adminOrders", verifyToken, adminOrders);
 
 router.get('/getTotalEarningsLast7DaysAndToday',verifyToken, getTotalEarningsLast7DaysAndToday ); 
 getOrdersByBuyerAndService
