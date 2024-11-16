@@ -65,7 +65,7 @@ const ListOrders = () => {
       },
       {
         field: 'buyerId',
-        headerName: 'Kupac',
+        headerName: 'Klijent',
         width: 150,
         renderCell: (params) => {
           const userId =  params.row.buyerId;

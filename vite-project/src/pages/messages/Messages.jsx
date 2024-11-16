@@ -36,7 +36,7 @@ const Messages = () => {
 
             <div className='col-7'>  <table>
               <tr>
-                <th>{currentUser.isSeller ? "Kupac" : "Prodavaoc"}</th>
+                <th>{currentUser.isSeller ? "Klijent" : "Honorarac"}</th>
                 <th>Posljednja poruka</th>
                 <th>Vrijeme</th>
                 <th>Opcije</th>

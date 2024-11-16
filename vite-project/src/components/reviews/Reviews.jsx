@@ -7,11 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 const Reviews = ({serviceId,currentUser}) => {
 
-  
-
-
-
-
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('');
     const [userOrders, setUserOrders] = useState([]);
@@ -30,6 +25,14 @@ const Reviews = ({serviceId,currentUser}) => {
           return res.data;
         }),
     });
+    const { data: userReviewData } = useQuery({
+      queryKey: ["userReview", serviceId, currentUser?._id],
+      queryFn: () =>
+        currentUser ? newRequest.get(`/reviews/${serviceId}/${currentUser._id}`).then((res) => {
+              return res.data;
+          }) : Promise.resolve(null),
+        enabled: !!currentUser
+  });
     const fetchOrdersByBuyerAndService = async () => {
       try {
           const response = await newRequest.get(`/orders/${currentUser._id}/${serviceId}`);
@@ -68,6 +71,8 @@ const Reviews = ({serviceId,currentUser}) => {
     };
   
     const userHasBoughtService = userOrders && userOrders.some(order => order.serviceId === serviceId);
+    const userHasReviewedService = userReviewData && userReviewData.length > 0;
+
 console.log("userHasBoughtService",userHasBoughtService)
   return (
     <section id="testimonials">
@@ -85,7 +90,7 @@ console.log("userHasBoughtService",userHasBoughtService)
         : data.map((review) => <Review key={review._id} review={review} />)}
       
     </div>
-        {userHasBoughtService  && (<form onSubmit={handleSubmit} className="testimonial-box" >
+        {userHasBoughtService && !userHasReviewedService  && (<form onSubmit={handleSubmit} className="testimonial-box" >
           <div className="box-top">
           <div className="profile">
                 <div className="profile-img">

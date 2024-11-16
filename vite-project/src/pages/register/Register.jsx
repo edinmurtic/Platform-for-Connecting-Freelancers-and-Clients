@@ -191,7 +191,7 @@ const Register = () => {
             value={formData.phone}
 
           />
-   <div> <label htmlFor="" style={{marginRight:"20px"}}><strong>Aktiviraj račun kao prodavaoc</strong></label>
+   <div> <label htmlFor="" style={{marginRight:"20px"}}><strong>Aktiviraj račun kao honorarac</strong></label>
           <input
             type="checkbox"
             name="isSeller"

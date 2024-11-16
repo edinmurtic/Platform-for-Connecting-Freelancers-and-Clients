@@ -70,14 +70,14 @@ const AboutUser = ({id,professionalArea,fullName,username,email,img, phone, coun
               <div className="count-data text-center">
               {ordersLoading ?("isLoading"): ordersError ? ("error"):( 
                 <h6 className="count h4" data-to="500" data-speed="500">{orderData}</h6>)}
-                <p className="m-0px font-w-600">Završenih usluga</p>
+                <p className="m-0px font-w-600">Završenih servisa</p>
               </div>
             </div> 
             <div className="col-6 col-lg-3">
               <div className="count-data text-center">
               {servicesLoading ?("isLoading"): servicesError ? ("error"):( 
                 <h6 className="count h4" data-to="150" data-speed="150">{servicesData}</h6>)}
-                <p className="m-0px font-w-600">Trenutnih usluga</p>
+                <p className="m-0px font-w-600">Trenutnih servisa</p>
               </div>
             </div>
             <div className="col-6 col-lg-3">

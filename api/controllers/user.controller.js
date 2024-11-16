@@ -42,7 +42,7 @@ export const toggleUserActiveStatus = async (req, res) => {
     const updatedServices = await toggleServiceActiveStatus(id, user.isActive);
     
     res.status(200).json({ 
-      message: `Status aktivnosti korisnika ${user.username} i svih njegovih usluga uspješno ažuriran.`,
+      message: `Status aktivnosti korisnika ${user.username} i svih njegovih servisa uspješno ažuriran.`,
       isActive: user.isActive,
       updatedServices: updatedServices 
     });

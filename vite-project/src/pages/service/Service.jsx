@@ -203,7 +203,7 @@ function Service() {
         <div className="border rounded-2 px-3 py-2 bg-white">
         <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
   <li className="nav-item d-flex" role="presentation">
-    <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Specification' ? 'active' : ''}`} id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected={activeTab === 'Specification'} onClick={() => handleTabClick('Specification')}>Opis usluge</a>
+    <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Specification' ? 'active' : ''}`} id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1" aria-selected={activeTab === 'Specification'} onClick={() => handleTabClick('Specification')}>Opis servisa</a>
   </li>
   <li className="nav-item d-flex" role="presentation">
     <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Warranty info' ? 'active' : ''}`} id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab" aria-controls="ex1-pills-2" aria-selected={activeTab === 'Warranty info'} onClick={() => handleTabClick('Warranty info')}>Informacije o garanciji</a>
@@ -212,7 +212,7 @@ function Service() {
     <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Shipping info' ? 'active' : ''}`} id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab" aria-controls="ex1-pills-3" aria-selected={activeTab === 'Shipping info'} onClick={() => handleTabClick('Shipping info')}>Podaci o dostavi</a>
   </li>
   <li className="nav-item d-flex" role="presentation">
-    <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Seller profile' ? 'active' : ''}`} id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected={activeTab === 'Seller profile'} onClick={() => handleTabClick('Seller profile')}>Račun prodavaoca</a>
+    <a className={`nav-link d-flex align-items-center justify-content-center w-100 ${activeTab === 'Seller profile' ? 'active' : ''}`} id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab" aria-controls="ex1-pills-4" aria-selected={activeTab === 'Seller profile'} onClick={() => handleTabClick('Seller profile')}>Račun honorarca</a>
   </li>
 </ul>
 <div className="tab-content" id="ex1-content">
@@ -261,7 +261,7 @@ function Service() {
             <div className="card-body" >
               <h5 className="card-title">Slični servisi</h5>
               {isLoadingCategory ? ("isLoading") : errorCategory ? ("error") : (
-  dataCategory.slice(0, 5).map((categoryItem) => (
+  dataCategory.slice(0, 3).map((categoryItem) => (
     <RecommendedService key={categoryItem._id} categoryItem={categoryItem} />
   ))
 )}

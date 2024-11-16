@@ -87,7 +87,7 @@ Bilo da tražite tim profesionalaca ili želite promovirati svoje usluge, naš p
               <h6 className='text-uppercase fw-bold mb-4'>Korisni linkovi</h6>
               <p>
                 <a href='/services' className='text-reset'>
-                  Servisi i usluge
+                  Servisi
                 </a>
               </p>
               <p>

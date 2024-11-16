@@ -67,7 +67,7 @@ const Datatable = () => {
       width: 130,
       renderCell: (params) => (
         <div>
-          {params.row.isSeller ? "Prodavaoc" : "Kupac"}
+          {params.row.isSeller ? "Honorarac" : "Klijent"}
         </div>
       )
     },

@@ -84,7 +84,7 @@ export const deleteService = async(req, res, next) => {
   try {
     const service = await Service.findById(req.params.id);
     if (service.userId !== req.userId && !req.body)
-      return next(createError(403, "Možes obrisati samo svoju uslugu!"));
+      return next(createError(403, "Možes obrisati samo svoj servis!"));
 
     await Service.findByIdAndDelete(req.params.id);
     res.status(200).send("Servis je obrisan!");

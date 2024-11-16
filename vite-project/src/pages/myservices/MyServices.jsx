@@ -74,7 +74,7 @@ const MyServices = () => {
     },     { field: 'category', headerName: 'Kategorija', width: 200 },
       { field: 'price', headerName: 'Cijena', width: 75 },
       { field: 'sales', headerName: 'Prodanih', width: 75 },
-      { field: 'stars', headerName: 'Ocjena kupaca', width: 165,
+      { field: 'stars', headerName: 'Ocjena Klijenta', width: 165,
         renderCell: (params) => (
           !isNaN(params.row.totalStars / params.row.starNumber) ? (
             <div className="star">

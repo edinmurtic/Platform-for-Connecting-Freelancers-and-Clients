@@ -17,7 +17,7 @@ export const columns = [
     width: 130,
     renderCell: (params) => (
       <div>
-        {params.row.isSeller ? "Prodavač" : "Kupac"}
+        {params.row.isSeller ? "Honorarac" : "Klijent"}
       </div>
     )
   },

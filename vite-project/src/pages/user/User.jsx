@@ -173,7 +173,7 @@ const User = () => {
           {params.value}
         </div>
       )
-    },     { field: 'buyerId', headerName: 'Kupac', width: 200,
+    },     { field: 'buyerId', headerName: 'Klijent', width: 200,
       renderCell: (params) => {
         const userId = params.row.buyerId;
         const user = findUserById(userId);
@@ -366,7 +366,7 @@ const User = () => {
                 <div className="detailItem">
                   <span className="itemKey">Pozicija:</span>
                   <span className="itemValue">
-                  {data.isSeller ? "Prodavac" : "Kupac"}
+                  {data.isSeller ? "Honorarac" : "Klijent"}
                   </span>
                 </div>
                

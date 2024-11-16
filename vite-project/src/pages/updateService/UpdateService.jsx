@@ -18,7 +18,6 @@ const UpdateService = () => {
   const currentUser = getCurrentUser();
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("id:",id)
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
@@ -81,7 +80,7 @@ const UpdateService = () => {
         const response = await newRequest.get(`/services/single/${id}`);
         const data = response.data;
         if (data.success === false) {
-          console.log(data.message);
+          console.log("ha=",data.message);
           return;
         }
         setFormData(data);
@@ -215,13 +214,17 @@ const UpdateService = () => {
      
       setLoading(true);
       setError(false);
-  
+      console.log("step2")
+
       const body = { ...formData, userRef: currentUser._id, isAdmin: currentUser.isAdmin};
       console.log("noviId:", id);
       const response = await newRequest.post(`/services/update/${id}`, body);
-      
+      console.log("step3",data)
+      navigate("/")
+
       const data = await response.json();
       setLoading(false);
+      console.log("data",data)
       if (data.success === false) {
         setError(data.message);
       } else {
@@ -294,7 +297,7 @@ const UpdateService = () => {
                   multiple
                   onChange={(e) => setFiles(e.target.files)}
                 />
-                {console.log(uploading)}
+                {console.log("haaa",uploading)}
                 
               </div>
               <button id='uplButton' onClick={handleImageSubmit}>

@@ -59,7 +59,7 @@ function Services() {
       <div className="row">
         <div className="col-md-12">
           <div className="row">
-          <p className="highparagraph">Servisi i usluge </p>
+          <p className="highparagraph">Servisi </p>
           {isLoading ? ("loading") : error ? ("Something went wrong!") : (data && data.map((service) => (
       <div className="col-md-4 mb-5 " key={service._id}>
         <ServiceCard

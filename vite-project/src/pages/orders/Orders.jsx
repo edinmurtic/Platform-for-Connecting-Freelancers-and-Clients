@@ -81,7 +81,7 @@ const Orders = () => {
   }, 
   {
     field: currentUser.isSeller ? 'buyerId' : 'sellerId',
-    headerName: currentUser.isSeller ? 'Kupac' : 'Prodavac',
+    headerName: currentUser.isSeller ? 'Klijent' : 'Honorarac',
     width: 150,
     renderCell: (params) => {
       const userId = currentUser.isSeller ? params.row.buyerId : params.row.sellerId;

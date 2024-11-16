@@ -24,8 +24,7 @@ function Filter({ onFilterChange }) {
   };
 
   const handleFilter = () => {
-    console.log("Query before:", query); // Dodajte ovu liniju za debugiranje
-
+    console.log("Query before:", query); 
     onFilterChange(query);
   };
 
@@ -33,7 +32,7 @@ function Filter({ onFilterChange }) {
     <div className="filter">
       <div className="top">
       <div className="item">
-          <label htmlFor="search">Servis i usluga</label>
+          <label htmlFor="search">Naziv servisa</label>
           <input
             type="text"
             id="search"

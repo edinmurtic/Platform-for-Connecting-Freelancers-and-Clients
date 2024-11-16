@@ -38,7 +38,7 @@ console.log(isUserData);
         <TableRow>
           <TableCell className="tableCell"> ID</TableCell>
           <TableCell className="tableCell">Servis</TableCell>
-          <TableCell className="tableCell">Kupac</TableCell>
+          <TableCell className="tableCell">Klijent</TableCell>
           <TableCell className="tableCell">Prodavac</TableCell>
           <TableCell className="tableCell">Vrijeme</TableCell>
           <TableCell className="tableCell">Način plaćanja</TableCell>

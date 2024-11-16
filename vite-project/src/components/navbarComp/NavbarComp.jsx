@@ -63,7 +63,7 @@ const NavbarComp = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/services?search=">Usluge</Nav.Link>
+              <Nav.Link href="/services?search=">Servisi</Nav.Link>
 
               {!currentUser && <NavLink href="/register" >Registracija</NavLink>}
               {currentUser &&  <><NavLink href="/messages/" className='notification' ><span>Poruke</span> <EmailIcon /> {unreadCount > 0 && (
